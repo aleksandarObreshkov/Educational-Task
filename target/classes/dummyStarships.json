@@ -1,17 +1,1 @@
-[
-{
-  "id": 1,
-  "name": "Death Star",
-  "length": 250.4
-},
-{
-  "id": 2,
-  "name": "Executor",
-  "length": 1900.2
-},
-{
-"id": 3,
-"name": "Millennium Falcon",
-"length": 387.2
-}
-]
+[{"id":"1","name":"Death Star","length":250.4},{"id":"2","name":"Executor","length":1900.2},{"id":"3","name":"Millennium Falcon","length":387.2}]
