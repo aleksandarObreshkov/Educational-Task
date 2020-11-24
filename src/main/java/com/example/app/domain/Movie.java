@@ -2,12 +2,14 @@ package com.example.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Movie {
     private String id;
     private String title;
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private float rating;
 
     public Movie(){}
@@ -21,15 +23,17 @@ public class Movie {
         this.title = title;
     }
     @JsonSetter
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setReleaseDate(String releaseDate) {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+        this.releaseDate = LocalDate.parse(releaseDate,f);
     }
     @JsonSetter
     public void setRating(float rating) {
         this.rating = rating;
     }
 
-    public Movie(String id,String title, Date releaseDate, float rating) {
+    public Movie(String id,String title, LocalDate releaseDate, float rating) {
         this.id=id;
         this.title = title;
         this.releaseDate = releaseDate;
@@ -44,7 +48,7 @@ public class Movie {
         return title;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 

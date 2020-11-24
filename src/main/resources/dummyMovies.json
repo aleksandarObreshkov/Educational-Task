@@ -1,1 +1,5 @@
-[{"id":"1","title":"The Last Jedi","releaseDate":1549670400000,"rating":1.0},{"id":"2","title":"The Empire Strikes Back","releaseDate":327715200000,"rating":2.5},{"id":"3","title":"The Rise of Skywalker","releaseDate":412214400000,"rating":9.9},{"id":"4","title":"The Force Awakens","releaseDate":406771200000,"rating":4.7},{"id":"0fadff80-7f51-48a4-b2c5-c179559811e6","title":"Hello","releaseDate":976572000000,"rating":0.0}]
+[{"id":"1","title":"The Last Jedi","releaseDate":"09/08/1987","rating":1.0},
+  {"id":"2","title":"The Empire Strikes Back","releaseDate":"20/12/2007","rating":2.5},
+  {"id":"3","title":"The Rise of Skywalker","releaseDate":"24/04/1900","rating":9.9},
+  {"id":"4","title":"The Force Awakens","releaseDate":"10/10/2000","rating":4.7},
+  {"id":"0fadff80-7f51-48a4-b2c5-c179559811e6","title":"Hello","releaseDate":"10/10/1999","rating":0.0}]
