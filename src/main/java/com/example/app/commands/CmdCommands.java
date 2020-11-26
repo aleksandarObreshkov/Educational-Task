@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.commands;
 
 import com.example.app.domain.Character;
 import com.example.app.domain.Movie;
@@ -12,7 +12,7 @@ import java.time.*;
 import java.util.List;
 import java.util.UUID;
 
-public class CmdCommands {
+public class CmdCommands{
 
 
     public static Movie createMovie(CommandLine cmd)throws DateTimeParseException,NumberFormatException {
@@ -76,5 +76,6 @@ public class CmdCommands {
             }
         }
     }
+
 
 }

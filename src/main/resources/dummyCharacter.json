@@ -1,2 +1,16 @@
-[{"id":"2","name":"Skywalker","age":35,"forceUser":false},
-  {"id":"3","name":"Samuel L Jackson","age":35,"forceUser":false}]
+[ {
+  "id" : "2",
+  "name" : "Skywalker",
+  "age" : 35,
+  "forceUser" : false
+}, {
+  "id" : "3",
+  "name" : "Samuel L Jackson",
+  "age" : 35,
+  "forceUser" : false
+}, {
+  "id" : "5369c0c6-5343-446f-872d-4560e986f266",
+  "name" : "hello",
+  "age" : 12,
+  "forceUser" : true
+} ]

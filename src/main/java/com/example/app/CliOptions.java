@@ -21,8 +21,13 @@ public class CliOptions {
             case "add-starship":{
                 return getAddStarshipOptions();
             }
+            case "movies":
+            case "starships":
+            case "characters":{
+                return new Options();
+            }
         }
-        if (mainOption.contains("delete")){
+        if (mainOption.contains("delete")&&!mainOption.equals("delete")){
             return getDeleteOptions();
         }
         else {
@@ -58,7 +63,7 @@ public class CliOptions {
         return options;
     }
 
-    public static Options getAddCharacterOptions(){
+    private static Options getAddCharacterOptions(){
 
         Option name = Option.builder("n")
                 .longOpt("name")
@@ -83,7 +88,7 @@ public class CliOptions {
         return options;
     }
 
-    public static Options getAddStarshipOptions(){
+    private static Options getAddStarshipOptions(){
         Option name = Option.builder("n")
                 .longOpt("name")
                 .hasArg()
@@ -102,7 +107,7 @@ public class CliOptions {
         return options;
     }
 
-    public static Options getDeleteOptions(){
+    private static Options getDeleteOptions(){
 
         options.addOption("id", true, "delete an item with the specified id");
         return options;

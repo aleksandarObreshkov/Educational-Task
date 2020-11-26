@@ -54,4 +54,12 @@ public class Character {
         this.forceUser = forceUser;
     }
 
+    @Override
+    public String toString() {
+        return "Character{" +
+                " name='" + name + '\'' +
+                ", age=" + age +
+                ", forceUser=" + forceUser +
+                '}';
+    }
 }

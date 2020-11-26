@@ -40,4 +40,12 @@ public class Starship {
     public float getLength() {
         return length;
     }
+
+    @Override
+    public String toString() {
+        return "Starship{" +
+                " name='" + name + '\'' +
+                ", length=" + length +
+                '}';
+    }
 }
