@@ -27,7 +27,9 @@ public class CliOptions {
                 return new Options();
             }
         }
-        if (mainOption.contains("delete")&&!mainOption.equals("delete")){
+        if (mainOption.equals("delete-movies")||
+            mainOption.equals("delete-character")||
+            mainOption.equals("delete-starship")){
             return getDeleteOptions();
         }
         else {
