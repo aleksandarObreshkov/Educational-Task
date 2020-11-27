@@ -25,7 +25,7 @@ public class AddStarshipCommand implements Command {
             starships.add(CmdCommands.createStarship(cmd));
             HelperMethods.writeDataToFile(starships, fileCreator.getFileStarships());
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("Length should be float: "+e.getMessage());
+            throw new IllegalArgumentException("Length should be float: "+e.getMessage(), e);
         }
     }
 }

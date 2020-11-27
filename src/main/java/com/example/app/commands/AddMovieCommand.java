@@ -27,7 +27,7 @@ public class AddMovieCommand implements Command {
             movies.add(CmdCommands.createMovie(cmd));
             HelperMethods.writeDataToFile(movies, fileCreator.getFileMovies());
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("Rating should be float: "+e.getMessage());
+            throw new IllegalArgumentException("Rating should be float: "+e.getMessage(), e);
         } catch (DateTimeParseException e) {
             throw new DateTimeParseException("Wrong date format: "+e.getMessage(), e.getParsedString(),e.getErrorIndex());
         }

@@ -25,7 +25,7 @@ public class AddCharacterCommand implements Command {
             characters.add(CmdCommands.createCharacter(cmd));
             HelperMethods.writeDataToFile(characters, fileCreator.getFileCharacters());
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("Age should be an integer: "+e.getMessage());
+            throw new IllegalArgumentException("Age should be an integer: "+e.getMessage(),e);
         }
     }
 }
