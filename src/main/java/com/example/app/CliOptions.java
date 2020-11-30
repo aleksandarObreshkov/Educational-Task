@@ -1,16 +1,21 @@
 package com.example.app;
 
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
+import com.example.app.commands.*;
+import org.apache.commons.cli.*;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class CliOptions {
 
     private static Options options=new Options();
 
-    public static Options optionsSetup(String mainOption)throws ParseException {
+    public static Command optionsSetup(String[] arguments)throws ParseException, IOException {
+
+        CommandLineParser parser = new DefaultParser();
+        String[] newArgs = Arrays.copyOfRange(arguments, 1, arguments.length);
+        CommandLine cmd;
+/*
         switch (mainOption){
             case "add-movie":{
                 return getAddMovieOptions();
@@ -34,6 +39,43 @@ public class CliOptions {
         }
         else {
             throw new ParseException("Non-existing command \""+mainOption+"\"");
+        }
+ */
+        switch (arguments[0]) {
+            case "characters":
+            case "movies":
+            case "starships": return new ShowDataCommand(arguments[0]);
+            case "add-movie": {
+                options = getAddMovieOptions();
+                cmd = parser.parse(options, newArgs);
+                return new AddMovieCommand(cmd);
+            }
+            case "add-character": {
+                options = getAddCharacterOptions();
+                cmd = parser.parse(options, newArgs);
+                return new AddCharacterCommand(cmd);
+            }
+            case "add-starship": {
+                options = getAddStarshipOptions();
+                cmd = parser.parse(options, newArgs);
+                return  new AddStarshipCommand(cmd);
+            }
+            case "delete-character": {
+                options = getDeleteOptions();
+                cmd = parser.parse(options, newArgs);
+                return new DeleteCharacterCommand(cmd.getOptionValue("id"));
+            }
+            case "delete-starship": {
+                options = getDeleteOptions();
+                cmd = parser.parse(options, newArgs);
+                return new DeleteStarshipCommand(cmd.getOptionValue("id"));
+            }
+            case "delete-movie":{
+                options = getDeleteOptions();
+                cmd = parser.parse(options, newArgs);
+                return new DeleteMovieCommand(cmd.getOptionValue("id"));
+            }
+            default: throw new IOException("No such command: " + arguments[0]);
         }
     }
 
