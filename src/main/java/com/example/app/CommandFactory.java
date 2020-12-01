@@ -6,41 +6,16 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-public class CliOptions {
+public class CommandFactory {
 
     private static Options options=new Options();
 
-    public static Command optionsSetup(String[] arguments)throws ParseException, IOException {
+    public static Command commandSetup(String[] arguments)throws ParseException, IOException {
 
         CommandLineParser parser = new DefaultParser();
         String[] newArgs = Arrays.copyOfRange(arguments, 1, arguments.length);
         CommandLine cmd;
-/*
-        switch (mainOption){
-            case "add-movie":{
-                return getAddMovieOptions();
-            }
-            case "add-character":{
-                return getAddCharacterOptions();
-            }
-            case "add-starship":{
-                return getAddStarshipOptions();
-            }
-            case "movies":
-            case "starships":
-            case "characters":{
-                return new Options();
-            }
-        }
-        if (mainOption.equals("delete-movies")||
-            mainOption.equals("delete-character")||
-            mainOption.equals("delete-starship")){
-            return getDeleteOptions();
-        }
-        else {
-            throw new ParseException("Non-existing command \""+mainOption+"\"");
-        }
- */
+
         switch (arguments[0]) {
             case "characters":
             case "movies":
