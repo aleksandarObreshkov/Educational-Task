@@ -1,16 +1,17 @@
-package com.example.app.domain;
+package com.example.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Movie {
+
     private String id;
     private String title;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
     private float rating;
 
@@ -46,7 +47,6 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.rating = rating;
     }
-
 
     public String getId() {
         return id;

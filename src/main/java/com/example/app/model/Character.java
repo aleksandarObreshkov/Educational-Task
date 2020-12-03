@@ -1,5 +1,4 @@
-package com.example.app.domain;
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.example.app.model;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class Character {

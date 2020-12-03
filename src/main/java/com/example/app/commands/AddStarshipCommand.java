@@ -1,13 +1,8 @@
 package com.example.app.commands;
 
-import com.example.app.FileCreator;
-import com.example.app.HelperMethods;
-import com.example.app.domain.Starship;
+import com.example.app.model.Starship;
 import org.apache.commons.cli.CommandLine;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.util.List;
 
 public class AddStarshipCommand implements Command {
 
@@ -15,7 +10,7 @@ public class AddStarshipCommand implements Command {
     private String url;
     private CommandLine cmd;
 
-    public AddStarshipCommand(CommandLine cmd, String url) throws IOException {
+    public AddStarshipCommand(CommandLine cmd, String url){
         this.cmd = cmd;
         this.url = url;
         template = new RestTemplate();
@@ -24,10 +19,10 @@ public class AddStarshipCommand implements Command {
     @Override
     public void execute() throws Exception {
         try {
-            Starship starshipToAdd = CmdCommands.createStarship(cmd);
+            Starship starshipToAdd = CreateEntityFunctions.createStarship(cmd);
             template.postForObject(url, starshipToAdd, Starship.class);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Length should be float: "+e.getMessage(), e);
+            throw new IllegalArgumentException("Length should be float: " + e.getMessage(), e);
         }
     }
 }

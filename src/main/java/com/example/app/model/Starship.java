@@ -1,4 +1,4 @@
-package com.example.app.domain;
+package com.example.app.model;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 

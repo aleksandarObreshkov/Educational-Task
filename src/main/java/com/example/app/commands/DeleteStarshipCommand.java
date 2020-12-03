@@ -3,11 +3,11 @@ import org.springframework.web.client.RestTemplate;
 
 public class DeleteStarshipCommand implements Command{
 
-    private String url = "http://localhost:8080/starships/";
-    private RestTemplate template;
+    private final RestTemplate template;
+    private final String url;
 
-    public DeleteStarshipCommand(String id) {
-        url += id;
+    public DeleteStarshipCommand(String url) {
+        this.url=url;
         template=new RestTemplate();
     }
 
