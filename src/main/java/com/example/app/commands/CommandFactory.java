@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.commands;
 
 import com.example.app.commands.*;
 import org.apache.commons.cli.*;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class CommandFactory {
 
     private static Options options=new Options();
-
+    private static String url = "http://localhost:8080/";
     public static Command commandSetup(String[] arguments)throws ParseException, IOException {
 
         CommandLineParser parser = new DefaultParser();
@@ -23,32 +23,27 @@ public class CommandFactory {
             case "add-movie": {
                 options = getAddMovieOptions();
                 cmd = parser.parse(options, newArgs);
-                return new AddMovieCommand(cmd);
+                url +="movies";
+                return new AddMovieCommand(cmd, url);
             }
             case "add-character": {
                 options = getAddCharacterOptions();
                 cmd = parser.parse(options, newArgs);
-                return new AddCharacterCommand(cmd);
+                url += "characters";
+                return new AddCharacterCommand(cmd, url);
             }
             case "add-starship": {
                 options = getAddStarshipOptions();
                 cmd = parser.parse(options, newArgs);
-                return  new AddStarshipCommand(cmd);
+                url += "starships";
+                return  new AddStarshipCommand(cmd, url);
             }
-            case "delete-character": {
-                options = getDeleteOptions();
-                cmd = parser.parse(options, newArgs);
-                return new DeleteCharacterCommand(cmd.getOptionValue("id"));
-            }
-            case "delete-starship": {
-                options = getDeleteOptions();
-                cmd = parser.parse(options, newArgs);
-                return new DeleteStarshipCommand(cmd.getOptionValue("id"));
-            }
+            case "delete-character":
+            case "delete-starship":
             case "delete-movie":{
                 options = getDeleteOptions();
                 cmd = parser.parse(options, newArgs);
-                return new DeleteMovieCommand(cmd.getOptionValue("id"));
+                return new DeleteCommand(url, arguments[0], cmd.getOptionValue("id"));
             }
             default: throw new IOException("No such command: " + arguments[0]);
         }

@@ -5,25 +5,28 @@ import com.example.app.HelperMethods;
 import org.apache.commons.cli.CommandLine;
 
 import com.example.app.domain.Character;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.IOException;
 import java.util.List;
 
 public class AddCharacterCommand implements Command {
 
-    private FileCreator fileCreator = new FileCreator();
-    private List<Character> characters;
+    private RestTemplate template;
     private CommandLine cmd;
+    private String url;
 
-    public AddCharacterCommand(CommandLine cmd) throws IOException {
+    public AddCharacterCommand(CommandLine cmd, String url) throws IOException {
         this.cmd = cmd;
-        characters = HelperMethods.getDataFromFile(fileCreator.getFileCharacters(),Character.class);
+        this.url = url;
+        this.template = new RestTemplate();
     }
 
     @Override
     public void execute() throws Exception {
         try {
-            characters.add(CmdCommands.createCharacter(cmd));
-            HelperMethods.writeDataToFile(characters, fileCreator.getFileCharacters());
+            Character characterToAdd =CmdCommands.createCharacter(cmd);
+            template.postForObject(url, characterToAdd, Character.class);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Age should be an integer: "+e.getMessage(),e);
         }

@@ -1,25 +1,18 @@
 package com.example.app.commands;
-
-import com.example.app.FileCreator;
-import com.example.app.HelperMethods;
-import com.example.app.domain.Starship;
-
-import java.util.List;
+import org.springframework.web.client.RestTemplate;
 
 public class DeleteStarshipCommand implements Command{
 
-    private String id;
-    private List<Starship> starships;
-    private final FileCreator fileCreator = new FileCreator();
+    private String url = "http://localhost:8080/starships/";
+    private RestTemplate template;
 
     public DeleteStarshipCommand(String id) {
-        this.id = id;
+        url += id;
+        template=new RestTemplate();
     }
 
     @Override
     public void execute() throws Exception {
-        starships = HelperMethods.getDataFromFile(fileCreator.getFileStarships(), Starship.class);
-        CmdCommands.deleteStarship(id, starships);
-        HelperMethods.writeDataToFile(starships, fileCreator.getFileStarships());
+        template.delete(url);
     }
 }

@@ -3,23 +3,22 @@ package com.example.app.commands;
 import com.example.app.FileCreator;
 import com.example.app.HelperMethods;
 import com.example.app.domain.Movie;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 public class DeleteMovieCommand implements Command {
 
-    private String id;
-    private List<Movie> movies;
-    private final FileCreator fileCreator = new FileCreator();
+    private String url = "http://localhost:8080/movies/";
+    private RestTemplate template;
 
     public DeleteMovieCommand(String id) {
-        this.id = id;
+        url += id;
+        template = new RestTemplate();
     }
 
     @Override
     public void execute() throws Exception {
-        movies = HelperMethods.getDataFromFile(fileCreator.getFileMovies(), Movie.class);
-        CmdCommands.deleteMovie(id, movies);
-        HelperMethods.writeDataToFile(movies, fileCreator.getFileMovies());
+        template.delete(url);
     }
 }

@@ -1,31 +1,27 @@
 package com.example.app.commands;
 
-import com.example.app.FileCreator;
-import com.example.app.HelperMethods;
 import com.example.app.domain.Movie;
 import org.apache.commons.cli.CommandLine;
-
-import java.io.IOException;
+import org.springframework.web.client.RestTemplate;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 
 public class AddMovieCommand implements Command {
 
-    private FileCreator fileCreator = new FileCreator();
-    private List<Movie> movies;
+    private String url;
     private CommandLine cmd;
+    private RestTemplate template = new RestTemplate();
 
 
-    public AddMovieCommand(CommandLine cmd) throws IOException {
+    public AddMovieCommand(CommandLine cmd, String url){
         this.cmd=cmd;
-        this.movies= HelperMethods.getDataFromFile(fileCreator.getFileMovies(), Movie.class);
+        this.url = url;
     }
 
     @Override
     public void execute() throws Exception {
         try {
-            movies.add(CmdCommands.createMovie(cmd));
-            HelperMethods.writeDataToFile(movies, fileCreator.getFileMovies());
+            Movie m = CmdCommands.createMovie(cmd);
+            template.postForObject(url, m, Movie.class);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Rating should be float: "+e.getMessage(), e);
         } catch (DateTimeParseException e) {
