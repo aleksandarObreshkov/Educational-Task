@@ -13,7 +13,7 @@ public class AddStarshipCommand implements Command {
     public AddStarshipCommand(CommandLine cmd, String url){
         this.cmd = cmd;
         this.url = url;
-        template = new RestTemplate();
+        template = new RestTemplate(); // TODO: Inconsistent use of "this."
     }
 
     @Override
@@ -21,7 +21,7 @@ public class AddStarshipCommand implements Command {
         try {
             Starship starshipToAdd = CreateEntityFunctions.createStarship(cmd);
             template.postForObject(url, starshipToAdd, Starship.class);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) { // TODO: Handling exceptions at the wrong abstraction level.
             throw new IllegalArgumentException("Length should be float: " + e.getMessage(), e);
         }
     }

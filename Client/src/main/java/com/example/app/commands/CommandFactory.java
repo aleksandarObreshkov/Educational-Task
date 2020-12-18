@@ -7,31 +7,36 @@ import java.util.Arrays;
 
 public class CommandFactory {
 
-    private Options options=new Options();
-    private String url = "http://localhost:8080/";
+    private Options options=new Options(); // TODO: Reduce the scope of this variable.
+    private String url = "http://localhost:8080/"; // TODO: Turn this into a constant - see my comment on line 31.
 
-    public CommandFactory() {
+    public CommandFactory() { // TODO: Unnecessary constructor.
     }
 
     public Command commandSetup(String[] arguments) throws ParseException, IOException, NullPointerException {
 
         CommandLineParser parser = new DefaultParser();
+        // TODO: Give a better name to this variable. Something like "commandOptions" or just "options" comes to mind:
         String[] newArgs = Arrays.copyOfRange(arguments, 1, arguments.length);
-        CommandLine cmd;
+        CommandLine cmd; // TODO: Reduce the scope of this variable.
 
         switch (arguments[0]) {
-            case "characters":{ return new ShowCharactersCommand(url+arguments[0]);}
+            // TODO: There's no need for the curly brackets on the next line, as you have only one statement inside. And yes, I know this conflicts with what I said
+            // about if statements in a different class. Different rules about different constructs. :D
+            case "characters":{ return new ShowCharactersCommand(url+arguments[0]);}  
             case "movies":{ return new ShowMoviesCommand(url+arguments[0]);}
             case "starships": { return new ShowStarshipsCommand(url+arguments[0]);}
             case "add-movie": {
                 options = getAddMovieOptions();
                 cmd = parser.parse(options, newArgs);
-                url +="movies";
+                url +="movies";  // TODO: If I call commandSetup twice with "add-movie" and "add-character", then the URL for the second invocation would be
+                                 // incorrect (http://localhost:8080/moviescharacters). In general you should avoid having modifiable state in a class if possible,
+                                 // because that gives you things like thread-safety and call flexibility out-of-the-box.
                 return new AddMovieCommand(cmd, url);
             }
             case "add-character": {
                 options = getAddCharacterOptions();
-                cmd = parser.parse(options, newArgs);
+                cmd = parser.parse(options, newArgs); // TODO: This is repeated in a lot of places. Extract it in a separate method.
                 url += "characters";
                 return new AddCharacterCommand(cmd, url);
             }
@@ -59,10 +64,15 @@ public class CommandFactory {
                 url = url+"movies/"+cmd.getOptionValue("id");
                 return new DeleteMovieCommand(url);
             }
+            // TODO: This is not a good use of an IOException. They should only be thrown for I/O related errors like reading or writing to a file,
+            // network communication, etc. Furthermore, unchecked exceptions are better in most cases:
+            // http://www.douevencode.com/articles/2017-10/checked-vs-unchecked-exceptions/
             default: throw new IOException("No such command: " + arguments[0]);
         }
     }
 
+    // TODO: Consider what will happen if you were to add 5-6 different options to each command and 10 new commands. This class would become enormous.
+    // Move these options to their respective commands somehow to avoid this problem.
     private  Options getAddMovieOptions(){
         Option title = Option.builder("t")
                 .longOpt("title")

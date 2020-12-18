@@ -22,10 +22,15 @@ public class AddCharacterCommand implements Command {
         try {
             Character characterToAdd = CreateEntityFunctions.createCharacter(cmd);
             System.out.println(characterToAdd.getCharacterType());
-            Class a=Character.class;
-            if (characterToAdd.getCharacterType().equals("human")) a= Human.class;
-            template.postForObject(url, characterToAdd, a);
-        } catch (NumberFormatException e) {
+            Class a=Character.class; // TODO: You're using a raw type. Your IDE should've warned you about it.
+                                     // https://www.informit.com/articles/article.aspx?p=2861454
+            if (characterToAdd.getCharacterType().equals("human")) a= Human.class; // TODO: The best practice for writing if statements is to wrap the body in a block:
+                                                                                   // if (characterToAdd.getCharacterType().equals("human")) {
+                                                                                   //     a = Human.class;
+                                                                                   // }
+            template.postForObject(url, characterToAdd, a); // TODO: You're using a raw type.
+        } catch (NumberFormatException e) { // TODO: This is not the correct level of abstraction to handle this exception. CreateEntityFunctions.createCharacter is the
+                                            // method that "knows" what the NumberFormatException means, so the exception should be caught and handled there.
             throw new IllegalArgumentException("Age should be an integer: "+e.getMessage(),e);
         }
     }
