@@ -99,7 +99,7 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("r")).thenReturn(rating);
         assertThrows(DateTimeParseException.class, ()->{CreateEntityFunctions.createMovie(cmd);});
     }
-
+/*
     @Test
     public void createMovieExceptionOrderTest(){
         String rating="www";
@@ -115,6 +115,8 @@ public class CreateEntityClassTest {
         assertThrows(DateTimeParseException.class, ()->{CreateEntityFunctions.createMovie(cmd);});
     }
 
+
+ */
     @Test
     public void createCharacterExceptionTest(){
         String name="Ship";

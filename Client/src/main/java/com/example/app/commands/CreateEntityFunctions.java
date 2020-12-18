@@ -1,13 +1,11 @@
 package com.example.app.commands;
 
+import model.*;
 import model.Character;
-import model.Movie;
-import model.Starship;
 import org.apache.commons.cli.CommandLine;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.*;
-import java.util.UUID;
 
 public class CreateEntityFunctions {
 
@@ -15,26 +13,36 @@ public class CreateEntityFunctions {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Movie movie = new Movie(
-                UUID.randomUUID().toString(),
                 cmd.getOptionValue("t"),
-                LocalDate.parse(cmd.getOptionValue("d"),formatter),
-                Float.parseFloat(cmd.getOptionValue("r"))
+                Float.parseFloat(cmd.getOptionValue("r")),
+                LocalDate.parse(cmd.getOptionValue("d"),formatter)
         );
         return movie;
     }
     public static Character createCharacter(CommandLine cmd) throws NumberFormatException {
-        Character newCharacter = new Character(
-                UUID.randomUUID().toString(),
-                cmd.getOptionValue("n"),
-                Integer.parseInt(cmd.getOptionValue("a")),
-                false);
-        if (cmd.hasOption("f")) newCharacter.setForceUser(true);
+        String type = cmd.getOptionValue("t");
+        if (type.equals("droid")){
+            Droid d = new Droid(
+                    cmd.getOptionValue("n"),
+                    Integer.parseInt(cmd.getOptionValue("a")),
+                    false,
+                    cmd.getOptionValue("pf"));
+            if (cmd.hasOption("f")) d.setForceUser(true);
+            return d;
+        }
 
-        return newCharacter;
+        else{
+            Human h = new Human(
+                    cmd.getOptionValue("n"),
+                    Integer.parseInt(cmd.getOptionValue("a")),
+                    false);
+            if (cmd.hasOption("f")) h.setForceUser(true);
+            return h;
+        }
+
     }
     public static Starship createStarship(CommandLine cmd)throws NumberFormatException{
         Starship newShip = new Starship(
-                UUID.randomUUID().toString(),
                 cmd.getOptionValue("n"),
                 Float.parseFloat(cmd.getOptionValue("l"))
         );

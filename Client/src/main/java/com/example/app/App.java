@@ -1,18 +1,24 @@
 package com.example.app;
 
+import com.example.app.commands.Command;
 import com.example.app.commands.CommandFactory;
+import model.Character;
+
 
 public class App
 {
     public static void main(String[] args) {
 
-        args = new String[]{"add-movie","-t", "H", "-r", "ww", "-d", "2008-08-20"};
-        try{
-            CommandFactory factory = new CommandFactory();
-            factory.commandSetup(args).execute();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        args = new String[]{"add-character","-n", "Tester", "-a", "90", "-t", "droid", "-pf", "Destroyer"};
+        CommandFactory factory = new CommandFactory();
+        Command a  = null;
+        try {
+            a = factory.commandSetup(args);
+            a.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
     }
 }

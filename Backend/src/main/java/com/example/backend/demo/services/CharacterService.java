@@ -1,51 +1,32 @@
 package com.example.backend.demo.services;
 
-import com.example.backend.demo.FileCreator;
-import com.example.backend.demo.HelperMethods;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Character;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CharacterService {
 
-    private final FileCreator fileCreator = new FileCreator();
+    private final EntityRepository repository;
 
-    public List<Character> getAll() throws IOException{
-        return HelperMethods.getDataFromFile(fileCreator.getFileCharacters(), Character.class);
+    public CharacterService(EntityRepository repository) {
+        this.repository = repository;
     }
 
-    public Character getCharacterById(String id) throws IOException{
-        List<Character> characters = getAll();
-        for(Character a : characters){
-            if (a.getId().equals(id))return a;
-        }
-        throw new IOException("No character with the specified id.");
+    public List<Character> getAll(){
+        return repository.findAll(Character.class);
     }
 
-    public void deleteCharacterById(String id) throws IOException{
-        List<Character> characters = HelperMethods.getDataFromFile(fileCreator.getFileCharacters(), Character.class);
-        int index;
-        for (Character a : characters) {
-            if (a.getId().equals(id)) {
-                index = characters.indexOf(a);
-                characters.remove(index);
-                HelperMethods.writeDataToFile(characters, fileCreator.getFileCharacters());
-                return;
-            }
-        }
-        throw new IOException("No character with the specified id.");
-
-
+    public Character getCharacterById(Long id){
+        return repository.findById(id, Character.class);
     }
 
-    public void addCharacter(Character character) throws IOException{
-        List<Character> characters = HelperMethods.getDataFromFile(fileCreator.getFileCharacters(), Character.class);
-        character.setId(UUID.randomUUID().toString());
-        characters.add(character);
-        HelperMethods.writeDataToFile(characters,fileCreator.getFileCharacters());
+    public void deleteCharacterById(Long id){
+        repository.deleteById(id, Character.class);
+    }
+
+    public void addCharacter(Character character){
+        repository.save(character);
     }
 }

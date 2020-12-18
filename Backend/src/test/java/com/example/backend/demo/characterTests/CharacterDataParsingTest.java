@@ -37,7 +37,7 @@ public class CharacterDataParsingTest {
     @Test
     public void getCharacterByIdExceptionTest() throws Exception {
 
-        doThrow(new IOException("No such id")).when(service).getCharacterById("10");
+        doThrow(new IOException("No such id")).when(service).getCharacterById(10L);
 
         mockMvc.perform(get("/characters/10"))
                 .andExpect(status().is(415))
@@ -47,7 +47,7 @@ public class CharacterDataParsingTest {
     @Test
     public void deleteCharacterByIdExceptionTest() throws Exception {
 
-        doThrow(new IOException("No such id")).when(service).deleteCharacterById("10");
+        doThrow(new IOException("No such id")).when(service).deleteCharacterById(10L);
 
         mockMvc.perform(delete("/characters/10"))
                 .andExpect(status().is(415))

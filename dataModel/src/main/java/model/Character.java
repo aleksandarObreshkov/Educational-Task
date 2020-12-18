@@ -1,12 +1,28 @@
 package model;
-import com.fasterxml.jackson.annotation.JsonSetter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Data;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.UUID;
+import java.util.List;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "characterType")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Human.class),
+        @JsonSubTypes.Type(value = Droid.class)})
+@Entity
+@Table
+@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
+@DiscriminatorColumn( name = "characterType" )
+@Data
+public abstract class Character {
 
-public class Character {
-
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(nullable = false)
+    private Long id;
 
     @NotNull(message = "Please provide a name.")
     private String name;
@@ -16,56 +32,22 @@ public class Character {
 
     private boolean forceUser;
 
-    public Character(){}
+    @JsonIgnore
+    public abstract String getCharacterType();
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Movie> appearsIn;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Character> friends;
 
     public Character(String name, int age, boolean forceUser) {
-        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.age = age;
         this.forceUser = forceUser;
     }
 
-    public Character(String id, String name, int age, boolean forceUser) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.forceUser = forceUser;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    @JsonSetter
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @JsonSetter
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    @JsonSetter
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public boolean isForceUser() {
-        return forceUser;
-    }
-
-    @JsonSetter
-    public void setForceUser(boolean forceUser) {
-        this.forceUser = forceUser;
+    public Character() {
     }
 
     @Override

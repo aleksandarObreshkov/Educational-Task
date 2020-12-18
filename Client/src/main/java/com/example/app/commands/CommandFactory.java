@@ -110,9 +110,23 @@ public class CommandFactory {
                 .longOpt("force-user")
                 .build();
 
+        Option characterType = Option.builder("t")
+                .longOpt("type")
+                .required()
+                .hasArg()
+                .type(String.class)
+                .build();
+        Option primaryFunction = Option.builder("pf")
+                .longOpt("primaryFunction")
+                .hasArg()
+                .type(String.class)
+                .build();
+
         options.addOption(name);
         options.addOption(age);
         options.addOption(forceUser);
+        options.addOption(characterType);
+        options.addOption(primaryFunction);
         return options;
     }
 

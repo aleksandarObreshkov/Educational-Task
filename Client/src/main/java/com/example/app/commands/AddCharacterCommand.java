@@ -1,5 +1,6 @@
 package com.example.app.commands;
 
+import model.Human;
 import org.apache.commons.cli.CommandLine;
 import model.Character;
 import org.springframework.web.client.RestTemplate;
@@ -20,7 +21,10 @@ public class AddCharacterCommand implements Command {
     public void execute() throws Exception {
         try {
             Character characterToAdd = CreateEntityFunctions.createCharacter(cmd);
-            template.postForObject(url, characterToAdd, Character.class);
+            System.out.println(characterToAdd.getCharacterType());
+            Class a=Character.class;
+            if (characterToAdd.getCharacterType().equals("human")) a= Human.class;
+            template.postForObject(url, characterToAdd, a);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Age should be an integer: "+e.getMessage(),e);
         }

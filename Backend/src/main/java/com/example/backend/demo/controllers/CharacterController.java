@@ -30,12 +30,12 @@ public class CharacterController extends ResponseStatusExceptionResolver {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Character> getCharacterById(@PathVariable String id) throws IOException{
+    public ResponseEntity<Character> getCharacterById(@PathVariable Long id) throws IOException{
         return ResponseEntity.status(200).body(service.getCharacterById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCharacterById(@PathVariable String id) throws IOException{
+    public ResponseEntity<String> deleteCharacterById(@PathVariable Long id) throws IOException{
         service.deleteCharacterById(id);
         return ResponseEntity.status(200).body("Character deleted successfully.");
     }

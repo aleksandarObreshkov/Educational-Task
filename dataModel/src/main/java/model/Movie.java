@@ -2,23 +2,28 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import lombok.Data;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
+@Entity
+@Data
 public class Movie {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
 
     @NotNull(message = "Please provide a title.")
     private String title;
 
     @NotNull(message = "Wrong date format.")
-    @Past(message = "Please provide a date from the past.") //change message
+    @Past(message = "Please provide a date from the past.")
     private LocalDate releaseDate;
 
     @PositiveOrZero(message = "Rating can't be negative.") //if rating is missing, it equals 0.0, fix?
@@ -27,54 +32,15 @@ public class Movie {
     public Movie(){}
 
     public Movie(String title, float rating, LocalDate releaseDate){
-        this.id = UUID.randomUUID().toString();
         this.title= title;
         this.rating = rating;
         this.releaseDate = releaseDate;
-    }
-
-    public Movie(String id, String title, LocalDate releaseDate, float rating) {
-        this.id = id;
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.rating = rating;
-    }
-
-    @JsonSetter
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @JsonSetter
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     @JsonSetter
     public void setReleaseDate(String releaseDate) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.releaseDate = LocalDate.parse(releaseDate,f);
-    }
-
-    @JsonSetter
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public float getRating() {
-        return rating;
     }
 
     @Override
@@ -85,5 +51,7 @@ public class Movie {
                 ", rating=" + rating +
                 '}';
     }
+
+
 }
 
