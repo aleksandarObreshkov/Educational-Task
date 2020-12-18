@@ -1,3 +1,7 @@
 app.iml
 .idea
 target
+.classpath
+.project
+bin
+.settings
