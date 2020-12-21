@@ -15,6 +15,7 @@ public class StarshipService {
         this.repository = repository;
     }
 
+    //unnecessary throws statement
     public List<Starship> getAll() throws IOException{
         return repository.findAll(Starship.class);
     }

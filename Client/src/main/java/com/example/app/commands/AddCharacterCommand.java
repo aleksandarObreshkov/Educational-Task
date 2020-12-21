@@ -24,6 +24,8 @@ public class AddCharacterCommand implements Command {
             System.out.println(characterToAdd.getCharacterType());
             Class a=Character.class; // TODO: You're using a raw type. Your IDE should've warned you about it.
                                      // https://www.informit.com/articles/article.aspx?p=2861454
+                                     // one more thing: the variable name 'a' does not mean anything
+                                     // TODO: change it to a meaningful name
             if (characterToAdd.getCharacterType().equals("human")) a= Human.class; // TODO: The best practice for writing if statements is to wrap the body in a block:
                                                                                    // if (characterToAdd.getCharacterType().equals("human")) {
                                                                                    //     a = Human.class;

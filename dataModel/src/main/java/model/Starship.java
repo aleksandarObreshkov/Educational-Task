@@ -17,7 +17,7 @@ public class Starship {
     private String name;
 
     @Positive
-    private float length;//either in feet or meters
+    private float length;//either in feet or meters //TODO and how will this be distinguished?
 
     public Starship(){}
 
@@ -33,5 +33,6 @@ public class Starship {
                 ", length=" + length +
                 '}';
     }
+    //equals, hashCode
 
 }

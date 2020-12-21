@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
+
+//new line pls :D
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "characterType")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Human.class),
@@ -58,4 +60,5 @@ public abstract class Character {
                 ", forceUser=" + forceUser +
                 '}';
     }
+    //what about equals and hashCode?
 }

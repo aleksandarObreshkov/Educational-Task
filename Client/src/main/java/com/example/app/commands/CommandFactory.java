@@ -17,6 +17,7 @@ public class CommandFactory {
 
         CommandLineParser parser = new DefaultParser();
         // TODO: Give a better name to this variable. Something like "commandOptions" or just "options" comes to mind:
+        // one more thing, reading this, it's not apparent why you are omitting the first argument
         String[] newArgs = Arrays.copyOfRange(arguments, 1, arguments.length);
         CommandLine cmd; // TODO: Reduce the scope of this variable.
 
@@ -53,6 +54,7 @@ public class CommandFactory {
                 return new DeleteCharacterCommand(url);
             }
             case "delete-starship": {
+                //this assignment is redundant because `getDeleteOptions` mutates the `options` class variable
                 options=getDeleteOptions();
                 cmd = parser.parse(options,newArgs);
                 url = url+"starships/"+cmd.getOptionValue("id");
@@ -67,12 +69,15 @@ public class CommandFactory {
             // TODO: This is not a good use of an IOException. They should only be thrown for I/O related errors like reading or writing to a file,
             // network communication, etc. Furthermore, unchecked exceptions are better in most cases:
             // http://www.douevencode.com/articles/2017-10/checked-vs-unchecked-exceptions/
+            // one more thing: Maybe IllegalArgumentException would be better in this case
             default: throw new IOException("No such command: " + arguments[0]);
         }
     }
 
     // TODO: Consider what will happen if you were to add 5-6 different options to each command and 10 new commands. This class would become enormous.
     // Move these options to their respective commands somehow to avoid this problem.
+    // TODO: these following methods that mutate the `options` class variable are not thread safe
+    // read about the dangers of using mutable classes in multithreaded environments
     private  Options getAddMovieOptions(){
         Option title = Option.builder("t")
                 .longOpt("title")

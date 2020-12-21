@@ -16,6 +16,7 @@ class BackendServerApplicationTests {
     @Autowired
     public MockMvc mockMvc;
 
+    //empty test method?
     @Test
     void contextLoads() {
     }

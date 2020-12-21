@@ -22,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(CharacterController.class)
 public class CharacterServiceTest {
-
+    //no no no no
+    //FIXME either delete this class or use uncomment it
     /*
     @Autowired
     private MockMvc mvc;

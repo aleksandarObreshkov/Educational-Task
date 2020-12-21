@@ -15,6 +15,7 @@ public class MovieService {
         this.repository = repository;
     }
 
+    //unnecessary throws statement
     public List<Movie> getAll() throws IOException {
         return repository.findAll(Movie.class);
     }

@@ -34,4 +34,6 @@ public class Human extends Character{
     public Human() {
 
     }
+
+    //toString, equals, hashCode
 }

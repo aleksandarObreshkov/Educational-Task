@@ -14,6 +14,8 @@ import java.util.Objects;
 @ControllerAdvice
 public class ExceptionResolver{
 
+    //the first two annotations, I understand, but formatting the return type on one line and the method name on the next
+    // reminds me of C/C++
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(IOException.class)
     @ResponseBody
@@ -29,6 +31,8 @@ public class ExceptionResolver{
     @ResponseBody
     String
     handleBadInput(MethodArgumentNotValidException ex) {
+        //this line is hard to read
+        //TODO split it into more readable parts
         return Objects.requireNonNull(Objects.requireNonNull(ex.getFieldError()).getDefaultMessage());
     }
 }

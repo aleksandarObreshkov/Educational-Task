@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/characters")
+//why are you extending this class?
 public class CharacterController extends ResponseStatusExceptionResolver {
 
     public CharacterService service;
@@ -24,8 +25,12 @@ public class CharacterController extends ResponseStatusExceptionResolver {
         this.service = service;
     }
 
+    //none of these methods throw a checked exception
+    //TODO remove the `throws IOException` from these methods
     @GetMapping("")
     public ResponseEntity<List<Character>> getCharacters() throws IOException{
+        //it's generally not good practice to hardcode numbers
+        //TODO substitute any `.status(<number>)` calls with their appropriate enum value from HttpStatus
         return ResponseEntity.status(200).body(service.getAll());
     }
 

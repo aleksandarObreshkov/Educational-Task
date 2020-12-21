@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.*;
 
+//this is more of a utility class
+//TODO: rename to something like "EntityCreationUtils"
 public class CreateEntityFunctions {
 
     public static Movie createMovie(CommandLine cmd)throws DateTimeParseException,NumberFormatException {
@@ -27,16 +29,24 @@ public class CreateEntityFunctions {
                     Integer.parseInt(cmd.getOptionValue("a")),
                     false,
                     cmd.getOptionValue("pf"));
-            if (cmd.hasOption("f")) d.setForceUser(true);
+            if (cmd.hasOption("f")) d.setForceUser(true); //this line is hard to read
             return d;
         }
-
+        //this isn't good practice with if else statements formatting
+        //the convention is
+        /*
+            if (...) {
+                ...
+            } else {
+                ...
+            }
+         */
         else{
             Human h = new Human(
                     cmd.getOptionValue("n"),
                     Integer.parseInt(cmd.getOptionValue("a")),
                     false);
-            if (cmd.hasOption("f")) h.setForceUser(true);
+            if (cmd.hasOption("f")) h.setForceUser(true); //so is this
             return h;
         }
 

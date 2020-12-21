@@ -39,6 +39,7 @@ public class Movie {
 
     @JsonSetter
     public void setReleaseDate(String releaseDate) {
+        //Press F to doubt
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.releaseDate = LocalDate.parse(releaseDate,f);
     }
@@ -51,7 +52,7 @@ public class Movie {
                 ", rating=" + rating +
                 '}';
     }
-
+    //equals, hashCode
 
 }
 
