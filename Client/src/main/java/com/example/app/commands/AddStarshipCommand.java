@@ -2,27 +2,45 @@ package com.example.app.commands;
 
 import model.Starship;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 import org.springframework.web.client.RestTemplate;
 
 public class AddStarshipCommand implements Command {
 
-    private RestTemplate template;
-    private String url;
-    private CommandLine cmd;
+    private final RestTemplate template;
+    private final String url;
+    private final CommandLine cmd;
 
     public AddStarshipCommand(CommandLine cmd, String url){
         this.cmd = cmd;
         this.url = url;
-        template = new RestTemplate(); // TODO: Inconsistent use of "this."
+        this.template = new RestTemplate();
     }
 
     @Override
-    public void execute() throws Exception {
-        try {
-            Starship starshipToAdd = CreateEntityFunctions.createStarship(cmd);
-            template.postForObject(url, starshipToAdd, Starship.class);
-        } catch (NumberFormatException e) { // TODO: Handling exceptions at the wrong abstraction level.
-            throw new IllegalArgumentException("Length should be float: " + e.getMessage(), e);
-        }
+    public void execute() {
+        Starship starshipToAdd = EntityCreationUtils.createStarship(cmd);
+        template.postForObject(url, starshipToAdd, Starship.class);
+    }
+
+    public static Options getAddStarshipOptions(){
+        final Options options = new Options();
+        Option name = Option.builder("n")
+                .longOpt("name")
+                .hasArg()
+                .required()
+                .type(String.class)
+                .build();
+        Option length = Option.builder("l")
+                .longOpt("length")
+                .hasArg()
+                .required()
+                .type(Float.class)
+                .build();
+
+        options.addOption(name);
+        options.addOption(length);
+        return options;
     }
 }

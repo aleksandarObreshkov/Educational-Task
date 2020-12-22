@@ -7,9 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.*;
 
-//this is more of a utility class
-//TODO: rename to something like "EntityCreationUtils"
-public class CreateEntityFunctions {
+public class EntityCreationUtils {
 
     public static Movie createMovie(CommandLine cmd)throws DateTimeParseException,NumberFormatException {
 
@@ -24,30 +22,24 @@ public class CreateEntityFunctions {
     public static Character createCharacter(CommandLine cmd) throws NumberFormatException {
         String type = cmd.getOptionValue("t");
         if (type.equals("droid")){
-            Droid d = new Droid(
+            Droid droid = new Droid(
                     cmd.getOptionValue("n"),
                     Integer.parseInt(cmd.getOptionValue("a")),
                     false,
                     cmd.getOptionValue("pf"));
-            if (cmd.hasOption("f")) d.setForceUser(true); //this line is hard to read
-            return d;
-        }
-        //this isn't good practice with if else statements formatting
-        //the convention is
-        /*
-            if (...) {
-                ...
-            } else {
-                ...
+            if (cmd.hasOption("f")){
+                droid.setForceUser(true);
             }
-         */
-        else{
-            Human h = new Human(
+            return droid;
+        }else{
+            Human human = new Human(
                     cmd.getOptionValue("n"),
                     Integer.parseInt(cmd.getOptionValue("a")),
                     false);
-            if (cmd.hasOption("f")) h.setForceUser(true); //so is this
-            return h;
+            if (cmd.hasOption("f")) {
+                human.setForceUser(true);
+            }
+            return human;
         }
 
     }

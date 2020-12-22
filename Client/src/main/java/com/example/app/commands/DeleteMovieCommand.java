@@ -1,5 +1,6 @@
 package com.example.app.commands;
 
+import org.apache.commons.cli.Options;
 import org.springframework.web.client.RestTemplate;
 
 public class DeleteMovieCommand implements Command {
@@ -13,7 +14,13 @@ public class DeleteMovieCommand implements Command {
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         template.delete(url);
+    }
+
+    public static  Options getDeleteOptions(){
+        final Options options = new Options();
+        options.addOption("id", true, "delete an item with the specified id");
+        return options;
     }
 }

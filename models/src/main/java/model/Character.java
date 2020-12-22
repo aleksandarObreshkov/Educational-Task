@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
-//new line pls :D
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "characterType")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Human.class),
@@ -23,14 +22,14 @@ public abstract class Character {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(nullable = false)
     private Long id;
 
     @NotNull(message = "Please provide a name.")
     private String name;
 
+    @NotNull(message = "Please provide age.")
     @PositiveOrZero(message = "Age must be positive.")
-    private int age;
+    private Integer age;
 
     private boolean forceUser;
 

@@ -15,7 +15,7 @@ public class ShowCharactersCommand implements Command{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         PrintDataMethod.printData(characters);
     }
 }

@@ -14,10 +14,6 @@ import java.util.List;
 @Data
 public class Human extends Character{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<Starship> starships;
 

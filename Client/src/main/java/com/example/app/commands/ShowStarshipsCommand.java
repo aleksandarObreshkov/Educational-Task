@@ -16,7 +16,7 @@ public class ShowStarshipsCommand implements Command{
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         PrintDataMethod.printData(starships);
     }
 }

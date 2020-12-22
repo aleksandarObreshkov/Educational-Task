@@ -1,6 +1,6 @@
 package com.example.app;
 
-import com.example.app.commands.CreateEntityFunctions;
+import com.example.app.commands.EntityCreationUtils;
 import model.Character;
 import model.Movie;
 import model.Starship;
@@ -30,7 +30,7 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("d")).thenReturn(date);
         Mockito.when(cmd.getOptionValue("r")).thenReturn(rating);
 
-        Movie toTest=CreateEntityFunctions.createMovie(cmd);
+        Movie toTest= EntityCreationUtils.createMovie(cmd);
         assertEquals(title, toTest.getTitle());
         assertEquals(date,toTest.getReleaseDate()+"");
         assertEquals(rating, toTest.getRating()+"");
@@ -47,7 +47,7 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("n")).thenReturn(name);
         Mockito.when(cmd.getOptionValue("l")).thenReturn(length);
 
-        Starship toTest=CreateEntityFunctions.createStarship(cmd);
+        Starship toTest= EntityCreationUtils.createStarship(cmd);
         assertEquals(name, toTest.getName());
         assertEquals(length,toTest.getLength()+"");
 
@@ -58,17 +58,21 @@ public class CreateEntityClassTest {
         String name="Ship";
         String age="89";
         String forceUser="false";
+        String type = "droid";
+
 
         cmd=Mockito.mock(CommandLine.class);
 
         Mockito.when(cmd.getOptionValue("n")).thenReturn(name);
         Mockito.when(cmd.getOptionValue("a")).thenReturn(age);
         Mockito.when(cmd.getOptionValue("f")).thenReturn(forceUser);
+        Mockito.when(cmd.getOptionValue("t")).thenReturn(type);
 
-        Character toTest=CreateEntityFunctions.createCharacter(cmd);
+        Character toTest= EntityCreationUtils.createCharacter(cmd);
         assertEquals(name, toTest.getName());
         assertEquals(age,toTest.getAge()+"");
         assertEquals(forceUser,toTest.isForceUser()+"");
+        assertEquals(type, toTest.getCharacterType());
 
     }
 
@@ -83,7 +87,8 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("d")).thenReturn(date);
         Mockito.when(cmd.getOptionValue("t")).thenReturn(title);
         Mockito.when(cmd.getOptionValue("r")).thenReturn(rating);
-        assertThrows(NumberFormatException.class, ()->{CreateEntityFunctions.createMovie(cmd);});
+        assertThrows(NumberFormatException.class, ()->{
+            EntityCreationUtils.createMovie(cmd);});
     }
 
     @Test
@@ -97,9 +102,10 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("d")).thenReturn(date);
         Mockito.when(cmd.getOptionValue("t")).thenReturn(title);
         Mockito.when(cmd.getOptionValue("r")).thenReturn(rating);
-        assertThrows(DateTimeParseException.class, ()->{CreateEntityFunctions.createMovie(cmd);});
+        assertThrows(DateTimeParseException.class, ()->{
+            EntityCreationUtils.createMovie(cmd);});
     }
-/*
+
     @Test
     public void createMovieExceptionOrderTest(){
         String rating="www";
@@ -112,26 +118,27 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("d")).thenReturn(date);
         Mockito.when(cmd.getOptionValue("r")).thenReturn(rating);
 
-        assertThrows(DateTimeParseException.class, ()->{CreateEntityFunctions.createMovie(cmd);});
+        assertThrows(NumberFormatException.class, ()->{EntityCreationUtils.createMovie(cmd);});
     }
 
 
- */
+
     @Test
     public void createCharacterExceptionTest(){
         String name="Ship";
         String age="ww";
         String forceUser="false";
+        String characterType = "droid";
 
         cmd=Mockito.mock(CommandLine.class);
 
         Mockito.when(cmd.getOptionValue("n")).thenReturn(name);
         Mockito.when(cmd.getOptionValue("a")).thenReturn(age);
         Mockito.when(cmd.getOptionValue("f")).thenReturn(forceUser);
+        Mockito.when(cmd.getOptionValue("t")).thenReturn(characterType);
 
-
-        assertThrows(NumberFormatException.class,()->{CreateEntityFunctions.createCharacter(cmd);});
-
+        assertThrows(NumberFormatException.class,()->{
+            EntityCreationUtils.createCharacter(cmd);});
     }
 
     @Test
@@ -144,7 +151,8 @@ public class CreateEntityClassTest {
         Mockito.when(cmd.getOptionValue("n")).thenReturn(name);
         Mockito.when(cmd.getOptionValue("l")).thenReturn(length);
 
-        assertThrows(NumberFormatException.class,()->{CreateEntityFunctions.createCharacter(cmd);});
+        assertThrows(NumberFormatException.class,()->{
+            EntityCreationUtils.createStarship(cmd);});
 
     }
 
