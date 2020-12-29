@@ -17,14 +17,9 @@ public class Human extends Character{
     @OneToMany(cascade = CascadeType.ALL)
     private List<Starship> starships;
 
-
     @Override
     public String getCharacterType() {
         return "human";
-    }
-
-    public Human(String name, int age, boolean forceUser) {
-        super(name, age, forceUser);
     }
 
     public Human() {

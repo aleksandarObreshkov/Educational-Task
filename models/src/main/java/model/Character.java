@@ -42,15 +42,6 @@ public abstract class Character {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Character> friends;
 
-    public Character(String name, int age, boolean forceUser) {
-        this.name = name;
-        this.age = age;
-        this.forceUser = forceUser;
-    }
-
-    public Character() {
-    }
-
     @Override
     public String toString() {
         return "Character{" +

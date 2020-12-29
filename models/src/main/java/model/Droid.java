@@ -17,11 +17,6 @@ public class Droid extends Character{
     @NotNull(message = "Please specify the primary function of the droid.")
     private String primaryFunction;
 
-    public Droid(String name, int age, boolean forceUser, String primaryFunction) {
-        super(name, age, forceUser);
-        this.primaryFunction = primaryFunction;
-    }
-
     @Override
     public String getCharacterType() {
         return "droid";

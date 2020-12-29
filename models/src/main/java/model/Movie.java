@@ -31,17 +31,13 @@ public class Movie {
 
     public Movie(){}
 
-    public Movie(String title, float rating, LocalDate releaseDate){
-        this.title= title;
-        this.rating = rating;
-        this.releaseDate = releaseDate;
+    public Movie(String the_force_awakens, float v, LocalDate parse) {
     }
 
     @JsonSetter
     public void setReleaseDate(String releaseDate) {
-        //Press F to doubt
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.releaseDate = LocalDate.parse(releaseDate,f);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.releaseDate = LocalDate.parse(releaseDate,formatter);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.backend.demo.repositories;
 
-import model.Character;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,44 +15,40 @@ public class EntityRepository {
     private final EntityManagerFactory factory = Persistence.createEntityManagerFactory("PostgreJPA");
     private EntityManager manager;
 
-
-    public <T> List<T> findAll(Class<T> type){
-        //I'm not entirely familiar with the `EntityManager` class but
-        // why are you creating and closing it on every method?
-        // is it equivalent to opening and closing a db connection?
-        // if so, won't that take up a lot more resources for creating it every time than using 1 connection
-        // and opening and operating with transactions?
+    public <T> ResponseEntity<List<T>> findAll(Class<T> type){
         manager = factory.createEntityManager();
         manager.getTransaction().begin();
         List<T> result = manager.createQuery("SELECT a from "+type.getSimpleName()+" a", type).getResultList();
         manager.close();
-        return  result;
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    public <T> void save(T objectToPersist){
+    public <T> ResponseEntity<String> save(T objectToPersist){
         manager = factory.createEntityManager();
         manager.getTransaction().begin();
         manager.persist(objectToPersist);
         manager.getTransaction().commit();
         manager.close();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    public <T> void deleteById(Long id, Class<T> type){
+    public <T> ResponseEntity<String> deleteById(Long id, Class<T> type){
         manager = factory.createEntityManager();
         manager.getTransaction().begin();
-        //wouldn't it be more efficient if we just executed 1 DELETE sql statement
-        // rather than first executing a select and then a delete?
-        T objectToRemove = manager.find(type, id);
-        manager.remove(objectToRemove);
+        int affectedRows = manager.createQuery("delete from "+type.getSimpleName()+" a where a.id="+id).executeUpdate();
         manager.getTransaction().commit();
         manager.close();
+        if (affectedRows>0) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 
-    public <T> T findById(Long id, Class<T> type){
+    public <T> ResponseEntity<T> findById(Long id, Class<T> type){
         manager = factory.createEntityManager();
-        //FIXME uncommitted transaction
         manager.getTransaction().begin();
-        return manager.find(type, id);
+        T objectToFind = manager.find(type, id);
+        if (objectToFind!=null) return ResponseEntity.status(HttpStatus.OK).body(objectToFind);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 }

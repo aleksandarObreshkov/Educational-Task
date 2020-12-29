@@ -20,6 +20,14 @@
 
   <description>Blank multi project for Spring Boot + Elm</description>
 
+  <modules>
+
+    <module>Client</module>
+    <module>Backend</module>
+    <module>models</module>
+
+  </modules>
+
   <dependencyManagement>
     <dependencies>
 
@@ -77,12 +85,6 @@
     </pluginRepository>
   </pluginRepositories>
 
-  <modules>
 
-    <module>Client</module>
-    <module>Backend</module>
-    <module>models</module>
-      
-  </modules>
   
 </project>
