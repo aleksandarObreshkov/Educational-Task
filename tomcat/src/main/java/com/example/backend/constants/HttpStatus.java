@@ -7,7 +7,8 @@ public enum HttpStatus {
     BAD_REQUEST(400, "Bad request"),
     NOT_FOUND(404, "Not found"),
 
-    INTERNAL_SERVER_ERROR(500, "Bad request");
+    INTERNAL_SERVER_ERROR(500, "Bad request"),
+    UNSUPPORTED_MEDIA_TYPE(415, "Unsupported media type");
 
     private final int value;
     private final String textRepresentation;

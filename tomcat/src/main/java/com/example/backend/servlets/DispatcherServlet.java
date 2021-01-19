@@ -8,6 +8,7 @@ import com.example.backend.constants.HttpStatus;
 import com.example.backend.controllers.CharacterController;
 import com.example.backend.controllers.MovieController;
 import com.example.backend.controllers.StarshipController;
+import com.example.backend.errors.ErrorEntity;
 import com.example.backend.utils.ControllerRegistry;
 import com.example.backend.RESTEntities.RequestEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,7 +68,7 @@ public class DispatcherServlet extends HttpServlet {
             if (canHandleRequest(controllerClass, request)) {
                 try {
                     Object instantiatedController=controllerClass.getDeclaredConstructor().newInstance();
-                    RequestEntity requestEntity = getRequestEntity(request);
+                    RequestEntity requestEntity = setupRequestEntity(request);
                     Method methodToCall = getProperControllerMethod(instantiatedController,requestEntity);
                     Object result = invokeControllerMethod(methodToCall,instantiatedController,requestEntity);
                     response.setStatus(getResponseStatus(result).value());
@@ -95,7 +96,7 @@ public class DispatcherServlet extends HttpServlet {
         response.setStatus(HttpStatus.NOT_FOUND.value());
     }
 
-    private RequestEntity getRequestEntity(HttpServletRequest request) throws IOException {
+    private RequestEntity setupRequestEntity(HttpServletRequest request) throws IOException {
 
         Pattern pattern = Pattern.compile("/tomcat_war/[a-zA-z]*/(?<id>[0-9]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(request.getRequestURI());
@@ -111,7 +112,7 @@ public class DispatcherServlet extends HttpServlet {
                 result.setBody(parseRequestBody(requestBody, getEntityClassFromURI(request.getRequestURI())));
             }
         }
-        result.setUri(request.getRequestURI());
+        result.setUri(fixRequestURI(request.getRequestURI()));
         return result;
     }
 
@@ -179,7 +180,9 @@ public class DispatcherServlet extends HttpServlet {
                     }
                 }
             }
-            default: return null;
+            default: {
+                return null;
+            }
         }
 
     }
@@ -199,20 +202,34 @@ public class DispatcherServlet extends HttpServlet {
         return uri.replace("{id}",id+"");
     }
 
+    // TODO: Rename properly
+    private String fixRequestURI(String uri){
+        if (uri.endsWith("/")){
+            return uri.substring(0,uri.length()-1);
+        }
+        else return uri;
+    }
+
     private Object invokeControllerMethod(Method method, Object instantiatedObject, RequestEntity entity) throws InvocationTargetException, IllegalAccessException {
         Object result=null;
-        if (entity.getMethod().equals("get")&&entity.getId()!=0L){
-            result = method.invoke(instantiatedObject,entity.getId());
+        try{
+            if (entity.getMethod().equals("get")&&entity.getId()!=0L){
+                result = method.invoke(instantiatedObject,entity.getId());
+            }
+            else if (entity.getMethod().equals("get")&&entity.getId()==0L){
+                result = method.invoke(instantiatedObject);
+            }
+            else if (entity.getMethod().equals("delete")){
+                result = method.invoke(instantiatedObject, entity.getId());
+            }
+            else if (entity.getMethod().equals("post")){
+                result = method.invoke(instantiatedObject,entity.getBody());
+            }
+            return result;
+        }catch (NullPointerException npe){
+            return new ErrorEntity("No compatible method to handle request. ",HttpStatus.UNSUPPORTED_MEDIA_TYPE,npe);
         }
-        else if (entity.getMethod().equals("get")&&entity.getId()==0L){
-            result = method.invoke(instantiatedObject);
-        }
-        else if (entity.getMethod().equals("delete")){
-            result = method.invoke(instantiatedObject, entity.getId());
-        }
-        else if (entity.getMethod().equals("post")){
-            result = method.invoke(instantiatedObject,entity.getBody());
-        }
-        return result;
+
     }
 }
+
