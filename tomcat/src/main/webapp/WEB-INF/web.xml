@@ -5,20 +5,13 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
     <servlet>
-        <servlet-name>CharacterServlet</servlet-name>
-        <servlet-class>com.example.backend.CharacterController</servlet-class>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <servlet-class>com.example.backend.servlets.DispatcherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>CharacterServlet</servlet-name>
-        <url-pattern>/char</url-pattern>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>MovieServlet</servlet-name>
-        <servlet-class>com.example.backend.MovieController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MovieServlet</servlet-name>
-        <url-pattern>/movie</url-pattern>
-    </servlet-mapping> 
+
 </web-app>

@@ -7,6 +7,7 @@ import org.apache.commons.cli.ParseException;
 
 public class App {
     public static void main(String[] args) {
+
         args = new String[]{"add-character","-n", "Palpetine", "-a", "90", "-t", "human", "-f"};
         CommandFactory factory = new CommandFactory();
         try {

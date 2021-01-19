@@ -1,13 +1,13 @@
-package com.example.backend;
+package com.example.backend.services;
 
-import org.springframework.http.ResponseEntity;
+import com.example.backend.repositories.EntityRepository;
+import com.example.backend.RESTEntities.ResponseEntity;
+
 import java.util.List;
 
 public class EntityService {
 
     private final EntityRepository repository = new EntityRepository();
-
-    public String testMethod(){return repository.getTest();}
 
     public <T> ResponseEntity<List<T>> getAll(Class<T> type){
         return repository.findAll(type);
