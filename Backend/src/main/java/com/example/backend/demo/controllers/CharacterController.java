@@ -1,6 +1,6 @@
 package com.example.backend.demo.controllers;
 
-import com.example.backend.demo.services.EntityService;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Character;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,36 +15,38 @@ import java.util.List;
 @RequestMapping("/characters")
 public class CharacterController {
 
-    public EntityService service;
+    public EntityRepository repository;
 
     @Autowired
-    public CharacterController(EntityService service) {
-        this.service = service;
+    public CharacterController(EntityRepository repository) {
+        this.repository = repository;
     }
 
     @GetMapping("")
     public ResponseEntity<List<Character>> getCharacters(){
-        return service.getAll(Character.class);
+        List<Character> result = repository.findAll(Character.class);
+        if (result!=null) return ResponseEntity.ok(result);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Character> getCharacterById(@PathVariable Long id) {
-        return service.getById(id, Character.class);
+        Character result = repository.findById(id, Character.class);
+        if (result!=null) return ResponseEntity.ok(result);
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCharacterById(@PathVariable Long id) {
-        return service.deleteById(id, Character.class);
+        boolean isDeleted = repository.deleteById(id, Character.class);
+        if (isDeleted) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("")
     public ResponseEntity<String> addCharacter(@Valid @RequestBody Character character) {
-        return service.add(character);
+        repository.save(character);
+        return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 
 }

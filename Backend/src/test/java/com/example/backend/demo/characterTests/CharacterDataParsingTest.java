@@ -2,22 +2,17 @@ package com.example.backend.demo.characterTests;
 
 import com.example.backend.demo.controllers.CharacterController;
 import com.example.backend.demo.errors.ExceptionResolver;
-import com.example.backend.demo.services.EntityService;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.IOException;
-
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -29,25 +24,25 @@ public class CharacterDataParsingTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private EntityService service;
+    private EntityRepository repository;
 
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new CharacterController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new CharacterController(repository))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
 
     @Test
     public void getCharacterByIdExceptionTest() throws Exception {
-        when(service.getById(10L, Character.class)).thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        when(repository.findById(10L, Character.class)).thenReturn(null);
         mockMvc.perform(get("/characters/10"))
                 .andExpect(status().is(404));
     }
 
     @Test
     public void deleteCharacterByIdExceptionTest() throws Exception {
-        when(service.deleteById(10L, Character.class)).thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        when(repository.deleteById(10L, Character.class)).thenReturn(false);
         mockMvc.perform(delete("/characters/10"))
                 .andExpect(status().is(404));
     }

@@ -1,7 +1,8 @@
 package com.example.backend.demo.controllers;
 
-import com.example.backend.demo.services.EntityService;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Movie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -11,30 +12,38 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
-    private final EntityService service;
+    public EntityRepository repository;
 
-    public MovieController(EntityService service) {
-        this.service = service;
+    @Autowired
+    public MovieController(EntityRepository repository) {
+        this.repository = repository;
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Movie>>getMovies() {
-        return service.getAll(Movie.class);
+    public ResponseEntity<List<Movie>> getCharacters(){
+        List<Movie> result = repository.findAll(Movie.class);
+        if (result!=null) return ResponseEntity.ok(result);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
-        return service.getById(id, Movie.class);
+    public ResponseEntity<Movie> getCharacterById(@PathVariable Long id) {
+        Movie result = repository.findById(id, Movie.class);
+        if (result!=null) return ResponseEntity.ok(result);
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMovie(@PathVariable Long id) {
-        return service.deleteById(id, Movie.class);
+    public ResponseEntity<String> deleteCharacterById(@PathVariable Long id) {
+        boolean isDeleted = repository.deleteById(id, Movie.class);
+        if (isDeleted) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addMovie(@Valid @RequestBody Movie movie) {
-        return service.add(movie);
+    public ResponseEntity<String> addCharacter(@Valid @RequestBody Movie movie) {
+        repository.save(movie);
+        return ResponseEntity.noContent().build();
     }
 
 

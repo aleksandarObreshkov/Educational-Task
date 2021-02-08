@@ -2,18 +2,15 @@ package com.example.backend.demo.movieTests;
 
 import com.example.backend.demo.controllers.MovieController;
 import com.example.backend.demo.errors.ExceptionResolver;
-import com.example.backend.demo.services.EntityService;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import java.io.IOException;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -25,11 +22,11 @@ public class MovieDataParsingTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private EntityService service;
+    private EntityRepository repository;
 
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(repository))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
@@ -54,7 +51,7 @@ public class MovieDataParsingTest {
                 "  \"releaseDate\" : \"2018/03-25\",\n" +
                 "  \"rating\" : 3.2\n" +
                 "}";
-        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(repository))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
 
@@ -66,14 +63,14 @@ public class MovieDataParsingTest {
 
     @Test
     public void deleteMovieByIdExceptionTest() throws Exception {
-        when(service.deleteById(10L, Movie.class)).thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        when(repository.deleteById(10L, Movie.class)).thenReturn(false);
         mockMvc.perform(delete("/movies/10"))
                 .andExpect(status().is(404));
     }
 
     @Test
     public void getMovieByIdExceptionTest() throws Exception {
-        when(service.getById(10L, Movie.class)).thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        when(repository.findById(10L, Movie.class)).thenReturn(null);
         mockMvc.perform(get("/movies/10"))
                 .andExpect(status().is(404));
     }

@@ -1,6 +1,6 @@
 package com.example.backend.demo.controllers;
 
-import com.example.backend.demo.services.EntityService;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,30 +13,37 @@ import java.util.List;
 @RequestMapping("/starships")
 public class StarshipController {
 
-    private final EntityService service;
+    public EntityRepository repository;
 
     @Autowired
-    public StarshipController(EntityService service) {
-        this.service = service;
+    public StarshipController(EntityRepository repository) {
+        this.repository = repository;
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Starship>> getStarships() {
-        return service.getAll(Starship.class);
+    public ResponseEntity<List<Starship>> getCharacters(){
+        List<Starship> result = repository.findAll(Starship.class);
+        if (result!=null) return ResponseEntity.ok(result);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Starship> getStarshipById(@PathVariable Long id) {
-        return service.getById(id, Starship.class);
+    public ResponseEntity<Starship> getCharacterById(@PathVariable Long id) {
+        Starship result = repository.findById(id, Starship.class);
+        if (result!=null) return ResponseEntity.ok(result);
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStarshipById(@PathVariable Long id) {
-        return service.deleteById(id, Starship.class);
+    public ResponseEntity<String> deleteCharacterById(@PathVariable Long id) {
+        boolean isDeleted = repository.deleteById(id, Starship.class);
+        if (isDeleted) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addStarship(@Valid @RequestBody Starship starship) {
-        return service.add(starship);
+    public ResponseEntity<String> addCharacter(@Valid @RequestBody Starship starship) {
+        repository.save(starship);
+        return ResponseEntity.noContent().build();
     }
 }

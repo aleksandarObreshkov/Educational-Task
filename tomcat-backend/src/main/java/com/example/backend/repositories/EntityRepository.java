@@ -1,9 +1,7 @@
-package com.example.backend.demo.repositories;
+package com.example.backend.repositories;
 
-import org.springframework.stereotype.Repository;
 import java.util.List;
 
-@Repository
 public class EntityRepository implements DatabaseActionTemplate {
 
     public <T> List<T> findAll(Class<T> type){

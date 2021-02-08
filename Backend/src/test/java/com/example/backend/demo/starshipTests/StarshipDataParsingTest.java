@@ -1,7 +1,7 @@
 package com.example.backend.demo.starshipTests;
 
 import com.example.backend.demo.controllers.StarshipController;
-import com.example.backend.demo.services.EntityService;
+import com.example.backend.demo.repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -9,12 +9,10 @@ import com.example.backend.demo.errors.ExceptionResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import java.io.IOException;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,11 +25,11 @@ public class StarshipDataParsingTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private EntityService service;
+    private EntityRepository repository;
 
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new StarshipController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new StarshipController(repository))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
@@ -61,14 +59,14 @@ public class StarshipDataParsingTest {
 
     @Test
     public void getStarshipByIdExceptionTest() throws Exception {
-        when(service.getById(90L, Starship.class)).thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        when(repository.findById(90L, Starship.class)).thenReturn(null);
         mockMvc.perform(get("/starships/90"))
                 .andExpect(status().is(404));
     }
 
     @Test
     public void deleteStarshipByIdExceptionTest() throws Exception {
-        when(service.deleteById(90L, Starship.class)).thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        when(repository.deleteById(90L, Starship.class)).thenReturn(false);
         mockMvc.perform(delete("/starships/90"))
                 .andExpect(status().is(404));
     }
