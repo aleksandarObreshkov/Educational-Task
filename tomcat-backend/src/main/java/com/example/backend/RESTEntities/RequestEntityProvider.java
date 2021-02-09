@@ -1,15 +1,17 @@
 package com.example.backend.RESTEntities;
 
+import com.example.backend.annotations.RequestBody;
 import com.example.backend.constants.HttpMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.Character;
-import model.Movie;
-import model.Starship;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -24,15 +26,16 @@ public class RequestEntityProvider {
         this.instantiatedController=instantiatedController;
     }
 
-    public RequestEntity createRequestEntity() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public RequestEntity createRequestEntity() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, InstantiationException {
 
         Pattern pattern = Pattern.compile("/tomcat_backend_war_exploded/[a-zA-z]*/(?<id>[0-9]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(request.getRequestURI());
         HttpMethod requestMethod = HttpMethod.valueOf(request.getMethod());
         RequestEntity result = new RequestEntity(requestMethod);
         if (matcher.find()){
-            long id = Long.parseLong(matcher.group("id"));
-            result.setId(id);
+            Map<String, String> pathVariables = new HashMap<>();
+            pathVariables.put("id", matcher.group("id"));
+            result.setPathVariables(pathVariables);
         }
         if (requestMethod.equals(HttpMethod.POST)||requestMethod.equals(HttpMethod.PUT)) {
             String requestBody = getRequestBody();
@@ -40,7 +43,6 @@ public class RequestEntityProvider {
                 result.setBody(parseRequestBody(requestBody, getEntityClassFromControllerMethod()));
             }
         }
-        result.setUri(removeTrailingSlash(request.getRequestURI()));
         return result;
     }
 
@@ -53,21 +55,29 @@ public class RequestEntityProvider {
         return new ObjectMapper().readValue(requestBodyString,entityClass);
     }
 
-    private String removeTrailingSlash(String uri){
-        if (uri.endsWith("/")){
-            return uri.substring(0,uri.length()-1);
+    private Method takePostMethod(Method[] controllerMethods){
+        for (Method m : controllerMethods){
+            if (m.getName().equals("post")){
+                return m;
+            }
         }
-        else return uri;
+        return null;
     }
 
-    private Class<?> getEntityClassFromControllerMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<?> returnType = instantiatedController.getClass().getDeclaredMethod("post").getReturnType();
-        Object bodyOfReturnType = returnType.getDeclaredMethod("getBody").invoke(returnType);
-        if (bodyOfReturnType instanceof Character) return Character.class;
-        else if (bodyOfReturnType instanceof Movie) return Movie.class;
-        else return Starship.class;
+    // TODO: handle the possibility of NullPointer exception
+    private Class<?> getRequestBodyAnnotatedField(Method[] controllerMethods){
+        Parameter[] methodParams = takePostMethod(controllerMethods).getParameters();
+        for (Parameter p : methodParams){
+            if (p.isAnnotationPresent(RequestBody.class)){
+                return p.getType();
+            }
+        }
+        return null;
     }
 
-    //TODO: Make ResponseEntity capable of holding more than one PathVariable (i.e "id").
+    private Class<?> getEntityClassFromControllerMethod() {
+        Method[] controllerMethods = instantiatedController.getClass().getMethods();
+        return getRequestBodyAnnotatedField(controllerMethods);
+    }
 
 }

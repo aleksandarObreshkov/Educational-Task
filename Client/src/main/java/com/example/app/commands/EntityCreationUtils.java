@@ -31,20 +31,20 @@ public class EntityCreationUtils {
         try {
             String type = cmd.getOptionValue("t");
             if (type.equals("droid")) {
-                Droid droid = new Droid(
-                        cmd.getOptionValue("n"),
-                        Integer.parseInt(cmd.getOptionValue("a")),
-                        false,
-                        cmd.getOptionValue("pf"));
+                Droid droid = new Droid();
+                droid.setName(cmd.getOptionValue("n"));
+                droid.setAge(Integer.parseInt(cmd.getOptionValue("a")));
+                droid.setForceUser(false);
+                droid.setPrimaryFunction(cmd.getOptionValue("pf"));
                 if (cmd.hasOption("f")) {
                     droid.setForceUser(true);
                 }
                 return droid;
             } else {
-                Human human = new Human(
-                        cmd.getOptionValue("n"),
-                        Integer.parseInt(cmd.getOptionValue("a")),
-                        false);
+                Human human = new Human();
+                human.setName(cmd.getOptionValue("n"));
+                human.setAge(Integer.parseInt(cmd.getOptionValue("a")));
+                human.setForceUser(false);
                 if (cmd.hasOption("f")) {
                     human.setForceUser(true);
                 }

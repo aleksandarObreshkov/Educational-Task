@@ -2,27 +2,18 @@ package com.example.backend.RESTEntities;
 
 import com.example.backend.constants.HttpMethod;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RequestEntity {
 
-    private long id;
-    private HttpMethod method;
+    private final HttpMethod method;
     private Object body;
-    private String uri;
+    private Map<String, String> pathVariables;
 
     public RequestEntity(HttpMethod method) {
         this.method = method;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setMethod(HttpMethod method) {
-        this.method = method;
+        pathVariables=new HashMap<>();
     }
 
     public HttpMethod getMethod() {
@@ -37,11 +28,11 @@ public class RequestEntity {
         this.body = body;
     }
 
-    public String getUri() {
-        return uri;
+    public Map<String, String> getPathVariables() {
+        return pathVariables;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setPathVariables(Map<String, String> pathVariables) {
+        this.pathVariables = pathVariables;
     }
 }
