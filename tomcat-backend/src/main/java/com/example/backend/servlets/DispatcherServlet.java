@@ -55,7 +55,7 @@ public class DispatcherServlet extends HttpServlet {
         handleRequest(request, response);
     }
 
-    // TODO: manage wrong url
+    // TODO: show error messages properly
     private void handleRequest(HttpServletRequest request, HttpServletResponse response){
         for (Class<?> controllerClass : registry.getControllerClasses()) {
             if (canHandleRequest(controllerClass, request)) {
@@ -73,18 +73,19 @@ public class DispatcherServlet extends HttpServlet {
                         printResponse(response, result);
                     }
                 } catch (NoSuchMethodException | InstantiationException |
-                        IllegalAccessException | IOException e) {
+                        IllegalAccessException | IOException |
+                        NoSuchFieldException | NullPointerException e) {
                     response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
                 } catch (InvocationTargetException e) {
                     System.out.println(e.getTargetException().getMessage());
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
+                }
+                catch (IllegalArgumentException e){
+                    response.setStatus(HttpStatus.BAD_REQUEST.value());
                 }
                 return;
             }
         }
         respondWithNotFound(response);
-
     }
 
     private boolean canHandleRequest(Class<?> controllerClass, HttpServletRequest request) {

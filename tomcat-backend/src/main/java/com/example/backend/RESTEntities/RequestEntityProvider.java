@@ -28,22 +28,26 @@ public class RequestEntityProvider {
 
     public RequestEntity createRequestEntity() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, InstantiationException {
 
-        Pattern pattern = Pattern.compile("/tomcat_backend_war_exploded/[a-zA-z]*/(?<id>[0-9]+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(request.getRequestURI());
+        Pattern pattern = Pattern.compile("/tomcat_backend_war_exploded/[a-zA-z]+/*(?<id>[0-9]*)/?", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(removeTrailingSlash(request.getRequestURI()));
         HttpMethod requestMethod = HttpMethod.valueOf(request.getMethod());
         RequestEntity result = new RequestEntity(requestMethod);
-        if (matcher.find()){
-            Map<String, String> pathVariables = new HashMap<>();
-            pathVariables.put("id", matcher.group("id"));
-            result.setPathVariables(pathVariables);
-        }
-        if (requestMethod.equals(HttpMethod.POST)||requestMethod.equals(HttpMethod.PUT)) {
-            String requestBody = getRequestBody();
-            if (!requestBody.isEmpty()) {
-                result.setBody(parseRequestBody(requestBody, getEntityClassFromControllerMethod()));
+        if (matcher.matches()){
+            if (!matcher.group("id").isEmpty()){
+                Map<String, String> pathVariables = new HashMap<>();
+                pathVariables.put("id", matcher.group("id"));
+                result.setPathVariables(pathVariables);
             }
-        }
-        return result;
+            if (requestMethod.equals(HttpMethod.POST)||requestMethod.equals(HttpMethod.PUT)) {
+                String requestBody = getRequestBody();
+                if (!requestBody.isEmpty()) {
+                    result.setBody(parseRequestBody(requestBody, getEntityClassFromControllerMethod()));
+                }
+            }
+            return result;
+
+        }else throw new IllegalArgumentException("Unsupported url.");
+
     }
 
     private String getRequestBody() throws IOException {
@@ -64,7 +68,6 @@ public class RequestEntityProvider {
         return null;
     }
 
-    // TODO: handle the possibility of NullPointer exception
     private Class<?> getRequestBodyAnnotatedField(Method[] controllerMethods){
         Parameter[] methodParams = takePostMethod(controllerMethods).getParameters();
         for (Parameter p : methodParams){
@@ -78,6 +81,13 @@ public class RequestEntityProvider {
     private Class<?> getEntityClassFromControllerMethod() {
         Method[] controllerMethods = instantiatedController.getClass().getMethods();
         return getRequestBodyAnnotatedField(controllerMethods);
+    }
+
+    private String removeTrailingSlash(String url){
+        if (url.endsWith("/")){
+            return url.substring(0,url.length()-1);
+        }
+        return url;
     }
 
 }
