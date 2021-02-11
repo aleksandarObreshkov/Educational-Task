@@ -8,11 +8,13 @@ import java.util.Map;
 public class RequestEntity {
 
     private final HttpMethod method;
-    private Object body;
+    private String body;
     private Map<String, String> pathVariables;
+    private final String requestURI;
 
-    public RequestEntity(HttpMethod method) {
+    public RequestEntity(HttpMethod method, String requestURI) {
         this.method = method;
+        this.requestURI = requestURI;
         pathVariables=new HashMap<>();
     }
 
@@ -20,11 +22,11 @@ public class RequestEntity {
         return method;
     }
 
-    public Object getBody() {
+    public String getBody() {
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(String body) {
         this.body = body;
     }
 
@@ -34,5 +36,9 @@ public class RequestEntity {
 
     public void setPathVariables(Map<String, String> pathVariables) {
         this.pathVariables = pathVariables;
+    }
+
+    public String getRequestURI() {
+        return requestURI;
     }
 }

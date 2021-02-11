@@ -16,27 +16,31 @@ public class MovieController{
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Movie>> get() {
         List<Movie> result = repository.findAll(Movie.class);
-        if (!result.isEmpty()) return new ResponseEntity<>(result, HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
     public ResponseEntity<Movie> get(@PathVariable("{id}") Long id){
         Movie result = repository.findById(id, Movie.class);
-        if (result!=null) return new ResponseEntity<>(result,HttpStatus.OK);
+        if (result!=null) {
+            return new ResponseEntity<>(result,HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method = HttpMethod.POST)
     public ResponseEntity<String> post(@RequestBody Movie movieToAdd){
         repository.save(movieToAdd);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
     public ResponseEntity<String> delete(@PathVariable("{id}")Long id){
         boolean isDeleted = repository.deleteById(id, Movie.class);
-        if (isDeleted) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     

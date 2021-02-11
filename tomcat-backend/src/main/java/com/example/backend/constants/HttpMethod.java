@@ -3,10 +3,9 @@ package com.example.backend.constants;
 public enum HttpMethod {
     DELETE("delete"),
     POST("post"),
-    GET("get"),
-    PUT("put");
+    GET("get");
 
-    private String value;
+    private final String value;
 
     HttpMethod(String value) {
         this.value = value;
