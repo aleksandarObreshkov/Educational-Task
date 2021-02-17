@@ -21,7 +21,7 @@ public class MovieController{
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
-    public ResponseEntity<Movie> get(@PathVariable("{id}") Long id){
+    public ResponseEntity<Movie> get(@PathVariable("id") Long id){
         Movie result = repository.findById(id, Movie.class);
         if (result!=null) {
             return new ResponseEntity<>(result,HttpStatus.OK);
@@ -36,7 +36,7 @@ public class MovieController{
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("{id}")Long id){
+    public ResponseEntity<String> delete(@PathVariable("id")Long id){
         boolean isDeleted = repository.deleteById(id, Movie.class);
         if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

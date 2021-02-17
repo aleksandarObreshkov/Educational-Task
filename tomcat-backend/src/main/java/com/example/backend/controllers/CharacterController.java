@@ -22,7 +22,7 @@ public class CharacterController {
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
-    public ResponseEntity<Character> get(@PathVariable("{id}") Long id){
+    public ResponseEntity<Character> get(@PathVariable("id") Long id){
         Character result = repository.findById(id, Character.class);
         if (result!=null) {
             return new ResponseEntity<>(result,HttpStatus.OK);
@@ -37,7 +37,7 @@ public class CharacterController {
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("{id}") Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id){
         boolean result = repository.deleteById(id, Character.class);
         if (result) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

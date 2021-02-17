@@ -17,11 +17,10 @@ public class StarshipController {
     public ResponseEntity<List<Starship>> get() {
         List<Starship> result = repository.findAll(Starship.class);
         return new ResponseEntity<>(result, HttpStatus.OK);
-
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
-    public ResponseEntity<Starship> get(@PathVariable("{id}") Long id){
+    public ResponseEntity<Starship> get(@PathVariable("id") Long id){
         Starship result = repository.findById(id, Starship.class);
         if (result!=null) {
             return new ResponseEntity<>(result,HttpStatus.OK);
@@ -36,7 +35,7 @@ public class StarshipController {
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("{id}") Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id){
         boolean isDeleted = repository.deleteById(id, Starship.class);
         if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

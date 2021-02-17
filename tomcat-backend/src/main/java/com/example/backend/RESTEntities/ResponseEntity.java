@@ -11,7 +11,6 @@ public class ResponseEntity<T> implements Serializable {
     public ResponseEntity(T body, HttpStatus status) {
         this.body = body;
         this.status = status;
-
     }
 
     public ResponseEntity(HttpStatus status){

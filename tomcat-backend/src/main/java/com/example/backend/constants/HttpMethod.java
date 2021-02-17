@@ -3,7 +3,11 @@ package com.example.backend.constants;
 public enum HttpMethod {
     DELETE("delete"),
     POST("post"),
-    GET("get");
+    GET("get"),
+    PUT("put"),
+    HEAD("head"),
+    OPTIONS("options"),
+    TRACE("trace");
 
     private final String value;
 
