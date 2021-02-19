@@ -16,9 +16,11 @@ import com.example.backend.utils.ControllerRegistry;
 import com.example.backend.utils.RegexUtil;
 import com.example.backend.utils.URLValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import javax.servlet.ServletException;
@@ -51,18 +53,22 @@ public class DispatcherServlet extends HttpServlet {
         registry.register(StarshipController.class);
     }
 
+    public void registerController(Class<?> controllerClass){
+        registry.register(controllerClass);
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         handleRequest(request,response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         handleRequest(request,response);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         handleRequest(request, response);
     }
 
@@ -96,14 +102,14 @@ public class DispatcherServlet extends HttpServlet {
                 if (result.getBody()!=null){
                     printResponse(response,result.getBody());
                 }
+            } catch (IllegalArgumentException | JsonMappingException e){
+                response.setStatus(HttpStatus.BAD_REQUEST.value());
+                printResponse(response, e.getMessage());
             } catch (InstantiationException | IllegalAccessException |
                     InvocationTargetException | NoSuchMethodException |
                     IOException | IllegalStateException e) {
                 response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
                 printResponse(response,e.getMessage());
-            } catch (IllegalArgumentException e){
-                response.setStatus(HttpStatus.BAD_REQUEST.value());
-                printResponse(response, e.getMessage());
             }
             return;
         }

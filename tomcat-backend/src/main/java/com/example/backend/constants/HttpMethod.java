@@ -1,13 +1,13 @@
 package com.example.backend.constants;
 
 public enum HttpMethod {
-    DELETE("delete"),
-    POST("post"),
-    GET("get"),
-    PUT("put"),
-    HEAD("head"),
-    OPTIONS("options"),
-    TRACE("trace");
+    DELETE("DELETE"),
+    POST("POST"),
+    GET("GET"),
+    PUT("PUT"),
+    HEAD("HEAD"),
+    OPTIONS("OPTIONS"),
+    TRACE("TRACE");
 
     private final String value;
 
