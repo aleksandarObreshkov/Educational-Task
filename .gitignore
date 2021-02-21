@@ -1,7 +1,11 @@
 .gradle
 .idea
 target
-.iml
+TrainingTaskParent.iml
+tomcat-backend.iml
+client.iml
+backend.iml
+models.iml
 .classpath
 .project
 bin
