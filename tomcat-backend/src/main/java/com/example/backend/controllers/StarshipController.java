@@ -11,7 +11,11 @@ import java.util.List;
 @RequestPath(value = "/tomcat_backend_war_exploded/starships")
 public class StarshipController {
 
-    private final EntityRepository repository = new EntityRepository();
+    private final EntityRepository repository;
+
+    public StarshipController(EntityRepository repository) {
+        this.repository = repository;
+    }
 
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Starship>> get() {

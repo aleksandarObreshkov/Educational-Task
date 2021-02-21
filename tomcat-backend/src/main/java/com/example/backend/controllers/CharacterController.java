@@ -12,7 +12,11 @@ import java.util.List;
 @RequestPath(value = "/tomcat_backend_war_exploded/characters")
 public class CharacterController {
 
-    private final EntityRepository repository = new EntityRepository();
+    private final EntityRepository repository;
+
+    public CharacterController(EntityRepository repository) {
+        this.repository = repository;
+    }
 
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Character>> get() {

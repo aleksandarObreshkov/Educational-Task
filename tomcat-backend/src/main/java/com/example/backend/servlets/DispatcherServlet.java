@@ -12,6 +12,7 @@ import com.example.backend.constants.HttpStatus;
 import com.example.backend.controllers.CharacterController;
 import com.example.backend.controllers.MovieController;
 import com.example.backend.controllers.StarshipController;
+import com.example.backend.repositories.EntityRepository;
 import com.example.backend.utils.ControllerRegistry;
 import com.example.backend.utils.RegexUtil;
 import com.example.backend.utils.URLValidator;
@@ -20,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import javax.servlet.ServletException;
@@ -78,7 +78,7 @@ public class DispatcherServlet extends HttpServlet {
                 if (!canHandleRequest(controllerClass, request)) {
                     continue;
                 }
-                Object instantiatedController=controllerClass.getDeclaredConstructor().newInstance();
+                Object instantiatedController=controllerClass.getDeclaredConstructor(EntityRepository.class).newInstance(new EntityRepository());
                 String controllerUri = instantiatedController.getClass().getAnnotation(RequestPath.class).value();
                 List<Method> requestTypeMethods =
                         getSuitableMethods(controllerClass.getDeclaredMethods(), RequestMapping.class,request.getMethod());
