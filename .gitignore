@@ -1,7 +1,10 @@
-.iml
+.gradle
 .idea
 target
+.iml
 .classpath
 .project
 bin
 .settings
+
+
