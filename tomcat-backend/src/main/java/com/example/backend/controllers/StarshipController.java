@@ -3,7 +3,7 @@ package com.example.backend.controllers;
 import com.example.backend.annotations.*;
 import com.example.backend.constants.HttpMethod;
 import com.example.backend.constants.HttpStatus;
-import com.example.backend.repositories.EntityRepository;
+import repositories.EntityRepository;
 import com.example.backend.RESTEntities.ResponseEntity;
 import model.Starship;
 import java.util.List;
@@ -13,10 +13,13 @@ public class StarshipController {
 
     private final EntityRepository repository;
 
-    public StarshipController(EntityRepository repository) {
-        this.repository = repository;
+    public StarshipController() {
+        this.repository = new EntityRepository();
     }
 
+    public StarshipController(EntityRepository repository){
+        this.repository = repository;
+    }
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Starship>> get() {
         List<Starship> result = repository.findAll(Starship.class);

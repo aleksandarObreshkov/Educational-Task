@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 public class RequestEntityProvider {
 
-    private final HttpServletRequest request;
+    private final BufferedReader requestReader;
 
-    public RequestEntityProvider(HttpServletRequest request) {
-        this.request = request;
+    public RequestEntityProvider(BufferedReader request) {
+        this.requestReader = request;
     }
 
     public RequestEntity createRequestEntity(List<String> pathVariableKeys, Map<String, String> pathVariableValues) throws IOException {
@@ -25,8 +25,7 @@ public class RequestEntityProvider {
     }
 
     private String getRequestBody() throws IOException {
-        BufferedReader requestBodyReader = request.getReader();
-        return requestBodyReader.lines().collect(Collectors.joining(System.lineSeparator()));
+        return requestReader.lines().collect(Collectors.joining(System.lineSeparator()));
     }
 
     private Map<String, String> createPathVariablesMap(List<String> pathVariableKeys, Map<String, String> pathVariableValues){

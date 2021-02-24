@@ -3,7 +3,7 @@ package com.example.backend.controllers;
 import com.example.backend.annotations.*;
 import com.example.backend.constants.HttpMethod;
 import com.example.backend.constants.HttpStatus;
-import com.example.backend.repositories.EntityRepository;
+import repositories.EntityRepository;
 import com.example.backend.RESTEntities.ResponseEntity;
 import model.Character;
 
@@ -14,7 +14,11 @@ public class CharacterController {
 
     private final EntityRepository repository;
 
-    public CharacterController(EntityRepository repository) {
+    public CharacterController(){
+        this.repository=new EntityRepository();
+    }
+
+    public CharacterController(EntityRepository repository){
         this.repository = repository;
     }
 

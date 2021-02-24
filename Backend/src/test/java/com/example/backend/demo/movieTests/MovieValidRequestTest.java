@@ -1,6 +1,6 @@
 package com.example.backend.demo.movieTests;
 
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

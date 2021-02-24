@@ -2,7 +2,7 @@ package com.example.backend.demo.movieTests;
 
 import com.example.backend.demo.controllers.MovieController;
 import com.example.backend.demo.errors.ExceptionResolver;
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

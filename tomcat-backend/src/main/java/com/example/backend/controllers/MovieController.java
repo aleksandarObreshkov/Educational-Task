@@ -3,7 +3,7 @@ package com.example.backend.controllers;
 import com.example.backend.annotations.*;
 import com.example.backend.constants.HttpMethod;
 import com.example.backend.constants.HttpStatus;
-import com.example.backend.repositories.EntityRepository;
+import repositories.EntityRepository;
 import com.example.backend.RESTEntities.ResponseEntity;
 import model.Movie;
 
@@ -13,7 +13,11 @@ public class MovieController{
 
     private final EntityRepository repository;
 
-    public MovieController(EntityRepository repository) {
+    public MovieController() {
+        this.repository = new EntityRepository();
+    }
+
+    public MovieController(EntityRepository repository){
         this.repository = repository;
     }
 
@@ -21,7 +25,6 @@ public class MovieController{
     public ResponseEntity<List<Movie>> get() {
         List<Movie> result = repository.findAll(Movie.class);
         return new ResponseEntity<>(result, HttpStatus.OK);
-
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)

@@ -1,23 +1,19 @@
-package com.example.backend.entityControllerTests.characterControllerTests;
+package com.example.backend.controllers;
 
 import com.example.backend.constants.HttpStatus;
-import com.example.backend.controllers.CharacterController;
-import com.example.backend.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ValidCharacterRequests {
-    //TODO: add the other possibilities, NotFound, empty array, etc.
+public class CharacterControllerTest {
+
     @Mock
     public EntityRepository repository;
 
@@ -29,9 +25,12 @@ public class ValidCharacterRequests {
     @Test
     public void validFindAllRequest(){
         CharacterController controller = new CharacterController(repository);
+        Character character = Mockito.mock(Character.class);
         ArrayList<Character> resultList = new ArrayList<>();
+        resultList.add(character);
         when(repository.findAll(Character.class)).thenReturn(resultList);
         assertEquals(controller.get().getStatus(), HttpStatus.OK);
+        assertEquals(controller.get().getBody(), resultList);
     }
 
     @Test

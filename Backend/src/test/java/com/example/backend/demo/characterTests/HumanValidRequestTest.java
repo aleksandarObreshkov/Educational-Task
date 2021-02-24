@@ -1,6 +1,6 @@
 package com.example.backend.demo.characterTests;
 
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Droid;
 import model.Human;
 import org.junit.jupiter.api.BeforeAll;

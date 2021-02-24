@@ -1,6 +1,6 @@
 package com.example.backend.demo.controllers;
 
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
