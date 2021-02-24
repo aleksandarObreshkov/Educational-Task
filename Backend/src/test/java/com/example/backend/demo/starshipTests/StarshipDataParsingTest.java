@@ -1,7 +1,7 @@
 package com.example.backend.demo.starshipTests;
 
 import com.example.backend.demo.controllers.StarshipController;
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

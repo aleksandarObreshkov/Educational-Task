@@ -1,10 +1,7 @@
-package com.example.backend.entityControllerTests.starshipControllerTests;
+package com.example.backend.controllers;
 
 import com.example.backend.constants.HttpStatus;
-import com.example.backend.controllers.CharacterController;
-import com.example.backend.controllers.StarshipController;
-import com.example.backend.repositories.EntityRepository;
-import model.Character;
+import repositories.EntityRepository;
 import model.Starship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class ValidStarshipRequests {
+public class StarshipControllerTest {
 
     @Mock
     public EntityRepository repository;
@@ -30,9 +27,12 @@ public class ValidStarshipRequests {
     @Test
     public void validFindAllRequest(){
         StarshipController controller = new StarshipController(repository);
+        Starship starship = Mockito.mock(Starship.class);
         ArrayList<Starship> resultList = new ArrayList<>();
+        resultList.add(starship);
         when(repository.findAll(Starship.class)).thenReturn(resultList);
         assertEquals(controller.get().getStatus(), HttpStatus.OK);
+        assertEquals(controller.get().getBody(), resultList);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.example.backend.demo.starshipTests;
 
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Movie;
 import model.Starship;
 import org.junit.jupiter.api.BeforeAll;

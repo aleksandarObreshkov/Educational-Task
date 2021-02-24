@@ -1,6 +1,7 @@
-package com.example.backend.demo.repositories;
+package repositories;
 
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 @Repository

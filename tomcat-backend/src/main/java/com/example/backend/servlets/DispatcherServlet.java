@@ -12,7 +12,8 @@ import com.example.backend.constants.HttpStatus;
 import com.example.backend.controllers.CharacterController;
 import com.example.backend.controllers.MovieController;
 import com.example.backend.controllers.StarshipController;
-import com.example.backend.repositories.EntityRepository;
+import com.example.backend.errors.MethodNotAllowedException;
+import repositories.EntityRepository;
 import com.example.backend.utils.ControllerRegistry;
 import com.example.backend.utils.RegexUtil;
 import com.example.backend.utils.URLValidator;
@@ -74,73 +75,54 @@ public class DispatcherServlet extends HttpServlet {
 
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         for (Class<?> controllerClass : registry.getControllerClasses()) {
-            try {
-                if (!canHandleRequest(controllerClass, request)) {
-                    continue;
-                }
-                Object instantiatedController=controllerClass.getDeclaredConstructor(EntityRepository.class).newInstance(new EntityRepository());
-                String controllerUri = instantiatedController.getClass().getAnnotation(RequestPath.class).value();
-                List<Method> requestTypeMethods =
-                        getSuitableMethods(controllerClass.getDeclaredMethods(), RequestMapping.class,request.getMethod());
-                if (requestTypeMethods.isEmpty()){
-                    response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
-                    return;
-                }
-                Method methodToInvoke = getMethodToInvoke(requestTypeMethods,request, controllerUri);
-                if (methodToInvoke==null){
-                    response.setStatus(HttpStatus.NOT_FOUND.value());
-                    return;
-                }
-                String requestUri = request.getRequestURI();
-                String methodUri = getMethodUri(requestUri, controllerUri);
-                String methodPlaceholders = methodToInvoke.getAnnotation(RequestMapping.class).value();
-                List<String> methodPathVariables = getMethodPathVariables(methodToInvoke);
-                RequestEntity entity = new RequestEntityProvider(request)
-                        .createRequestEntity(methodPathVariables, getUriPathVariables(methodPlaceholders, methodUri, methodPathVariables));
-                ResponseEntity<Object> result = invokeControllerMethod(methodToInvoke,instantiatedController,entity);
-                response.setStatus(result.getStatus().value());
-                if (result.getBody()!=null){
-                    printResponse(response,result.getBody());
-                }
-            } catch (IllegalArgumentException | JsonMappingException e){
-                response.setStatus(HttpStatus.BAD_REQUEST.value());
-                printResponse(response, e.getMessage());
-            } catch (InstantiationException | IllegalAccessException |
-                    InvocationTargetException | NoSuchMethodException |
-                    IOException | IllegalStateException e) {
-                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-                printResponse(response,e.getMessage());
+            if (canHandleRequest(controllerClass, request)) {
+                handleRequestWithController(request,response,controllerClass);
+                return;
             }
-            return;
         }
         response.setStatus(HttpStatus.NOT_FOUND.value());
     }
 
-    private boolean canHandleRequest(Class<?> controllerClass, HttpServletRequest request) throws IllegalArgumentException{
+    private boolean canHandleRequest(Class<?> controllerClass, HttpServletRequest request) {
         String requestUri = request.getRequestURI();
         String controllerUri = getHandledPath(controllerClass);
-            return requestUri.contains(controllerUri);
-        }
+        return requestUri.contains(controllerUri);
+    }
 
     private String getHandledPath(Class<?> controllerClass) {
         return controllerClass.getAnnotation(RequestPath.class).value();
     }
 
-    private List<Method> getSuitableMethods(Method[] classMethods, Class<? extends Annotation> annotation, String requestMethod){
-        List<Method> annotatedMethods = getAnnotatedMethods(classMethods,annotation);
-        annotatedMethods.removeIf(method -> !methodTypeMatches(method, requestMethod));
-        return annotatedMethods;
-    }
-
-    private List<Method>  getAnnotatedMethods(Method[] classMethods, Class<? extends Annotation> annotation){
-        return Stream.of(classMethods).filter(method -> method.isAnnotationPresent(annotation)).collect(Collectors.toList());
-    }
-
-    private Method getMethodToInvoke(List<Method> annotatedMethods, HttpServletRequest request, String controllerUri) throws IOException {
-        for (Method method : annotatedMethods){
-            if(!methodTypeMatches(method,request.getMethod())){
-                continue;
+    private void handleRequestWithController(HttpServletRequest request, HttpServletResponse response, Class<?> controllerClass) throws IOException {
+        try {
+            Object instantiatedController = controllerClass.getDeclaredConstructor().newInstance();
+            String controllerUri = instantiatedController.getClass().getAnnotation(RequestPath.class).value();
+            Method methodToInvoke = getMethodToInvoke(controllerClass.getDeclaredMethods(), request, controllerUri);
+            if (methodToInvoke == null) {
+                response.setStatus(HttpStatus.NOT_FOUND.value());
+                return;
             }
+            RequestEntity entity = buildRequestEntity(request, methodToInvoke, controllerUri);
+            ResponseEntity<Object> result = invokeControllerMethod(methodToInvoke, instantiatedController, entity);
+            respond(response, result.getStatus(), result.getBody());
+        }catch(MethodNotAllowedException e){
+            respond(response,HttpStatus.METHOD_NOT_ALLOWED,e.getMessage());
+        } catch (IllegalArgumentException | JsonMappingException e){
+            respond(response,HttpStatus.BAD_REQUEST,e.getMessage());
+        } catch (InstantiationException | IllegalAccessException |
+                InvocationTargetException | NoSuchMethodException |
+                IOException | IllegalStateException e) {
+            respond(response,HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
+        }
+    }
+
+    private Method getMethodToInvoke(Method[] controllerMethods, HttpServletRequest request, String controllerUri) throws IOException, MethodNotAllowedException {
+        List<Method> requestTypeMethods =
+                getSuitableMethods(controllerMethods, RequestMapping.class,request.getMethod());
+        if (requestTypeMethods.isEmpty()){
+            throw new MethodNotAllowedException("Method "+request.getMethod()+" is not allowed");
+        }
+        for (Method method : requestTypeMethods){
             String methodUri = method.getAnnotation(RequestMapping.class).value();
             Map<String, Class<?>> pathVariableTypesMap = getPathVariableTypesMap(method);
             String methodUriFromRequest = removeTrailingSlash(getMethodUri(request.getRequestURI(), controllerUri));
@@ -149,6 +131,23 @@ public class DispatcherServlet extends HttpServlet {
             }
         }
         return null;
+    }
+
+    private List<Method> getSuitableMethods(Method[] classMethods, Class<? extends Annotation> annotation, String requestMethod){
+        return getAnnotatedMethods(classMethods, annotation)
+                .stream()
+                .filter(method -> controllerMethodSupportsHttpRequestMethod(method, requestMethod))
+                .collect(Collectors.toList());
+    }
+
+    private List<Method>  getAnnotatedMethods(Method[] classMethods, Class<? extends Annotation> annotation){
+        return Stream.of(classMethods).filter(method -> method.isAnnotationPresent(annotation)).collect(Collectors.toList());
+    }
+
+    private boolean controllerMethodSupportsHttpRequestMethod(Method method, String httpMethodFromRequest){
+        HttpMethod handleableHttpMethod = method.getAnnotation(RequestMapping.class).method();
+        HttpMethod requestHttpMethod = HttpMethod.valueOf(httpMethodFromRequest);
+        return handleableHttpMethod.equals(requestHttpMethod);
     }
 
     private Map<String, Class<?>> getPathVariableTypesMap (Method method){
@@ -167,6 +166,14 @@ public class DispatcherServlet extends HttpServlet {
             return url.substring(0,url.length()-1);
         }
         return url;
+    }
+
+    private RequestEntity buildRequestEntity(HttpServletRequest request, Method methodToInvoke, String controllerUri) throws IOException {
+        String methodUri = getMethodUri(request.getRequestURI(), controllerUri);
+        String methodUriWithPlaceholders = methodToInvoke.getAnnotation(RequestMapping.class).value();
+        List<String> methodPathVariables = getMethodPathVariables(methodToInvoke);
+        return new RequestEntityProvider(request.getReader())
+                .createRequestEntity(methodPathVariables, getPathVariableValues(methodUriWithPlaceholders, methodUri, methodPathVariables));
     }
 
     private String getMethodUri(String requestUri, String controllerUri){
@@ -188,23 +195,16 @@ public class DispatcherServlet extends HttpServlet {
         return pathVariables;
     }
 
-    private Map<String, String> getUriPathVariables(String pathWithPlaceholders, String pathVariableString, List<String> methodPathVariables){
-        String regex = RegexUtil.buildRegexString(pathWithPlaceholders, methodPathVariables);
+    private Map<String, String> getPathVariableValues(String uriWithPathVariablePlaceholders, String uri, List<String> pathVariablePlaceholders){
+        String regex = RegexUtil.buildRegexString(uriWithPathVariablePlaceholders, pathVariablePlaceholders);
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(pathVariableString);
+        Matcher matcher = pattern.matcher(uri);
         Map<String, String> uriPathVariables = new HashMap<>();
-        if (matcher.find()){
-            for (String pathVariable : methodPathVariables){
-                uriPathVariables.put(pathVariable, matcher.group(pathVariable));
-            }
+        matcher.matches(); //needed to initialize matching
+        for (String pathVariable : pathVariablePlaceholders) {
+            uriPathVariables.put(pathVariable, matcher.group(pathVariable));
         }
         return uriPathVariables;
-    }
-
-    private boolean methodTypeMatches(Method method, String methodFromRequest){
-        HttpMethod methodType = method.getAnnotation(RequestMapping.class).method();
-        HttpMethod requestMethod = HttpMethod.valueOf(methodFromRequest);
-        return methodType.equals(requestMethod);
     }
 
     private ResponseEntity<Object> invokeControllerMethod(Method method, Object instantiatedObject, RequestEntity entity) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, JsonProcessingException {
@@ -235,9 +235,17 @@ public class DispatcherServlet extends HttpServlet {
         return resultParameters.toArray();
     }
 
+    private void respond(HttpServletResponse response, HttpStatus status, Object responseBody) throws IOException {
+        response.setStatus(status.value());
+        if (responseBody!=null){
+            printResponse(response, responseBody);
+        }
+    }
+
     private <T> void printResponse(HttpServletResponse response, T controllerResponse) throws IOException{
         ObjectWriter writer = setDateFormatForObjectMapper().writer().withDefaultPrettyPrinter();
-        writer.writeValue(response.getOutputStream(),controllerResponse);
+        String value = writer.writeValueAsString(controllerResponse);
+        response.getWriter().println(value);
     }
 
     private ObjectMapper setDateFormatForObjectMapper(){
@@ -246,5 +254,6 @@ public class DispatcherServlet extends HttpServlet {
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
+
 
 }

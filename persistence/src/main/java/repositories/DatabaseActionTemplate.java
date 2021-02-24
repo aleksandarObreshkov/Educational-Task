@@ -1,4 +1,4 @@
-package com.example.backend.repositories;
+package repositories;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,4 +27,5 @@ public abstract class DatabaseActionTemplate {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("PostgreJPA");
         return factory.createEntityManager();
     }
+
 }

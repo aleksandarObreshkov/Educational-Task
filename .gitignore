@@ -1,7 +1,4 @@
 .gradle
-.idea
-target
-*.iml
 bin
 
 HELP.md
@@ -20,7 +17,9 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+.idea
 *.iws
+*.iml
 *.ipr
 
 ### NetBeans ###
@@ -35,5 +34,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-

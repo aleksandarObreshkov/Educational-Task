@@ -1,10 +1,7 @@
-package com.example.backend.entityControllerTests.movieControllerTests;
+package com.example.backend.controllers;
 
 import com.example.backend.constants.HttpStatus;
-import com.example.backend.controllers.CharacterController;
-import com.example.backend.controllers.MovieController;
-import com.example.backend.repositories.EntityRepository;
-import model.Character;
+import repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class ValidMovieRequests {
+public class MovieControllerTest {
 
     @Mock
     public EntityRepository repository;
@@ -30,9 +27,12 @@ public class ValidMovieRequests {
     @Test
     public void validFindAllRequest(){
         MovieController controller = new MovieController(repository);
+        Movie movie = Mockito.mock(Movie.class);
         ArrayList<Movie> resultList = new ArrayList<>();
+        resultList.add(movie);
         when(repository.findAll(Movie.class)).thenReturn(resultList);
         assertEquals(controller.get().getStatus(), HttpStatus.OK);
+        assertEquals(controller.get().getBody(), resultList);
     }
 
     @Test

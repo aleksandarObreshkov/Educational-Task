@@ -1,4 +1,4 @@
-package com.example.backend.testControllers;
+package com.example.backend.testcontrollers;
 
 import com.example.backend.RESTEntities.ResponseEntity;
 import com.example.backend.annotations.PathVariable;

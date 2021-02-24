@@ -2,7 +2,7 @@ package com.example.backend.demo.characterTests;
 
 import com.example.backend.demo.controllers.CharacterController;
 import com.example.backend.demo.errors.ExceptionResolver;
-import com.example.backend.demo.repositories.EntityRepository;
+import repositories.EntityRepository;
 import model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
