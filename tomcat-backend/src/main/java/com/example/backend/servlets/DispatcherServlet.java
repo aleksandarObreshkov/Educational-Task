@@ -13,7 +13,6 @@ import com.example.backend.controllers.CharacterController;
 import com.example.backend.controllers.MovieController;
 import com.example.backend.controllers.StarshipController;
 import com.example.backend.errors.MethodNotAllowedException;
-import repositories.EntityRepository;
 import com.example.backend.utils.ControllerRegistry;
 import com.example.backend.utils.RegexUtil;
 import com.example.backend.utils.URLValidator;
@@ -23,7 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import model.*;
+import model.Character;
+import org.*;
 
+import javax.persistence.Entity;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +36,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -196,11 +201,13 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private Map<String, String> getPathVariableValues(String uriWithPathVariablePlaceholders, String uri, List<String> pathVariablePlaceholders){
-        String regex = RegexUtil.buildRegexString(uriWithPathVariablePlaceholders, pathVariablePlaceholders);
+        String regex = RegexUtil.buildRegexString(uriWithPathVariablePlaceholders);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(uri);
         Map<String, String> uriPathVariables = new HashMap<>();
-        matcher.matches(); //needed to initialize matching
+        if (!matcher.matches()){
+            throw new IllegalStateException("Method URI doesn't match method's path variable annotations.");
+        }
         for (String pathVariable : pathVariablePlaceholders) {
             uriPathVariables.put(pathVariable, matcher.group(pathVariable));
         }
@@ -217,13 +224,26 @@ public class DispatcherServlet extends HttpServlet {
         throw new IllegalStateException("Invalid return entity type of controller method invocation.");
     }
 
-    private Object[] setUpParametersForMethodInvocation(Parameter[] methodParameters, RequestEntity entity) throws JsonProcessingException {
+    private Object[] setUpParametersForMethodInvocation(Parameter[] methodParameters, RequestEntity entity) throws JsonProcessingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         List<Object> resultParameters = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         for (Parameter parameter : methodParameters){
             if (parameter.isAnnotationPresent(RequestBody.class)){
                 Class<?> entityClass = parameter.getType();
-                resultParameters.add(mapper.readValue(entity.getBody(),entityClass));
+                Object mappingResult = mapper.readValue(entity.getBody(),entityClass);
+                if (entityClass.isAnnotationPresent(Entity.class)){
+                    if (mappingResult instanceof Human){
+                        HumanValidator.validate(mappingResult);
+                    } else if (mappingResult instanceof Droid){
+                        DroidValidator.validate(mappingResult);
+                    } else if (entityClass.equals(Movie.class)) {
+                        MovieValidator.validate(mappingResult);
+                    }
+                    else if (entityClass.equals(Starship.class)) {
+                        StarshipValidator.validate(mappingResult);
+                    }
+                }
+                resultParameters.add(mappingResult);
             }
             if (parameter.isAnnotationPresent(PathVariable.class)) {
                 String pathVariableName = parameter.getAnnotation(PathVariable.class).value();
@@ -254,6 +274,4 @@ public class DispatcherServlet extends HttpServlet {
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
-
-
 }

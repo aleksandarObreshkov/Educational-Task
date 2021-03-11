@@ -1,0 +1,6 @@
+type Movie{
+    id:ID,
+    title:String,
+    rating:Float,
+    releaseDate:String
+}

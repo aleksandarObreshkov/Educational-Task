@@ -12,7 +12,7 @@ public class URLValidator {
         if (!urlMatchesRegex(uri)){
             throw new IllegalArgumentException("Incorrect url. Should be: " + VALID_URL_FORMAT);
         }
-        String methodRegex = RegexUtil.buildRegexString(uriWithPathVariablePlaceholders,pathVariableTypes.keySet());
+        String methodRegex = RegexUtil.buildRegexString(uriWithPathVariablePlaceholders);
         Pattern pattern = Pattern.compile(methodRegex);
         Matcher matcher = pattern.matcher(uri);
         if (!matcher.matches()) {
@@ -30,12 +30,8 @@ public class URLValidator {
     }
 
     private static void validatePathVariable(String pathVariable, String requestVariable, Map<String, Class<?>> pathVariableTypes){
-        try {
-            Class<?> parsingClass = pathVariableTypes.get(pathVariable);
-            VariableConverter.convert(requestVariable, parsingClass);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(e.getMessage() + ": Invalid " + pathVariable);
-        }
+        Class<?> parsingClass = pathVariableTypes.get(pathVariable);
+        VariableConverter.convert(requestVariable, parsingClass);
     }
 
 }

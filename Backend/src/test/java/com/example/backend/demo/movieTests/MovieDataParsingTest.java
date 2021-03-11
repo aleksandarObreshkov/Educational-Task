@@ -1,7 +1,7 @@
 package com.example.backend.demo.movieTests;
 
-import com.example.backend.demo.controllers.MovieController;
-import com.example.backend.demo.errors.ExceptionResolver;
+import com.example.backend.controllers.MovieController;
+import com.example.backend.errors.ExceptionResolver;
 import repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,8 +40,8 @@ public class MovieDataParsingTest {
                 "}";
 
         mockMvc.perform(post("/movies").content(incorrectRatingMovie).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
-                .andExpect(content().string(containsString("Cannot deserialize value of type `float`")));
+                .andExpect(status().is(422))
+                .andExpect(content().string(containsString("Cannot deserialize value of type `java.lang.Float`")));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class MovieDataParsingTest {
 
 
         mockMvc.perform(post("/movies").content(incorrectDateMovie).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(422))
                 .andExpect(content().string(containsString("Text '2018/03-25' could not be parsed")));
     }
 

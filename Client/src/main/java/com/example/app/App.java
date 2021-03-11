@@ -7,12 +7,10 @@ import org.apache.commons.cli.ParseException;
 
 public class App {
     public static void main(String[] args) {
-
-        args = new String[]{"add-character","-n", "Palpetine", "-a", "90", "-t", "human", "-f"};
         CommandFactory factory = new CommandFactory();
         try {
-            Command a = factory.createCommand(args);
-            a.execute();
+            Command commandToExecute = factory.createCommand(args);
+            commandToExecute.execute();
         } catch (InvalidInputException | ParseException ex){
             System.err.println("Invalid input: "+ex.getMessage());
         } catch (Exception e) {

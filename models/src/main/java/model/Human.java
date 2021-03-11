@@ -22,9 +22,15 @@ public class Human extends Character{
         return "human";
     }
 
+    public List<Starship> getStarships() {
+        return starships;
+    }
+
+    public void setStarships(List<Starship> starships) {
+        this.starships = starships;
+    }
+
     public Human() {
 
     }
-
-    //toString, equals, hashCode
 }

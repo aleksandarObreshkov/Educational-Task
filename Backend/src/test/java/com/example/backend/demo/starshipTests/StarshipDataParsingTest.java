@@ -1,11 +1,11 @@
 package com.example.backend.demo.starshipTests;
 
-import com.example.backend.demo.controllers.StarshipController;
+import com.example.backend.controllers.StarshipController;
 import repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import com.example.backend.demo.errors.ExceptionResolver;
+import com.example.backend.errors.ExceptionResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,12 +39,12 @@ public class StarshipDataParsingTest {
 
         String lengthAsChar = "{ \"name\":\"Rampage\", \"length\":\"w\"}";
         mockMvc.perform(post("/starships").content(lengthAsChar).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(422))
                 .andExpect(content().string(containsString("not a valid Float value")));
 
         String negativeLength = "{ \"name\":\"Rampage\", \"length\":\"-1\"}";
         mockMvc.perform(post("/starships").content(negativeLength).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(422))
                 .andExpect(content().string(containsString("greater than 0")));
     }
 
@@ -54,7 +54,7 @@ public class StarshipDataParsingTest {
         mockMvc.perform(post("/starships")
                 .content(noName)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
+                .andExpect(status().is(422));
     }
 
     @Test

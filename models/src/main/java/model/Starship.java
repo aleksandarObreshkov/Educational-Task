@@ -14,10 +14,12 @@ public class Starship {
     private Long id;
 
     @NotNull(message = "Please provide a name.")
+    @Column(unique = true)
     private String name;
 
     @Positive
-    private float length;//either in feet or meters //TODO and how will this be distinguished?
+    @NotNull(message = "Please specify the length of the ship.")
+    private Float length;//either in feet or meters //TODO and how will this be distinguished?
 
     public Starship(){}
 
@@ -26,13 +28,27 @@ public class Starship {
         this.length = length;
     }
 
-    @Override
-    public String toString() {
-        return "Starship{" +
-                " name='" + name + '\'' +
-                ", length=" + length +
-                '}';
+    public Long getId() {
+        return id;
     }
-    //equals, hashCode
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Float getLength() {
+        return length;
+    }
+
+    public void setLength(Float length) {
+        this.length = length;
+    }
 }

@@ -26,6 +26,12 @@ public class Droid extends Character{
         super();
     }
 
-    //toString, equals, hashCode
+    public String getPrimaryFunction() {
+        return primaryFunction;
+    }
+
+    public void setPrimaryFunction(String primaryFunction) {
+        this.primaryFunction = primaryFunction;
+    }
 
 }

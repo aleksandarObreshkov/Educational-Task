@@ -87,7 +87,7 @@ public class DispatcherServletTest {
         when(request.getMethod()).thenReturn(method.value());
         servlet.doGet(request,response);
         verify(response).setStatus(HttpStatus.BAD_REQUEST.value());
-        verify(response.getWriter()).println("\"For input string: \\\"invalidId\\\": Invalid id\"");
+        verify(response.getWriter()).println("\"For input string: \\\"invalidId\\\": Should be a number.\"");
     }
 
     @ParameterizedTest

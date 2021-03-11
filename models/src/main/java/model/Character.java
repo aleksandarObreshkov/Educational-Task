@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -17,7 +18,6 @@ import java.util.List;
 @Table
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn( name = "characterType" )
-@Data
 public abstract class Character {
 
     @Id
@@ -25,6 +25,7 @@ public abstract class Character {
     private Long id;
 
     @NotNull(message = "Please provide a name.")
+    @Column(unique = true)
     private String name;
 
     @NotNull(message = "Please provide age.")
@@ -42,13 +43,51 @@ public abstract class Character {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Character> friends;
 
-    @Override
-    public String toString() {
-        return "Character{" +
-                " name='" + name + '\'' +
-                ", age=" + age +
-                ", forceUser=" + forceUser +
-                '}';
+    public Long getId() {
+        return id;
     }
-    //what about equals and hashCode?
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public boolean isForceUser() {
+        return forceUser;
+    }
+
+    public void setForceUser(boolean forceUser) {
+        this.forceUser = forceUser;
+    }
+
+    public List<Movie> getAppearsIn() {
+        return appearsIn;
+    }
+
+    public void setAppearsIn(List<Movie> appearsIn) {
+        this.appearsIn = appearsIn;
+    }
+
+    public List<Character> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Character> friends) {
+        this.friends = friends;
+    }
 }

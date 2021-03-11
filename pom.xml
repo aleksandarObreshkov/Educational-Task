@@ -21,6 +21,7 @@
     <module>models</module>
     <module>tomcat-backend</module>
     <module>persistence</module>
+    <module>validation-processor</module>
 
   </modules>
 
@@ -48,6 +49,18 @@
       <dependency>
         <groupId>com.example</groupId>
         <artifactId>tomcat-backend</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>persistence</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>validation-processor</artifactId>
         <version>${project.version}</version>
       </dependency>
 

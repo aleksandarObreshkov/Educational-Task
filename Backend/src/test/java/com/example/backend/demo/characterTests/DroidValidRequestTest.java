@@ -58,6 +58,4 @@ public class DroidValidRequestTest {
         when(repository.deleteById(10L,Droid.class)).thenReturn(true);
         assertTrue(repository.deleteById(10L, Droid.class));
     }
-
-
 }

@@ -1,0 +1,11 @@
+type Query{
+    allMovies:[Movie],
+    movie(id:ID):Movie
+    allStarships:[Starship]
+    starship(id:ID):Starship
+    allCharacters:[Character]
+    droid(id:ID):Droid
+    allDroids:[Droid]
+    human(id:ID):Human
+    allHumans:[Human]
+}

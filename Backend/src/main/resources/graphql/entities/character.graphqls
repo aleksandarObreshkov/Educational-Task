@@ -1,0 +1,31 @@
+interface Character{
+    id:ID!,
+    name:String!
+    age:Int!
+    appearsIn:[Movie],
+    friends:[Character]
+    forceUser:Boolean,
+    characterType:String!
+}
+
+type Human implements Character{
+    id: ID!
+    name: String!
+    age:Int!
+    friends: [Character]
+    appearsIn: [Movie]!
+    starships: [Starship]
+    forceUser:Boolean
+    characterType:String!
+}
+
+type Droid implements Character{
+    id: ID!
+    name: String!
+    age:Int!
+    friends: [Character]
+    appearsIn: [Movie]!
+    primaryFunction: String
+    forceUser:Boolean
+    characterType:String!
+}

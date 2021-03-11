@@ -1,7 +1,7 @@
 package com.example.backend.demo.characterTests;
 
-import com.example.backend.demo.controllers.CharacterController;
-import com.example.backend.demo.errors.ExceptionResolver;
+import com.example.backend.controllers.CharacterController;
+import com.example.backend.errors.ExceptionResolver;
 import repositories.EntityRepository;
 import model.Character;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +55,7 @@ public class CharacterDataParsingTest {
         mockMvc.perform(post("/characters").
                 content(ageAsChar).
                 contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().is(400))
+                    .andExpect(status().is(422))
                     .andExpect(
                             content().string(containsString("not a valid Integer value")));
 
@@ -64,7 +64,7 @@ public class CharacterDataParsingTest {
         mockMvc.perform(post("/characters").
                 content(negativeAge).
                 contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(422))
                 .andExpect(content().string(containsString("Age must be positive")));
     }
 
@@ -77,7 +77,7 @@ public class CharacterDataParsingTest {
         mockMvc.perform(post("/characters").
                 content(incorrectForceUserFormat).
                 contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(422))
                 .andExpect(content().string(containsString("Cannot deserialize value of type `boolean`")));
     }
 
@@ -90,7 +90,7 @@ public class CharacterDataParsingTest {
         mockMvc.perform(post("/characters").
                 content(incorrectForceUserFormat).
                 contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(422))
                 .andExpect(content().string(containsString("Please provide a name")));
     }
 }

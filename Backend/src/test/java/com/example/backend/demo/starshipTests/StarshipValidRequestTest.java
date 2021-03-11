@@ -1,5 +1,6 @@
 package com.example.backend.demo.starshipTests;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import repositories.EntityRepository;
 import model.Movie;
 import model.Starship;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 public class StarshipValidRequestTest {
 
     @MockBean

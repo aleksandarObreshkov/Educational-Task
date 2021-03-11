@@ -4,28 +4,22 @@ import com.example.app.errors.InvalidInputException;
 import model.*;
 import model.Character;
 import org.apache.commons.cli.CommandLine;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.*;
 
 public class EntityCreationUtils {
 
     public static Movie createMovie(CommandLine cmd) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try{
-            Movie movie = new Movie(
-                    cmd.getOptionValue("t"),
-                    Float.parseFloat(cmd.getOptionValue("r")),
-                    LocalDate.parse(cmd.getOptionValue("d"),formatter)
-            );
+            Movie movie = new Movie();
+            movie.setTitle(cmd.getOptionValue("t"));
+            movie.setRating(Float.parseFloat(cmd.getOptionValue("r")));
+            movie.setReleaseDate(cmd.getOptionValue("d"));
             return movie;
-        }catch (DateTimeParseException dpe){
-            throw new InvalidInputException("Incorrect date format.",dpe.getCause());
-        }catch (NumberFormatException nfe){
-            throw new InvalidInputException("Rating should be float.", nfe);
+        }catch (DateTimeParseException e){
+            throw new InvalidInputException("Incorrect date format.",e.getCause());
+        }catch (NumberFormatException e){
+            throw new InvalidInputException("Rating should be float.", e);
         }
-
     }
     public static Character createCharacter(CommandLine cmd) {
         try {
@@ -50,20 +44,19 @@ public class EntityCreationUtils {
                 }
                 return human;
             }
-        }catch (NumberFormatException nfe){
-            throw new InvalidInputException("Age should be positive.", nfe);
+        }catch (NumberFormatException e){
+            throw new InvalidInputException("Age should be a number.", e);
         }
 
     }
     public static Starship createStarship(CommandLine cmd) {
         try {
-            Starship newShip = new Starship(
+            return new Starship(
                     cmd.getOptionValue("n"),
                     Float.parseFloat(cmd.getOptionValue("l"))
             );
-            return newShip;
-        }catch (NumberFormatException nfe){
-            throw new InvalidInputException("Length should be float.", nfe);
+        }catch (NumberFormatException e){
+            throw new InvalidInputException("Length should be float.", e);
         }
     }
 

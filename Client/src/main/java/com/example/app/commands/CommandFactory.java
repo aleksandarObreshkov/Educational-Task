@@ -1,5 +1,14 @@
 package com.example.app.commands;
 
+import com.example.app.commands.addCommands.AddCharacterCommand;
+import com.example.app.commands.addCommands.AddMovieCommand;
+import com.example.app.commands.addCommands.AddStarshipCommand;
+import com.example.app.commands.deleteCommands.DeleteCharacterCommand;
+import com.example.app.commands.deleteCommands.DeleteMovieCommand;
+import com.example.app.commands.deleteCommands.DeleteStarshipCommand;
+import com.example.app.commands.showCommands.ShowCharactersCommand;
+import com.example.app.commands.showCommands.ShowMoviesCommand;
+import com.example.app.commands.showCommands.ShowStarshipsCommand;
 import com.example.app.errors.InvalidInputException;
 import org.apache.commons.cli.*;
 import java.util.Arrays;
@@ -42,6 +51,9 @@ public class CommandFactory {
                 CommandLine cmd = parseCommandLine(DeleteMovieCommand.getDeleteOptions(),commandOptions);
                 String newUrl = url+"movies/"+cmd.getOptionValue("id");
                 return new DeleteMovieCommand(newUrl);
+            }
+            case "list":{
+                return new ListCommand();
             }
             default: throw new InvalidInputException("No such command: " + mainCommand, new IllegalArgumentException());
         }
