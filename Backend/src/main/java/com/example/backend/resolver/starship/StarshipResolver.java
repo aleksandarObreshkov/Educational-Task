@@ -1,5 +1,6 @@
 package com.example.backend.resolver.starship;
 
+import com.example.backend.errors.NotFoundException;
 import graphql.kickstart.tools.GraphQLResolver;
 import model.Starship;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,11 @@ public class StarshipResolver implements GraphQLResolver<Starship> {
 
     public Iterable<Starship> allStarships(){ return repository.findAll(Starship.class); }
 
-    public Optional<Starship> starship(Long id){ return Optional.of(repository.findById(id, Starship.class)); }
+    public Optional<Starship> starship(Long id) {
+        Starship starshipToReturn = repository.findById(id, Starship.class);
+        if (starshipToReturn == null) {
+            throw new NotFoundException("No Starship with the specified id.");
+        }
+        return Optional.of(starshipToReturn);
+    }
 }

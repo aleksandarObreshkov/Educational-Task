@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 @ControllerAdvice
@@ -42,5 +44,12 @@ public class ExceptionResolver{
     @ResponseBody ErrorInfo
     handleEntityExistsException(RollbackException ex) {
         return new ErrorInfo("Object already exists. "+ex.getLocalizedMessage());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(PersistenceException.class)
+    @ResponseBody ErrorInfo
+    handleSQLException(PersistenceException ex) {
+        return new ErrorInfo(ex.getLocalizedMessage());
     }
 }

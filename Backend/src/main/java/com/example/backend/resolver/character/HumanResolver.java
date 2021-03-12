@@ -1,5 +1,7 @@
 package com.example.backend.resolver.character;
 
+import com.example.backend.errors.NotFoundException;
+import graphql.GraphQLException;
 import graphql.kickstart.tools.GraphQLResolver;
 import model.Character;
 import model.Human;
@@ -36,9 +38,13 @@ public class HumanResolver implements GraphQLResolver<Human> {
     }
 
     public Optional<Human> human(Long id) {
-        return allHumans()
+        Optional<Human> humanToReturn = allHumans()
                 .stream()
                 .filter(human -> human.getId().equals(id))
                 .findFirst();
+        if (humanToReturn.isEmpty()){
+            throw new NotFoundException("No Human with the specified id.");
+        }
+        return humanToReturn;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.backend.resolver.movie;
 
+import com.example.backend.errors.NotFoundException;
 import graphql.kickstart.tools.GraphQLResolver;
 import model.Movie;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class MovieResolver implements GraphQLResolver<Movie> {
     }
 
     public Optional<Movie> movie(Long id){
-        return Optional.of(repository.findById(id, Movie.class));
+        Movie movieToReturn = repository.findById(id, Movie.class);
+        if (movieToReturn==null){
+            throw new NotFoundException("No Movie with the specified id.");
+        }
+        return Optional.of(movieToReturn);
     }
 }

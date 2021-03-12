@@ -1,5 +1,6 @@
 package com.example.backend.resolver.character;
 
+import com.example.backend.errors.NotFoundException;
 import graphql.kickstart.tools.GraphQLResolver;
 import model.Character;
 import model.Droid;
@@ -36,10 +37,14 @@ public class DroidResolver implements GraphQLResolver<Droid> {
     }
 
     public Optional<Droid> droid(Long id){
-        return allDroids()
+        Optional<Droid> droidToReturn = allDroids()
                 .stream()
                 .filter(droid -> droid.getId().equals(id))
                 .findFirst();
+        if (droidToReturn.isEmpty()){
+            throw new NotFoundException("No Droid with the specified id.");
+        }
+        return droidToReturn;
     }
 
 }

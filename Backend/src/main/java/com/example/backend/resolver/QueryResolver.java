@@ -1,10 +1,12 @@
 package com.example.backend.resolver;
 
+import com.example.backend.errors.NotFoundException;
 import com.example.backend.resolver.character.CharacterResolver;
 import com.example.backend.resolver.character.DroidResolver;
 import com.example.backend.resolver.character.HumanResolver;
 import com.example.backend.resolver.movie.MovieResolver;
 import com.example.backend.resolver.starship.StarshipResolver;
+import graphql.GraphQLException;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import model.*;
 import model.Character;
@@ -57,7 +59,7 @@ public class QueryResolver implements GraphQLQueryResolver {
         return droidResolver.allDroids();
     }
 
-    public Optional<Human> human(Long id){
+    public Optional<Human> human(Long id) {
         return humanResolver.human(id);
     }
 
