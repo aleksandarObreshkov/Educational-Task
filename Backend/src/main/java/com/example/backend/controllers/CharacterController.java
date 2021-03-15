@@ -2,6 +2,7 @@ package com.example.backend.controllers;
 
 import model.Character;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CharacterController {
     public final EntityRepository repository;
 
     @Autowired
-    public CharacterController(EntityRepository repository) {
+    public CharacterController(@Qualifier("entityRepository") EntityRepository repository) {
         this.repository = repository;
     }
 

@@ -1,5 +1,6 @@
-package com.example.backend.demo.characterTests;
+package com.example.backend.characterTests;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Droid;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.when;
 public class DroidValidRequestTest {
 
     @MockBean
+    @Qualifier("entityRepository")
     public EntityRepository repository;
 
     private static final Droid droid = new Droid();

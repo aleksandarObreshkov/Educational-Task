@@ -1,5 +1,6 @@
 package com.example.backend.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class MovieController {
     public final EntityRepository repository;
 
     @Autowired
-    public MovieController(EntityRepository repository) {
+    public MovieController(@Qualifier("entityRepository")EntityRepository repository) {
         this.repository = repository;
     }
 

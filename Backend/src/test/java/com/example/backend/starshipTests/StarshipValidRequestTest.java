@@ -1,5 +1,6 @@
-package com.example.backend.demo.starshipTests;
+package com.example.backend.starshipTests;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import repositories.EntityRepository;
 import model.Movie;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.when;
 public class StarshipValidRequestTest {
 
     @MockBean
+    @Qualifier("entityRepository")
     private EntityRepository repository;
 
     private static final Starship starship = new Starship();

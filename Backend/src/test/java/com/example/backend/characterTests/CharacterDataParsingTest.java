@@ -1,7 +1,8 @@
-package com.example.backend.demo.characterTests;
+package com.example.backend.characterTests;
 
 import com.example.backend.controllers.CharacterController;
 import com.example.backend.errors.ExceptionResolver;
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Character;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,7 @@ public class CharacterDataParsingTest {
     private MockMvc mockMvc;
 
     @MockBean
+    @Qualifier("entityRepository")
     private EntityRepository repository;
 
     @BeforeEach

@@ -1,12 +1,9 @@
 package com.example.backend.resolver;
 
-import com.example.backend.errors.NotFoundException;
-import com.example.backend.resolver.character.CharacterResolver;
 import com.example.backend.resolver.character.DroidResolver;
 import com.example.backend.resolver.character.HumanResolver;
 import com.example.backend.resolver.movie.MovieResolver;
 import com.example.backend.resolver.starship.StarshipResolver;
-import graphql.GraphQLException;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import model.*;
 import model.Character;
@@ -19,18 +16,15 @@ public class QueryResolver implements GraphQLQueryResolver {
 
     private final StarshipResolver starshipResolver;
     private final MovieResolver movieResolver;
-    private final CharacterResolver characterResolver;
     private final DroidResolver droidResolver;
     private final HumanResolver humanResolver;
 
     public QueryResolver(StarshipResolver starshipResolver,
                          MovieResolver movieResolver,
-                         CharacterResolver characterResolver,
                          DroidResolver droidResolver,
                          HumanResolver humanResolver) {
         this.starshipResolver = starshipResolver;
         this.movieResolver = movieResolver;
-        this.characterResolver = characterResolver;
         this.droidResolver = droidResolver;
         this.humanResolver = humanResolver;
     }
@@ -48,7 +42,7 @@ public class QueryResolver implements GraphQLQueryResolver {
     public Optional<Starship> starship(Long id){ return starshipResolver.starship(id); }
 
     public Iterable<Character> allCharacters() {
-        return characterResolver.allCharacters();
+        return droidResolver.allCharacters();
     }
 
     public Optional<Droid> droid(Long id){

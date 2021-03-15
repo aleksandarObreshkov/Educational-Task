@@ -1,6 +1,7 @@
-package com.example.backend.demo.starshipTests;
+package com.example.backend.starshipTests;
 
 import com.example.backend.controllers.StarshipController;
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class StarshipDataParsingTest {
     private MockMvc mockMvc;
 
     @MockBean
+    @Qualifier("entityRepository")
     private EntityRepository repository;
 
     @BeforeEach

@@ -2,8 +2,6 @@ package repositories;
 
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.PersistenceException;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -12,7 +10,6 @@ public class EntityRepository extends DatabaseActionTemplate {
     public <T> List<T> findAll(Class<T> type){
         return execute(manager -> manager.createQuery("SELECT a from "+type.getSimpleName()+" a", type).getResultList());
     }
-
     public <T> void save(T objectToPersist) {
         executeInTransaction(manager -> {
             manager.persist(objectToPersist);

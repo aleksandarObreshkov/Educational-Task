@@ -1,7 +1,8 @@
-package com.example.backend.demo.movieTests;
+package com.example.backend.movieTests;
 
 import com.example.backend.controllers.MovieController;
 import com.example.backend.errors.ExceptionResolver;
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ public class MovieDataParsingTest {
     private MockMvc mockMvc;
 
     @MockBean
+    @Qualifier("entityRepository")
     private EntityRepository repository;
 
     @BeforeEach

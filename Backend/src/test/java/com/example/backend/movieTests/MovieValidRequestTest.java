@@ -1,5 +1,6 @@
-package com.example.backend.demo.movieTests;
+package com.example.backend.movieTests;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Movie;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.when;
 public class MovieValidRequestTest {
 
     @MockBean
+    @Qualifier("entityRepository")
     private EntityRepository repository;
 
     private static final Movie movie = new Movie();

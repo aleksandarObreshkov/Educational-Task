@@ -1,5 +1,6 @@
 package com.example.backend.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import repositories.EntityRepository;
 import model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class StarshipController {
     public final EntityRepository repository;
 
     @Autowired
-    public StarshipController(EntityRepository repository) {
+    public StarshipController(@Qualifier("entityRepository")EntityRepository repository) {
         this.repository = repository;
     }
 

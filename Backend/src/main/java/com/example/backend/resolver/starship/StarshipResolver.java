@@ -3,6 +3,7 @@ package com.example.backend.resolver.starship;
 import com.example.backend.errors.NotFoundException;
 import graphql.kickstart.tools.GraphQLResolver;
 import model.Starship;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import repositories.EntityRepository;
 
@@ -14,7 +15,7 @@ public class StarshipResolver implements GraphQLResolver<Starship> {
     private final EntityRepository repository;
 
 
-    public StarshipResolver(EntityRepository repository) {
+    public StarshipResolver(@Qualifier("entityRepository") EntityRepository repository) {
         this.repository = repository;
     }
 
