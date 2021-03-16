@@ -24,7 +24,7 @@ public class CharacterController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Character>> getCharacters(){
+    public ResponseEntity<List<Character>> getAllCharacters(){
         List<Character> result = repository.findAll(Character.class);
         return ResponseEntity.ok(result);
     }

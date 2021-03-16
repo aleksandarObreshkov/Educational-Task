@@ -22,14 +22,14 @@ public class MovieController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Movie>> getCharacters(){
+    public ResponseEntity<List<Movie>> getAllMovies(){
         List<Movie> result = repository.findAll(Movie.class);
         return ResponseEntity.ok(result);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> getCharacterById(@PathVariable Long id) {
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
         Movie result = repository.findById(id, Movie.class);
         if (result!=null) {
             return ResponseEntity.ok(result);
@@ -38,7 +38,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCharacterById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteMovieById(@PathVariable Long id) {
         boolean isDeleted = repository.deleteById(id, Movie.class);
         if (isDeleted) {
             return ResponseEntity.noContent().build();
@@ -47,7 +47,7 @@ public class MovieController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addCharacter(@Valid @RequestBody Movie movie) {
+    public ResponseEntity<String> addMovie(@Valid @RequestBody Movie movie) {
         repository.save(movie);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
