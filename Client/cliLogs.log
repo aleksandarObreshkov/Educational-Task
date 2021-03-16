@@ -1,0 +1,4 @@
+15:53:43.534 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/movies
+15:53:43.549 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:53:43.574 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:53:43.577 [main] DEBUG o.s.web.client.RestTemplate - Reading to [model.Movie[]]

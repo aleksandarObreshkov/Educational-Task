@@ -6,6 +6,7 @@ import com.example.app.errors.InvalidInputException;
 import org.apache.commons.cli.ParseException;
 
 public class App {
+
     public static void main(String[] args) {
         CommandFactory factory = new CommandFactory();
         try {
