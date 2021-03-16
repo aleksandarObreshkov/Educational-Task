@@ -19,6 +19,14 @@ public class DeleteMovieCommand implements Command {
         template.delete(url);
     }
 
+    public static String getDescription(){
+        return "Delete a Movie with the specified id";
+    }
+
+    public static String getCommandString(){
+        return "delete-movie";
+    }
+
     public static  Options getDeleteOptions(){
         final Options options = new Options();
         options.addOption("id", true, "delete an item with the specified id");

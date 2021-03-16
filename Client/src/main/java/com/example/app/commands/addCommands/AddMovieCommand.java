@@ -27,6 +27,14 @@ public class AddMovieCommand implements Command {
         template.postForObject(url, movie, Movie.class);
     }
 
+    public static String getDescription(){
+        return "Add a movie to the database";
+    }
+
+    public static String getCommandString(){
+        return "add-movie";
+    }
+
     public static Options getAddMovieOptions(){
         final Options options = new Options();
         Option title = Option.builder("t")

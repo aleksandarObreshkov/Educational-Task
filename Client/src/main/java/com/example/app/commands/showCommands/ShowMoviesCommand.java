@@ -20,4 +20,12 @@ public class ShowMoviesCommand implements Command {
     public void execute() {
         DataPrintingUtil.printList(movies);
     }
+
+    public static String getDescription(){
+        return "Show all movies";
+    }
+
+    public static String getCommandString(){
+        return "movies";
+    }
 }

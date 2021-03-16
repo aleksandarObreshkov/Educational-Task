@@ -20,4 +20,12 @@ public class ShowStarshipsCommand implements Command {
     public void execute() {
         DataPrintingUtil.printList(starships);
     }
+
+    public static String getDescription(){
+        return "Show all starships";
+    }
+
+    public static String getCommandString(){
+        return "starships";
+    }
 }

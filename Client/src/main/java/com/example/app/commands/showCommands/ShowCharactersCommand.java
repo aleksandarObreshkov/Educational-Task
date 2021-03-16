@@ -15,6 +15,14 @@ public class ShowCharactersCommand implements Command {
         characters= Arrays.asList(template.getForObject(url, Character[].class));
     }
 
+    public static String getDescription(){
+        return "Show all characters";
+    }
+
+    public static String getCommandString(){
+        return "characters";
+    }
+
     @Override
     public void execute() {
         DataPrintingUtil.printList(characters);

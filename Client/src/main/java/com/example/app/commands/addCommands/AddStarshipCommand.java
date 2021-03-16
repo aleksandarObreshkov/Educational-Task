@@ -26,6 +26,14 @@ public class AddStarshipCommand implements Command {
         template.postForObject(url, starshipToAdd, Starship.class);
     }
 
+    public static String getDescription(){
+        return "Add a Starship to the database";
+    }
+
+    public static String getCommandString(){
+        return "add-starship";
+    }
+
     public static Options getAddStarshipOptions(){
         final Options options = new Options();
         Option name = Option.builder("n")

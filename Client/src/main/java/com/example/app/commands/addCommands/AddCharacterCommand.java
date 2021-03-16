@@ -23,7 +23,15 @@ public class AddCharacterCommand implements Command {
     @Override
     public void execute() {
         Character characterToAdd = EntityCreationUtils.createCharacter(cmd);
-        template.postForObject(url, characterToAdd,characterToAdd.getClass());
+        template.postForObject(url, characterToAdd, characterToAdd.getClass());
+    }
+
+    public static String getDescription(){
+        return "Add a character to the database";
+    }
+
+    public static String getCommandString(){
+        return "add-character";
     }
 
     public static Options getAddCharacterOptions(){

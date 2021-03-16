@@ -19,6 +19,13 @@ public class DeleteCharacterCommand implements Command {
         template.delete(url);
     }
 
+    public static String getDescription(){
+        return "Delete a Character with the specified id";
+    }
+
+    public static String getCommandString(){
+        return "delete-character";
+    }
 
     public static Options getDeleteOptions(){
         final  Options options = new Options();
