@@ -2,3 +2,128 @@
 15:53:43.549 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
 15:53:43.574 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
 15:53:43.577 [main] DEBUG o.s.web.client.RestTemplate - Reading to [model.Movie[]]
+08:41:01.971 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+08:41:02.394 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+08:41:02.499 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@42b02722] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+08:41:02.617 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+08:56:18.184 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/movies
+08:56:18.203 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+08:56:18.703 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+08:56:18.707 [main] DEBUG o.s.web.client.RestTemplate - Reading to [model.Movie[]]
+08:56:41.679 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters
+08:56:41.729 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+08:56:41.781 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+08:56:41.784 [main] DEBUG o.s.web.client.RestTemplate - Reading to [model.Character[]]
+08:57:34.705 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters
+08:57:34.741 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+08:57:34.768 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+08:57:34.772 [main] DEBUG o.s.web.client.RestTemplate - Reading to [model.Character[]]
+08:57:56.546 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+08:57:56.664 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+08:57:56.700 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+08:57:56.751 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+08:58:55.602 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+08:58:56.050 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+08:58:56.153 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@42b02722] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+08:58:56.267 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:02:34.265 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:02:34.353 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:02:34.379 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:02:34.416 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:05:10.019 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/starships
+09:05:10.066 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:05:10.079 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Starship@3adcc812] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:05:10.177 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+09:05:24.278 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/starships
+09:05:24.294 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:05:24.313 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+09:05:24.317 [main] DEBUG o.s.web.client.RestTemplate - Reading to [model.Starship[]]
+09:08:50.905 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:08:50.958 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:08:50.980 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:08:51.013 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:21:13.162 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:21:13.223 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:21:13.241 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:21:13.521 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:25:24.214 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:25:24.271 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:25:24.287 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:25:24.647 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:28:42.820 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:28:43.252 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:28:43.356 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@42b02722] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:28:43.468 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:35:40.637 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:35:40.698 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:35:40.717 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:35:40.741 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:39:57.022 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:39:57.465 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:39:57.570 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@42b02722] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:41:40.302 [main] DEBUG o.s.web.client.RestTemplate - Response 422 UNPROCESSABLE_ENTITY
+09:42:08.793 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:42:08.867 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:42:08.884 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:43:25.854 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+09:44:50.809 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:44:50.861 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:44:50.876 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@4c1f22f3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:44:57.375 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+09:50:48.421 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:50:48.519 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:50:48.547 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@5a755cc1] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:57:13.976 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:57:14.071 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:57:14.094 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:58:16.323 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+09:58:35.790 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+09:58:35.843 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:58:35.857 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:59:14.388 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:00:35.333 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:00:35.419 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:00:35.438 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@22f31dec] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:00:35.952 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+10:02:37.980 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:02:38.036 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:02:38.054 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:02:55.543 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:03:10.662 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:03:10.725 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:03:10.756 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@32c4e8b2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:03:21.287 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:03:21.348 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:03:21.363 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@5a755cc1] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:04:18.802 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:06:05.542 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:06:05.625 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:06:05.648 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@2c07545f] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:06:17.016 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:16:15.782 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:16:15.849 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:16:15.866 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@77128536] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:18:05.469 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:20:12.587 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:20:12.661 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:20:12.680 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@77128536] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:25:12.865 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:25:12.936 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:25:12.958 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:26:06.197 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:26:30.308 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:26:30.382 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:26:30.416 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:26:30.976 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+10:48:40.062 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:48:40.130 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:48:40.150 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:48:40.175 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:49:15.331 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/movies
+10:49:15.756 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:49:15.843 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@38aa816f] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:49:15.929 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:50:12.399 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/movies
+10:50:12.476 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+10:50:12.494 [main] DEBUG o.s.web.client.RestTemplate - Writing [model.Movie@34c01041] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+10:50:56.229 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR

@@ -1,7 +1,7 @@
 package com.example.app.commands.showCommands;
 
-import com.example.app.utils.DataPrintingUtil;
 import com.example.app.commands.Command;
+import com.example.app.printing.MoviePrinter;
 import model.Movie;
 import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
@@ -18,7 +18,8 @@ public class ShowMoviesCommand implements Command {
 
     @Override
     public void execute() {
-        DataPrintingUtil.printList(movies);
+        MoviePrinter printer = new MoviePrinter();
+        printer.printMovieTable(movies);
     }
 
     public static String getDescription(){

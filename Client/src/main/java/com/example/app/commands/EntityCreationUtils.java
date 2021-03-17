@@ -59,5 +59,4 @@ public class EntityCreationUtils {
             throw new InvalidInputException("Length should be float.", e);
         }
     }
-
 }

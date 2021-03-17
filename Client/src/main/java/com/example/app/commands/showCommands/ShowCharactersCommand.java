@@ -1,6 +1,6 @@
 package com.example.app.commands.showCommands;
 
-import com.example.app.utils.DataPrintingUtil;
+import com.example.app.printing.CharacterPrinter;
 import com.example.app.commands.Command;
 import model.Character;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +25,7 @@ public class ShowCharactersCommand implements Command {
 
     @Override
     public void execute() {
-        DataPrintingUtil.printList(characters);
+        CharacterPrinter printer = new CharacterPrinter();
+        printer.printCharacterTable(characters);
     }
 }

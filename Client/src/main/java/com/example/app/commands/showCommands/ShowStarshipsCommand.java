@@ -1,7 +1,7 @@
 package com.example.app.commands.showCommands;
 
-import com.example.app.utils.DataPrintingUtil;
 import com.example.app.commands.Command;
+import com.example.app.printing.StarshipPrinter;
 import model.Starship;
 import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
@@ -18,7 +18,8 @@ public class ShowStarshipsCommand implements Command {
 
     @Override
     public void execute() {
-        DataPrintingUtil.printList(starships);
+        StarshipPrinter printer = new StarshipPrinter();
+        printer.printStarshipsTable(starships);
     }
 
     public static String getDescription(){
