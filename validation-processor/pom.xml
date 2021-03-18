@@ -52,10 +52,10 @@
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
-                                <include>com/example/processor/ValidationProcessor.java</include>
+                                <include>com/example/processor/AnnotationRegistry.java</include>
                                 <include>com/example/processor/ValidationMethodFactory.java</include>
                                 <include>com/example/processor/TypeValidationGenerator.java</include>
-                                <include>com/example/processor/AnnotationRegistry.java</include>
+                                <include>com/example/processor/ValidationProcessor.java</include>
                             </includes>
                         </configuration>
                     </execution>

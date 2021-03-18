@@ -167,7 +167,7 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addStatement("int indexOfNotNull = 0")
                 .addStatement("$T<$T> annotations = $T.stream(field.getDeclaredAnnotations())" +
                         ".filter(annotation -> " +
-                        "!annotation.getClass().getPackage().getName().startsWith(\"javax.validation.constraints\")" +
+                        "annotation.annotationType().getPackage().getName().startsWith(\"javax.validation.constraints\")" +
                         ").collect($T.toList())", List.class, Annotation.class, Arrays.class, Collectors.class)
                 .beginControlFlow("for ($T annotation : annotations)", Annotation.class)
                 .beginControlFlow("if(annotation.annotationType().equals($T.class))", NotNull.class)
