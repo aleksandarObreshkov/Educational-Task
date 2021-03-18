@@ -11,7 +11,6 @@ import repositories.EntityRepository;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/characters")
 public class CharacterController {
@@ -23,8 +22,8 @@ public class CharacterController {
         this.repository = repository;
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Character>> getAllCharacters(){
+    @GetMapping
+    public ResponseEntity<List<Character>> getAllCharacters() {
         List<Character> result = repository.findAll(Character.class);
         return ResponseEntity.ok(result);
     }
@@ -32,7 +31,7 @@ public class CharacterController {
     @GetMapping("/{id}")
     public ResponseEntity<Character> getCharacterById(@PathVariable Long id) {
         Character result = repository.findById(id, Character.class);
-        if (result!=null) {
+        if (result != null) {
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.notFound().build();
@@ -47,7 +46,7 @@ public class CharacterController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<String> addCharacter(@Valid @RequestBody Character character) {
         repository.save(character);
         return ResponseEntity.status(HttpStatus.CREATED).build();

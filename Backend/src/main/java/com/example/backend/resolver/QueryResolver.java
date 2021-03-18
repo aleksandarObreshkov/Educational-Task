@@ -19,9 +19,7 @@ public class QueryResolver implements GraphQLQueryResolver {
     private final DroidResolver droidResolver;
     private final HumanResolver humanResolver;
 
-    public QueryResolver(StarshipResolver starshipResolver,
-                         MovieResolver movieResolver,
-                         DroidResolver droidResolver,
+    public QueryResolver(StarshipResolver starshipResolver, MovieResolver movieResolver, DroidResolver droidResolver,
                          HumanResolver humanResolver) {
         this.starshipResolver = starshipResolver;
         this.movieResolver = movieResolver;
@@ -29,27 +27,31 @@ public class QueryResolver implements GraphQLQueryResolver {
         this.humanResolver = humanResolver;
     }
 
-    public Iterable<Movie> allMovies(){
+    public Iterable<Movie> allMovies() {
         return movieResolver.allMovies();
     }
 
-    public Optional<Movie> movie(Long id){
+    public Optional<Movie> movie(Long id) {
         return movieResolver.movie(id);
     }
 
-    public Iterable<Starship> allStarships(){ return starshipResolver.allStarships(); }
+    public Iterable<Starship> allStarships() {
+        return starshipResolver.allStarships();
+    }
 
-    public Optional<Starship> starship(Long id){ return starshipResolver.starship(id); }
+    public Optional<Starship> starship(Long id) {
+        return starshipResolver.starship(id);
+    }
 
     public Iterable<Character> allCharacters() {
         return droidResolver.allCharacters();
     }
 
-    public Optional<Droid> droid(Long id){
+    public Optional<Droid> droid(Long id) {
         return droidResolver.droid(id);
     }
 
-    public Iterable<Droid> allDroids(){
+    public Iterable<Droid> allDroids() {
         return droidResolver.allDroids();
     }
 
@@ -57,7 +59,8 @@ public class QueryResolver implements GraphQLQueryResolver {
         return humanResolver.human(id);
     }
 
-    public Iterable<Human> allHumans(){
+    public Iterable<Human> allHumans() {
         return humanResolver.allHumans();
     }
+
 }

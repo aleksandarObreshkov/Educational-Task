@@ -12,26 +12,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/movies")
+// TODO The REST controllers are mostly identical. Can you use some sort of hierarchy to reduce the duplication?
 public class MovieController {
 
     public final EntityRepository repository;
 
     @Autowired
-    public MovieController(@Qualifier("entityRepository")EntityRepository repository) {
+    public MovieController(@Qualifier("entityRepository") EntityRepository repository) {
         this.repository = repository;
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Movie>> getAllMovies(){
+    @GetMapping
+    public ResponseEntity<List<Movie>> getAllMovies() {
         List<Movie> result = repository.findAll(Movie.class);
         return ResponseEntity.ok(result);
-
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
         Movie result = repository.findById(id, Movie.class);
-        if (result!=null) {
+        if (result != null) {
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.notFound().build();
@@ -46,9 +46,10 @@ public class MovieController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<String> addMovie(@Valid @RequestBody Movie movie) {
         repository.save(movie);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 }

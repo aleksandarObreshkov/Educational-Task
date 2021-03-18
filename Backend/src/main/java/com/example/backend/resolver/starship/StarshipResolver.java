@@ -10,16 +10,18 @@ import repositories.EntityRepository;
 import java.util.Optional;
 
 @Component
+// TODO
 public class StarshipResolver implements GraphQLResolver<Starship> {
 
     private final EntityRepository repository;
-
 
     public StarshipResolver(@Qualifier("entityRepository") EntityRepository repository) {
         this.repository = repository;
     }
 
-    public Iterable<Starship> allStarships(){ return repository.findAll(Starship.class); }
+    public Iterable<Starship> allStarships() {
+        return repository.findAll(Starship.class);
+    }
 
     public Optional<Starship> starship(Long id) {
         Starship starshipToReturn = repository.findById(id, Starship.class);
@@ -28,4 +30,5 @@ public class StarshipResolver implements GraphQLResolver<Starship> {
         }
         return Optional.of(starshipToReturn);
     }
+
 }

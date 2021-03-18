@@ -1,5 +1,5 @@
 type Starship{
-    id:ID,
+    id:ID, # TODO Use commas consistently. Either put them everywhere or only where necessary.
     name:String
     length:Float
 }

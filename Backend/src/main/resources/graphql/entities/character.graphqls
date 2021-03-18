@@ -1,3 +1,10 @@
+# TODO Some of your lists are nullable while others aren't. For example, the "appearsIn" and "starships" fields in Human.
+# Read this: https://graphql.github.io/learn/schema/#lists-and-non-null
+# Be consistent. Also, it's bad practice for lists to contain null elements, and also for the lists themselves to be null, so you should prefer the following:
+# starships: [Starship!]!
+# Instead of:
+# starships: [Starship]
+
 interface Character{
     id:ID!,
     name:String!

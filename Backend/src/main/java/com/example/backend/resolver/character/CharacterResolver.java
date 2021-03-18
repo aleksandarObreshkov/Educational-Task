@@ -1,13 +1,11 @@
 package com.example.backend.resolver.character;
 
-import com.example.backend.errors.NotFoundException;
-import model.Character;
 import org.springframework.stereotype.Component;
+
+import model.Character;
 import repositories.CharacterRepository;
 
-import java.util.Optional;
-
-@Component
+@Component // TODO This is unnecessary, because Spring can't really create an instance of an abstract class.
 public abstract class CharacterResolver {
 
     private final CharacterRepository repository;
@@ -16,15 +14,16 @@ public abstract class CharacterResolver {
         this.repository = repository;
     }
 
-    public Iterable<Character> allCharacters(){
+    public Iterable<Character> allCharacters() {
         return repository.allCharacters();
     }
 
-    protected <T> Iterable<T> allCharactersOfType(Class<T> type){
+    protected <T> Iterable<T> allCharactersOfType(Class<T> type) {
         return repository.findAll(type);
     }
 
-    protected <T> T characterWithIdAndType(Long id, Class<T> type){
+    protected <T> T characterWithIdAndType(Long id, Class<T> type) {
         return repository.findById(id, type);
     }
+
 }

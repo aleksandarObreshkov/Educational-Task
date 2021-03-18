@@ -10,6 +10,7 @@ import repositories.EntityRepository;
 import java.util.Optional;
 
 @Component
+// TODO This resolver is also very similar to HumanResolver and DroidResolver. Remove the duplication.
 public class MovieResolver implements GraphQLResolver<Movie> {
 
     private final EntityRepository repository;
@@ -18,15 +19,16 @@ public class MovieResolver implements GraphQLResolver<Movie> {
         this.repository = repository;
     }
 
-    public Iterable<Movie> allMovies(){
+    public Iterable<Movie> allMovies() {
         return repository.findAll(Movie.class);
     }
 
-    public Optional<Movie> movie(Long id){
+    public Optional<Movie> movie(Long id) {
         Movie movieToReturn = repository.findById(id, Movie.class);
-        if (movieToReturn==null){
+        if (movieToReturn == null) {
             throw new NotFoundException("No Movie with the specified id.");
         }
         return Optional.of(movieToReturn);
     }
+
 }

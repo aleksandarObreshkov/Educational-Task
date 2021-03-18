@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import repositories.CharacterRepository;
 import java.util.Optional;
 
-
 @Component
 public class HumanResolver extends CharacterResolver implements GraphQLResolver<Human> {
 
@@ -21,7 +20,7 @@ public class HumanResolver extends CharacterResolver implements GraphQLResolver<
 
     public Optional<Human> human(Long id) {
         Human humanToReturn = characterWithIdAndType(id, Human.class);
-        if (humanToReturn==null){
+        if (humanToReturn == null) {
             throw new NotFoundException("No Human with the specified id.");
         }
         return Optional.of(humanToReturn);

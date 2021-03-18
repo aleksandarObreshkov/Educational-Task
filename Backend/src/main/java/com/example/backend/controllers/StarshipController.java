@@ -18,12 +18,12 @@ public class StarshipController {
     public final EntityRepository repository;
 
     @Autowired
-    public StarshipController(@Qualifier("entityRepository")EntityRepository repository) {
+    public StarshipController(@Qualifier("entityRepository") EntityRepository repository) {
         this.repository = repository;
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Starship>> getAllStarships(){
+    @GetMapping
+    public ResponseEntity<List<Starship>> getAllStarships() {
         List<Starship> result = repository.findAll(Starship.class);
         return ResponseEntity.ok(result);
     }
@@ -31,7 +31,7 @@ public class StarshipController {
     @GetMapping("/{id}")
     public ResponseEntity<Starship> getStarshipById(@PathVariable Long id) {
         Starship result = repository.findById(id, Starship.class);
-        if (result!=null) {
+        if (result != null) {
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.notFound().build();
@@ -46,9 +46,10 @@ public class StarshipController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<String> addStarship(@Valid @RequestBody Starship starship) {
         repository.save(starship);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 }
