@@ -1,8 +1,10 @@
 package com.example.app.commands.showCommands;
 
+import com.example.app.errors.RestTemplateResponseErrorHandler;
 import com.example.app.printing.CharacterPrinter;
 import com.example.app.commands.Command;
 import model.Character;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +13,8 @@ public class ShowCharactersCommand implements Command {
     private final List<Character> characters;
 
     public ShowCharactersCommand(String url) {
-        RestTemplate template = new RestTemplate();
+        RestTemplate template = new RestTemplateBuilder()
+                .errorHandler(new RestTemplateResponseErrorHandler()).build();
         characters= Arrays.asList(template.getForObject(url, Character[].class));
     }
 

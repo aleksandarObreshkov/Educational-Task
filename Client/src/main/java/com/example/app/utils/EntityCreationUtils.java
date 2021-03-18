@@ -1,4 +1,4 @@
-package com.example.app.commands;
+package com.example.app.utils;
 
 import com.example.app.errors.InvalidInputException;
 import model.*;

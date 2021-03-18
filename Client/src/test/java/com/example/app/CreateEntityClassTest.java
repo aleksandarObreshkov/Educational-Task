@@ -1,6 +1,6 @@
 package com.example.app;
 
-import com.example.app.commands.EntityCreationUtils;
+import com.example.app.utils.EntityCreationUtils;
 import com.example.app.errors.InvalidInputException;
 import model.Character;
 import model.Movie;

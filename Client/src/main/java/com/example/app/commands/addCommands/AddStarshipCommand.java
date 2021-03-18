@@ -1,11 +1,13 @@
 package com.example.app.commands.addCommands;
 
 import com.example.app.commands.Command;
-import com.example.app.commands.EntityCreationUtils;
+import com.example.app.errors.RestTemplateResponseErrorHandler;
+import com.example.app.utils.EntityCreationUtils;
 import model.Starship;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
 public class AddStarshipCommand implements Command {
@@ -17,7 +19,8 @@ public class AddStarshipCommand implements Command {
     public AddStarshipCommand(CommandLine cmd, String url){
         this.cmd = cmd;
         this.url = url;
-        this.template = new RestTemplate();
+        this.template = new RestTemplateBuilder()
+                .errorHandler(new RestTemplateResponseErrorHandler()).build();
     }
 
     @Override

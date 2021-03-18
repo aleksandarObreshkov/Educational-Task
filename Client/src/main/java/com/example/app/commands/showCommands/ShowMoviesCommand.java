@@ -1,8 +1,10 @@
 package com.example.app.commands.showCommands;
 
 import com.example.app.commands.Command;
+import com.example.app.errors.RestTemplateResponseErrorHandler;
 import com.example.app.printing.MoviePrinter;
 import model.Movie;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +14,8 @@ public class ShowMoviesCommand implements Command {
     private final List<Movie> movies;
 
     public ShowMoviesCommand(String url) {
-        RestTemplate template = new RestTemplate();
+        RestTemplate template = new RestTemplateBuilder()
+                .errorHandler(new RestTemplateResponseErrorHandler()).build();
         movies= Arrays.asList(template.getForObject(url, Movie[].class));
     }
 

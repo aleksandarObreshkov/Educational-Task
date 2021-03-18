@@ -1,8 +1,10 @@
 package com.example.app.commands.showCommands;
 
 import com.example.app.commands.Command;
+import com.example.app.errors.RestTemplateResponseErrorHandler;
 import com.example.app.printing.StarshipPrinter;
 import model.Starship;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +14,8 @@ public class ShowStarshipsCommand implements Command {
     private final List<Starship> starships;
 
     public ShowStarshipsCommand(String url) {
-        RestTemplate template = new RestTemplate();
+        RestTemplate template = new RestTemplateBuilder()
+                .errorHandler(new RestTemplateResponseErrorHandler()).build();
         starships= Arrays.asList(template.getForObject(url, Starship[].class));
     }
 

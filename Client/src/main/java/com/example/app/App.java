@@ -4,6 +4,7 @@ import com.example.app.commands.Command;
 import com.example.app.commands.CommandFactory;
 import com.example.app.errors.InvalidInputException;
 import org.apache.commons.cli.ParseException;
+import org.springframework.web.client.ResourceAccessException;
 
 public class App {
 
@@ -14,8 +15,10 @@ public class App {
             commandToExecute.execute();
         } catch (InvalidInputException | ParseException ex){
             System.err.println("Invalid input: "+ex.getMessage());
+        } catch (ResourceAccessException e){
+            System.out.println(e.getCause().getMessage());
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
+            System.err.print("Error: " + e.getMessage());
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.app.commands.deleteCommands;
 
 import com.example.app.commands.Command;
+import com.example.app.errors.RestTemplateResponseErrorHandler;
 import org.apache.commons.cli.Options;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
 public class DeleteMovieCommand implements Command {
@@ -11,7 +13,8 @@ public class DeleteMovieCommand implements Command {
 
     public DeleteMovieCommand(String url) {
         this.url=url;
-        template = new RestTemplate();
+        this.template = new RestTemplateBuilder()
+                .errorHandler(new RestTemplateResponseErrorHandler()).build();
     }
 
     @Override
