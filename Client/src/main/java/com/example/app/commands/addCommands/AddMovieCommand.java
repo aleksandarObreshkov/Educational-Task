@@ -46,6 +46,7 @@ public class AddMovieCommand implements Command {
                 .required()
                 .type(String.class)
                 .build();
+        // TODO Indicate in some way that the rating must be a floating point number between 0 and 10.
         Option rating = Option.builder("r")
                 .longOpt("rating")
                 .hasArg()

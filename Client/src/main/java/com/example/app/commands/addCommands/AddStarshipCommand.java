@@ -30,7 +30,7 @@ public class AddStarshipCommand implements Command {
     }
 
     public static String getDescription(){
-        return "Add a Starship to the database";
+        return "Add a starship to the database";
     }
 
     public static String getCommandString(){

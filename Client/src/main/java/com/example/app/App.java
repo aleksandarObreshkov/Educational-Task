@@ -13,13 +13,14 @@ public class App {
         try {
             Command commandToExecute = factory.createCommand(args);
             commandToExecute.execute();
-        } catch (InvalidInputException | ParseException ex){
-            System.err.println("Invalid input: "+ex.getMessage());
-        } catch (ResourceAccessException e){
-            System.out.println(e.getCause().getMessage());
+        } catch (InvalidInputException | ParseException e) {
+            System.err.println("Invalid input: " + e.getMessage());
+        } catch (ResourceAccessException e) { // TODO Why have a separate catch for this and not let the one below
+                                              // handle it?
+            System.out.println(e.getCause().getMessage()); // TODO Print to STDERR
         } catch (Exception e) {
             System.err.print("Error: " + e.getMessage());
         }
     }
-}
 
+}

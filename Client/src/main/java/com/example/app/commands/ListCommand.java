@@ -15,13 +15,13 @@ import org.apache.commons.cli.Options;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class ListCommand implements Command{
+public class ListCommand implements Command {
 
-    public static String getDescription(){
+    public static String getDescription() {
         return "Show all available commands";
     }
 
-    public static String getCommandString(){
+    public static String getCommandString() {
         return "list";
     }
 
@@ -39,29 +39,38 @@ public class ListCommand implements Command{
         commands.put(ShowStarshipsCommand.class, null);
         commands.put(ListCommand.class, null);
 
-        for (Class<? extends Command> commandClass: commands.keySet()){
+        for (Class<? extends Command> commandClass : commands.keySet()) {
+            // TODO Don't get too comfortable with Java's reflection API. Think of it as a last resort. Create a
+            // registry of command descriptions instead of this and use it.
+            // class CommandDescription {
+            //   String name;
+            //   String description;
+            // }
             String commandString = commandClass.getMethod("getCommandString").invoke(commandClass).toString();
             System.out.println(commandString);
             Options commandOptions = commands.get(commandClass);
-            if (commandOptions!=null){
+            if (commandOptions != null) {
+                // TODO Use
+                // https://commons.apache.org/proper/commons-cli/javadocs/api-1.3.1/org/apache/commons/cli/HelpFormatter.html
                 Collection<Option> options = commands.get(commandClass).getOptions();
-                for (Option option : options){
+                for (Option option : options) {
                     StringBuilder commandDetails = new StringBuilder();
-                    if (option.getOpt()!=null){
+                    if (option.getOpt() != null) {
                         commandDetails.append(" -").append(option.getOpt());
                     }
-                    if (option.getLongOpt()!=null){
+                    if (option.getLongOpt() != null) {
                         commandDetails.append("/-").append(option.getLongOpt());
                     }
-                    if (option.getDescription()!=null){
+                    if (option.getDescription() != null) {
                         commandDetails.append(" (").append(option.getDescription()).append(")");
                     }
                     System.out.println(commandDetails);
                 }
             }
             String commandDescription = commandClass.getMethod("getDescription").invoke(commandClass).toString();
-            System.out.println("Description: "+commandDescription);
+            System.out.println("Description: " + commandDescription);
             System.out.println();
         }
     }
+
 }

@@ -12,9 +12,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
     public boolean hasError(ClientHttpResponse response) throws IOException {
-        return (
-                response.getStatusCode().series() == CLIENT_ERROR
-                        || response.getStatusCode().series() == SERVER_ERROR);
+        return response.getStatusCode().series() == CLIENT_ERROR || response.getStatusCode().series() == SERVER_ERROR;
     }
 
     @Override
@@ -22,4 +20,5 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
         ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
         throw new IOException(errorInfo.getError());
     }
+
 }

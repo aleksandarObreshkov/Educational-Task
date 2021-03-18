@@ -1,3 +1,6 @@
+// TODO Using multiple words within one package segment goes against good naming conventions. Besides, the word
+// "commands" is unnecessary, because the previous segment is also "commands". Rename this package to
+// "com.example.app.commands.add".
 package com.example.app.commands.addCommands;
 
 import com.example.app.commands.Command;
@@ -16,11 +19,11 @@ public class AddCharacterCommand implements Command {
     private final CommandLine cmd;
     private final String url;
 
-    public AddCharacterCommand(CommandLine cmd, String url){
+    public AddCharacterCommand(CommandLine cmd, String url) {
         this.cmd = cmd;
         this.url = url;
-        this.template = new RestTemplateBuilder()
-                .errorHandler(new RestTemplateResponseErrorHandler()).build();
+        // TODO This line is duplicated in each command.
+        this.template = new RestTemplateBuilder().errorHandler(new RestTemplateResponseErrorHandler()).build();
     }
 
     @Override
@@ -29,33 +32,21 @@ public class AddCharacterCommand implements Command {
         template.postForObject(url, characterToAdd, characterToAdd.getClass());
     }
 
-    public static String getDescription(){
+    public static String getDescription() {
         return "Add a character to the database";
     }
 
-    public static String getCommandString(){
+    public static String getCommandString() {
         return "add-character";
     }
 
-    public static Options getAddCharacterOptions(){
+    public static Options getAddCharacterOptions() {
         final Options options = new Options();
 
-        Option name = Option.builder("n")
-                .longOpt("name")
-                .hasArg()
-                .required()
-                .type(String.class)
-                .build();
-        Option age = Option.builder("a")
-                .longOpt("age")
-                .hasArg()
-                .required()
-                .type(Integer.class)
-                .build();
+        Option name = Option.builder("n").longOpt("name").hasArg().required().type(String.class).build();
+        Option age = Option.builder("a").longOpt("age").hasArg().required().type(Integer.class).build();
 
-        Option forceUser = Option.builder("f")
-                .longOpt("force-user")
-                .build();
+        Option forceUser = Option.builder("f").longOpt("force-user").build();
 
         Option characterType = Option.builder("t")
                 .longOpt("type")
@@ -64,11 +55,10 @@ public class AddCharacterCommand implements Command {
                 .hasArg()
                 .type(String.class)
                 .build();
-        Option primaryFunction = Option.builder("pf")
-                .longOpt("primaryFunction")
-                .hasArg()
-                .type(String.class)
-                .build();
+        // TODO The name of this option uses a different naming convention than "force-user". Rename it to
+        // "primary-function". Being consistent is very important. You'll be cursing a tool if you had to write "cf
+        // create-service", but also "cf updateService" and "cf delete_service".
+        Option primaryFunction = Option.builder("pf").longOpt("primaryFunction").hasArg().type(String.class).build();
 
         options.addOption(name);
         options.addOption(age);
@@ -77,4 +67,5 @@ public class AddCharacterCommand implements Command {
         options.addOption(primaryFunction);
         return options;
     }
+
 }

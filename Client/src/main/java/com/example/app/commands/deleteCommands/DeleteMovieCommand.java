@@ -12,9 +12,8 @@ public class DeleteMovieCommand implements Command {
     private final String url;
 
     public DeleteMovieCommand(String url) {
-        this.url=url;
-        this.template = new RestTemplateBuilder()
-                .errorHandler(new RestTemplateResponseErrorHandler()).build();
+        this.url = url;
+        this.template = new RestTemplateBuilder().errorHandler(new RestTemplateResponseErrorHandler()).build();
     }
 
     @Override
@@ -22,17 +21,18 @@ public class DeleteMovieCommand implements Command {
         template.delete(url);
     }
 
-    public static String getDescription(){
-        return "Delete a Movie with the specified id";
+    public static String getDescription() {
+        return "Delete a movie with the specified id";
     }
 
-    public static String getCommandString(){
+    public static String getCommandString() {
         return "delete-movie";
     }
 
-    public static  Options getDeleteOptions(){
+    public static Options getDeleteOptions() {
         final Options options = new Options();
         options.addOption("id", true, "delete an item with the specified id");
         return options;
     }
+
 }
