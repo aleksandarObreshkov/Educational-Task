@@ -24,13 +24,7 @@ public abstract class CharacterResolver {
         return repository.findAll(type);
     }
 
-    protected <T> Optional<T> characterWithIdAndType(Long id, Class<T> type){
-        T characterToReturn = repository.findById(id, type);
-        if (characterToReturn==null){
-            throw new NotFoundException("No Droid with the specified id.");
-        }
-        return Optional.of(characterToReturn);
+    protected <T> T characterWithIdAndType(Long id, Class<T> type){
+        return repository.findById(id, type);
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.backend.resolver.character;
 
+import com.example.backend.errors.NotFoundException;
 import graphql.kickstart.tools.GraphQLResolver;
 import model.Human;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,11 @@ public class HumanResolver extends CharacterResolver implements GraphQLResolver<
     }
 
     public Optional<Human> human(Long id) {
-        return characterWithIdAndType(id, Human.class);
+        Human humanToReturn = characterWithIdAndType(id, Human.class);
+        if (humanToReturn==null){
+            throw new NotFoundException("No Human with the specified id.");
+        }
+        return Optional.of(humanToReturn);
     }
 
 }

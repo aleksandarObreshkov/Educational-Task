@@ -1,6 +1,7 @@
 
 package model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Movie {
 
     @NotNull(message = "Wrong date format.")
     @Past(message = "Please provide a date from the past.")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
     @PositiveOrZero(message = "Rating can't be negative.")
@@ -58,10 +60,6 @@ public class Movie {
 
     public LocalDate getReleaseDate() {
         return releaseDate;
-    }
-
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
     }
 
     public Float getRating() {

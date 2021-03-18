@@ -51,6 +51,4 @@ public class MovieController {
         repository.save(movie);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-
 }
