@@ -1,9 +1,6 @@
 package repositories;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceException;
+import javax.persistence.*;
 import java.util.function.Function;
 
 public abstract class DatabaseActionTemplate {
@@ -16,10 +13,12 @@ public abstract class DatabaseActionTemplate {
             manager.getTransaction().commit();
             manager.close();
             return result;
-        } catch (Exception e){
-            manager.getTransaction().rollback();
+        } catch (RollbackException e){
+            if (manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
+            }
             manager.close();
-            throw new PersistenceException("Database transaction failed.", e);
+            throw new RollbackException("Database transaction failed.", e);
         }
     }
 
