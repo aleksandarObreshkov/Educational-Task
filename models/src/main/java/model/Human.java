@@ -30,6 +30,7 @@ public class Human extends Character{
         this.starships = starships;
     }
 
+    // TODO
     public Human() {
 
     }

@@ -3,7 +3,6 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -34,6 +33,7 @@ public class Movie {
     @Max(value = 10L, message = "Rating should be less than 10.")
     private Float rating;
 
+    // TODO
     public Movie(){}
 
     @JsonSetter
