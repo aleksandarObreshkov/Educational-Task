@@ -8,16 +8,19 @@ import com.example.backend.RESTEntities.ResponseEntity;
 import model.Movie;
 
 import java.util.List;
+
 @RequestPath(value = "/tomcat_backend_war_exploded/movies")
-public class MovieController{
+// TODO The code in this controller mostly duplicates the one in the other controllers. Try to fix this.
+public class MovieController {
 
     private final EntityRepository repository;
 
     public MovieController() {
+        // TODO
         this.repository = new EntityRepository();
     }
 
-    public MovieController(EntityRepository repository){
+    public MovieController(EntityRepository repository) {
         this.repository = repository;
     }
 
@@ -28,27 +31,27 @@ public class MovieController{
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
-    public ResponseEntity<Movie> get(@PathVariable("id") Long id){
+    public ResponseEntity<Movie> get(@PathVariable("id") Long id) {
         Movie result = repository.findById(id, Movie.class);
-        if (result!=null) {
-            return new ResponseEntity<>(result,HttpStatus.OK);
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method = HttpMethod.POST)
-    public ResponseEntity<String> post(@RequestBody Movie movieToAdd){
+    public ResponseEntity<String> post(@RequestBody Movie movieToAdd) {
         repository.save(movieToAdd);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("id")Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         boolean isDeleted = repository.deleteById(id, Movie.class);
         if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
 }

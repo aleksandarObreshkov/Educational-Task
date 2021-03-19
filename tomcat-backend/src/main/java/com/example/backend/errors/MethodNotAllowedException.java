@@ -1,5 +1,6 @@
 package com.example.backend.errors;
 
+// TODO Add a serialVersionUid constant.
 public class MethodNotAllowedException extends Throwable {
 
     private final String message;

@@ -1,6 +1,7 @@
 package com.example.backend.constants;
 
 public enum HttpMethod {
+    // TODO You don't need the constructor, or the value field and method. You can just use toString
     DELETE("DELETE"),
     POST("POST"),
     GET("GET"),

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import model.*;
-import model.Character;
 import org.*;
 
 import javax.persistence.Entity;
@@ -36,41 +35,39 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+// TODO Why is the servlet itself annotated with @RequestPath?
 @RequestPath
+// TODO Add a serialVersionUid constant.
 public class DispatcherServlet extends HttpServlet {
-
 
     private ControllerRegistry registry;
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        registry=ControllerRegistry.getInstance();
+        registry = ControllerRegistry.getInstance();
         registry.register(MovieController.class);
         registry.register(CharacterController.class);
         registry.register(StarshipController.class);
     }
 
-    public void registerController(Class<?> controllerClass){
+    public void registerController(Class<?> controllerClass) {
         registry.register(controllerClass);
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        handleRequest(request,response);
+        handleRequest(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        handleRequest(request,response);
+        handleRequest(request, response);
     }
 
     @Override
@@ -81,7 +78,7 @@ public class DispatcherServlet extends HttpServlet {
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         for (Class<?> controllerClass : registry.getControllerClasses()) {
             if (canHandleRequest(controllerClass, request)) {
-                handleRequestWithController(request,response,controllerClass);
+                handleRequestWithController(request, response, controllerClass);
                 return;
             }
         }
@@ -89,8 +86,21 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private boolean canHandleRequest(Class<?> controllerClass, HttpServletRequest request) {
+        // TODO Remove the context path from the request URI. This will allow you to also remove the
+        // "/tomcat_backend_war_exploded" prefix from controller paths. Having that prefix is not good, because it could
+        // change very easily based on the name artifact produced by Maven and how that artifact is deployed to Tomcat.
+        // For example, in Cloud Foundry the artifact would be deployed to the root context path "/" by default. This
+        // servlet will then stop working.
         String requestUri = request.getRequestURI();
         String controllerUri = getHandledPath(controllerClass);
+        // TODO It's quite normal to have the following REST API, especially when there are a lot relations between the
+        // different models:
+        // GET /humans
+        // GET /starships
+        // GET /humans/{id}
+        // GET /humans/{id}/starships
+        // The following line of code is therefore not a good idea, because the /starships controller could match the
+        // /humans/{id}/starships endpoint even though it should be routed to the /humans controller.
         return requestUri.contains(controllerUri);
     }
 
@@ -98,114 +108,132 @@ public class DispatcherServlet extends HttpServlet {
         return controllerClass.getAnnotation(RequestPath.class).value();
     }
 
-    private void handleRequestWithController(HttpServletRequest request, HttpServletResponse response, Class<?> controllerClass) throws IOException {
+    private void handleRequestWithController(HttpServletRequest request, HttpServletResponse response,
+                                             Class<?> controllerClass)
+            throws IOException {
         try {
-            Object instantiatedController = controllerClass.getDeclaredConstructor().newInstance();
-            String controllerUri = instantiatedController.getClass().getAnnotation(RequestPath.class).value();
+            Object controller = controllerClass.getDeclaredConstructor().newInstance();
+            // TODO Use controllerClass instead of controller.getClass(). It's shorter.
+            String controllerUri = controller.getClass().getAnnotation(RequestPath.class).value();
             Method methodToInvoke = getMethodToInvoke(controllerClass.getDeclaredMethods(), request, controllerUri);
             if (methodToInvoke == null) {
                 response.setStatus(HttpStatus.NOT_FOUND.value());
                 return;
             }
             RequestEntity entity = buildRequestEntity(request, methodToInvoke, controllerUri);
-            ResponseEntity<Object> result = invokeControllerMethod(methodToInvoke, instantiatedController, entity);
+            ResponseEntity<Object> result = invokeControllerMethod(methodToInvoke, controller, entity);
             respond(response, result.getStatus(), result.getBody());
-        }catch(MethodNotAllowedException e){
-            respond(response,HttpStatus.METHOD_NOT_ALLOWED,e.getMessage());
-        } catch (IllegalArgumentException | JsonMappingException e){
-            respond(response,HttpStatus.BAD_REQUEST,e.getMessage());
-        } catch (InstantiationException | IllegalAccessException |
-                InvocationTargetException | NoSuchMethodException |
-                IOException | IllegalStateException e) {
-            respond(response,HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
+        } catch (MethodNotAllowedException e) {
+            respond(response, HttpStatus.METHOD_NOT_ALLOWED, e.getMessage());
+        } catch (IllegalArgumentException | JsonMappingException e) {
+            respond(response, HttpStatus.BAD_REQUEST, e.getMessage());
+            // TODO Just catch Exception and map it to internal server error. This will ensure that even if you've
+            // missed an exception type, the servlet will still keep working fine. Not to mention it's shorter.
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
+                | IOException | IllegalStateException e) {
+            respond(response, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
-    private Method getMethodToInvoke(Method[] controllerMethods, HttpServletRequest request, String controllerUri) throws IOException, MethodNotAllowedException {
-        List<Method> requestTypeMethods =
-                getSuitableMethods(controllerMethods, RequestMapping.class,request.getMethod());
-        if (requestTypeMethods.isEmpty()){
-            throw new MethodNotAllowedException("Method "+request.getMethod()+" is not allowed");
+    private Method getMethodToInvoke(Method[] controllerMethods, HttpServletRequest request, String controllerUri)
+            throws IOException, MethodNotAllowedException {
+        List<Method> requestTypeMethods = getSuitableMethods(controllerMethods, RequestMapping.class,
+                request.getMethod());
+        if (requestTypeMethods.isEmpty()) {
+            throw new MethodNotAllowedException("Method " + request.getMethod() + " is not allowed");
         }
-        for (Method method : requestTypeMethods){
+        for (Method method : requestTypeMethods) {
             String methodUri = method.getAnnotation(RequestMapping.class).value();
             Map<String, Class<?>> pathVariableTypesMap = getPathVariableTypesMap(method);
             String methodUriFromRequest = removeTrailingSlash(getMethodUri(request.getRequestURI(), controllerUri));
-            if (URLValidator.isUrlValid(methodUriFromRequest, methodUri, pathVariableTypesMap)){
+            if (URLValidator.isUrlValid(methodUriFromRequest, methodUri, pathVariableTypesMap)) {
                 return method;
             }
         }
         return null;
     }
 
-    private List<Method> getSuitableMethods(Method[] classMethods, Class<? extends Annotation> annotation, String requestMethod){
-        return getAnnotatedMethods(classMethods, annotation)
-                .stream()
+    // TODO A small nitpick: It's fine for this method to know about the RequestMapping annotation - after all
+    // controllerMethodSupportsHttpRequestMethod also knows about it and it's in a lower level of abstraction. Because
+    // of this, I'd remove the "annotation" parameter from this method and pass RequestMapping.class directly to
+    // getAnnotatedMethods.
+    private List<Method> getSuitableMethods(Method[] classMethods, Class<? extends Annotation> annotation,
+                                            String requestMethod) {
+        return getAnnotatedMethods(classMethods, annotation).stream()
                 .filter(method -> controllerMethodSupportsHttpRequestMethod(method, requestMethod))
                 .collect(Collectors.toList());
     }
 
-    private List<Method>  getAnnotatedMethods(Method[] classMethods, Class<? extends Annotation> annotation){
-        return Stream.of(classMethods).filter(method -> method.isAnnotationPresent(annotation)).collect(Collectors.toList());
+    private List<Method> getAnnotatedMethods(Method[] classMethods, Class<? extends Annotation> annotation) {
+        return Stream.of(classMethods)
+                .filter(method -> method.isAnnotationPresent(annotation))
+                .collect(Collectors.toList());
     }
 
-    private boolean controllerMethodSupportsHttpRequestMethod(Method method, String httpMethodFromRequest){
+    private boolean controllerMethodSupportsHttpRequestMethod(Method method, String httpMethodFromRequest) {
         HttpMethod handleableHttpMethod = method.getAnnotation(RequestMapping.class).method();
         HttpMethod requestHttpMethod = HttpMethod.valueOf(httpMethodFromRequest);
         return handleableHttpMethod.equals(requestHttpMethod);
     }
 
-    private Map<String, Class<?>> getPathVariableTypesMap (Method method){
+    // TODO The word "Map" is unnecessary at the end of the method name. The return type already tells the reader what
+    // to expect.
+    private Map<String, Class<?>> getPathVariableTypesMap(Method method) {
+        // TODO Again, "Map" is unnecessary in this name.
         Map<String, Class<?>> resultMap = new HashMap<>();
         Parameter[] parameters = method.getParameters();
         for (Parameter parameter : parameters) {
-            if (parameter.isAnnotationPresent(PathVariable.class)){
-                resultMap.put(parameter.getAnnotation(PathVariable.class).value(),parameter.getType());
+            if (parameter.isAnnotationPresent(PathVariable.class)) {
+                resultMap.put(parameter.getAnnotation(PathVariable.class).value(), parameter.getType());
             }
         }
         return resultMap;
     }
 
-    private String removeTrailingSlash(String url){
-        if (url.endsWith("/")){
-            return url.substring(0,url.length()-1);
+    private String removeTrailingSlash(String url) {
+        if (url.endsWith("/")) {
+            return url.substring(0, url.length() - 1);
         }
         return url;
     }
 
-    private RequestEntity buildRequestEntity(HttpServletRequest request, Method methodToInvoke, String controllerUri) throws IOException {
+    private RequestEntity buildRequestEntity(HttpServletRequest request, Method methodToInvoke, String controllerUri)
+            throws IOException {
         String methodUri = getMethodUri(request.getRequestURI(), controllerUri);
         String methodUriWithPlaceholders = methodToInvoke.getAnnotation(RequestMapping.class).value();
         List<String> methodPathVariables = getMethodPathVariables(methodToInvoke);
-        return new RequestEntityProvider(request.getReader())
-                .createRequestEntity(methodPathVariables, getPathVariableValues(methodUriWithPlaceholders, methodUri, methodPathVariables));
+        return new RequestEntityProvider(request.getReader()).createRequestEntity(methodPathVariables,
+                getPathVariableValues(methodUriWithPlaceholders, methodUri, methodPathVariables));
     }
 
-    private String getMethodUri(String requestUri, String controllerUri){
-        if (requestUri!=null&&!requestUri.isEmpty()){
+    private String getMethodUri(String requestUri, String controllerUri) {
+        if (requestUri != null && !requestUri.isEmpty()) {
             return requestUri.replace(controllerUri, "");
         }
         throw new IllegalArgumentException("Request URI was null");
 
     }
 
-    private List<String> getMethodPathVariables(Method method){
+    private List<String> getMethodPathVariables(Method method) {
         List<String> pathVariables = new ArrayList<>();
         Parameter[] parameters = method.getParameters();
-        for (Parameter parameter:parameters){
-            if (parameter.isAnnotationPresent(PathVariable.class)){
+        for (Parameter parameter : parameters) {
+            if (parameter.isAnnotationPresent(PathVariable.class)) {
                 pathVariables.add(parameter.getAnnotation(PathVariable.class).value());
             }
         }
         return pathVariables;
     }
 
-    private Map<String, String> getPathVariableValues(String uriWithPathVariablePlaceholders, String uri, List<String> pathVariablePlaceholders){
-        String regex = RegexUtil.buildRegexString(uriWithPathVariablePlaceholders);
+    // TODO pathVariablePlaceholders is a misleading name. The list doesn't actually contain placeholders, but rather
+    // path variable names.
+    private Map<String, String> getPathVariableValues(String uriWithPathVariablePlaceholders, String uri,
+                                                      List<String> pathVariablePlaceholders) {
+        String regex = RegexUtil.buildPathVariableCapturingRegex(uriWithPathVariablePlaceholders);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(uri);
         Map<String, String> uriPathVariables = new HashMap<>();
-        if (!matcher.matches()){
+        if (!matcher.matches()) {
             throw new IllegalStateException("Method URI doesn't match method's path variable annotations.");
         }
         for (String pathVariable : pathVariablePlaceholders) {
@@ -214,32 +242,42 @@ public class DispatcherServlet extends HttpServlet {
         return uriPathVariables;
     }
 
-    private ResponseEntity<Object> invokeControllerMethod(Method method, Object instantiatedObject, RequestEntity entity) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, JsonProcessingException {
+    private ResponseEntity<Object> invokeControllerMethod(Method method, Object instantiatedObject,
+                                                          RequestEntity entity)
+            throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, JsonProcessingException {
         Parameter[] parameters = method.getParameters();
-        Object[] parametersForMethodInvocation = setUpParametersForMethodInvocation(parameters,entity);
-        Object result = method.invoke(instantiatedObject,parametersForMethodInvocation);
-        if (result instanceof ResponseEntity){
+        // TODO Rename to argumentsForMethodInvocation. Parameter is the declaration, argument is the actual value being
+        // passed to the method.
+        Object[] parametersForMethodInvocation = setUpParametersForMethodInvocation(parameters, entity);
+        Object result = method.invoke(instantiatedObject, parametersForMethodInvocation);
+        if (result instanceof ResponseEntity) {
             return (ResponseEntity<Object>) result;
         }
+        // TODO Add the actual result type to the exception for easier debugging in case of errors.
         throw new IllegalStateException("Invalid return entity type of controller method invocation.");
     }
 
-    private Object[] setUpParametersForMethodInvocation(Parameter[] methodParameters, RequestEntity entity) throws JsonProcessingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private Object[] setUpParametersForMethodInvocation(Parameter[] methodParameters, RequestEntity entity)
+            throws JsonProcessingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         List<Object> resultParameters = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
-        for (Parameter parameter : methodParameters){
-            if (parameter.isAnnotationPresent(RequestBody.class)){
+        for (Parameter parameter : methodParameters) {
+            if (parameter.isAnnotationPresent(RequestBody.class)) {
                 Class<?> entityClass = parameter.getType();
-                Object mappingResult = mapper.readValue(entity.getBody(),entityClass);
-                if (entityClass.isAnnotationPresent(Entity.class)){
-                    if (mappingResult instanceof Human){
+                Object mappingResult = mapper.readValue(entity.getBody(), entityClass);
+                // TODO This is not good. If you were to add another type of entity, Jedi for example, you'd have to
+                // remember to add it here. There are multiple ways to fix this in a more generic way. The first that
+                // comes to mind is generating the validators with a class-level annotation that indicates what they're
+                // validating. For example, @ValidatorFor(Movie.class). You can then scan the classpath for classes
+                // annotated with this annotation and look for one that matches the type of the parameter.
+                if (entityClass.isAnnotationPresent(Entity.class)) {
+                    if (mappingResult instanceof Human) {
                         HumanValidator.validate(mappingResult);
-                    } else if (mappingResult instanceof Droid){
+                    } else if (mappingResult instanceof Droid) {
                         DroidValidator.validate(mappingResult);
                     } else if (entityClass.equals(Movie.class)) {
                         MovieValidator.validate(mappingResult);
-                    }
-                    else if (entityClass.equals(Starship.class)) {
+                    } else if (entityClass.equals(Starship.class)) {
                         StarshipValidator.validate(mappingResult);
                     }
                 }
@@ -248,6 +286,7 @@ public class DispatcherServlet extends HttpServlet {
             if (parameter.isAnnotationPresent(PathVariable.class)) {
                 String pathVariableName = parameter.getAnnotation(PathVariable.class).value();
                 String actualParameter = entity.getPathVariables().get(pathVariableName);
+                // TODO Why aren't you using your ValueConverter here?
                 resultParameters.add(mapper.convertValue(actualParameter, parameter.getType()));
             }
         }
@@ -257,21 +296,27 @@ public class DispatcherServlet extends HttpServlet {
 
     private void respond(HttpServletResponse response, HttpStatus status, Object responseBody) throws IOException {
         response.setStatus(status.value());
-        if (responseBody!=null){
+        if (responseBody != null) {
+            // TODO Set the "Content-Type" header to "application/json". You then don't need to use pretty printing when
+            // serializing the JSON. In fact, pretty printing is a bad practice when returning responses, because it
+            // consumes bandwith due to the extra characters used for formatting. Leave it to Postman to format the
+            // response based on the Content-Type header.
             printResponse(response, responseBody);
         }
     }
 
-    private <T> void printResponse(HttpServletResponse response, T controllerResponse) throws IOException{
+    private <T> void printResponse(HttpServletResponse response, T controllerResponse) throws IOException {
         ObjectWriter writer = setDateFormatForObjectMapper().writer().withDefaultPrettyPrinter();
         String value = writer.writeValueAsString(controllerResponse);
         response.getWriter().println(value);
     }
 
-    private ObjectMapper setDateFormatForObjectMapper(){
+    private ObjectMapper setDateFormatForObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
+        // TODO Do you need this considering that you're now using the @JsonFormat annotation?
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
+
 }

@@ -1,6 +1,5 @@
 package com.example.backend.RESTEntities;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,11 +12,16 @@ public class RequestEntityProvider {
 
     private final BufferedReader requestReader;
 
-    public RequestEntityProvider(BufferedReader request) {
-        this.requestReader = request;
+    // TODO The body should be a parameter of the createRequestEntity method, as it has the same semantics as the path
+    // variable values.
+    public RequestEntityProvider(BufferedReader requestReader) {
+        this.requestReader = requestReader;
     }
 
-    public RequestEntity createRequestEntity(List<String> pathVariableKeys, Map<String, String> pathVariableValues) throws IOException {
+    // TODO This method doesn't need its first parameter. Furthermore, the path variable values are already built in the
+    // map, so most of this class isn't needed as well.
+    public RequestEntity createRequestEntity(List<String> pathVariableKeys, Map<String, String> pathVariableValues)
+            throws IOException {
         RequestEntity result = new RequestEntity();
         result.setBody(getRequestBody());
         result.setPathVariables(createPathVariablesMap(pathVariableKeys, pathVariableValues));
@@ -28,7 +32,8 @@ public class RequestEntityProvider {
         return requestReader.lines().collect(Collectors.joining(System.lineSeparator()));
     }
 
-    private Map<String, String> createPathVariablesMap(List<String> pathVariableKeys, Map<String, String> pathVariableValues){
+    private Map<String, String> createPathVariablesMap(List<String> pathVariableKeys,
+                                                       Map<String, String> pathVariableValues) {
 
         Map<String, String> pathVariables = new HashMap<>();
         for (String currentKey : pathVariableKeys) {

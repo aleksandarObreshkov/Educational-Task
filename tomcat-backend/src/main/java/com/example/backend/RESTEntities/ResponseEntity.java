@@ -3,6 +3,7 @@ package com.example.backend.RESTEntities;
 import com.example.backend.constants.HttpStatus;
 import java.io.Serializable;
 
+// TODO Add a serialVersionUid constant.
 public class ResponseEntity<T> implements Serializable {
 
     private final T body;
@@ -13,9 +14,9 @@ public class ResponseEntity<T> implements Serializable {
         this.status = status;
     }
 
-    public ResponseEntity(HttpStatus status){
-        this.status=status;
-        this.body=null;
+    public ResponseEntity(HttpStatus status) {
+        this.status = status;
+        this.body = null;
     }
 
     public T getBody() {
@@ -27,4 +28,3 @@ public class ResponseEntity<T> implements Serializable {
     }
 
 }
-

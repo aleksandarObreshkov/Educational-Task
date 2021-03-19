@@ -1,3 +1,4 @@
+// TODO Package names should be in all lower-case letters.
 package com.example.backend.RESTEntities;
 
 import java.util.HashMap;

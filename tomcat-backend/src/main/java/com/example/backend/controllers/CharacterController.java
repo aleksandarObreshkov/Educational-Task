@@ -14,11 +14,13 @@ public class CharacterController {
 
     private final EntityRepository repository;
 
-    public CharacterController(){
-        this.repository=new EntityRepository();
+    public CharacterController() {
+        // TODO Use constructor chaining to avoid duplication in the constructors:
+        // https://beginnersbook.com/2013/12/java-constructor-chaining-with-example
+        this.repository = new EntityRepository();
     }
 
-    public CharacterController(EntityRepository repository){
+    public CharacterController(EntityRepository repository) {
         this.repository = repository;
     }
 
@@ -26,26 +28,25 @@ public class CharacterController {
     public ResponseEntity<List<Character>> get() {
         List<Character> result = repository.findAll(Character.class);
         return new ResponseEntity<>(result, HttpStatus.OK);
-
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
-    public ResponseEntity<Character> get(@PathVariable("id") Long id){
+    public ResponseEntity<Character> get(@PathVariable("id") Long id) {
         Character result = repository.findById(id, Character.class);
-        if (result!=null) {
-            return new ResponseEntity<>(result,HttpStatus.OK);
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method = HttpMethod.POST)
-    public ResponseEntity<String> post(@RequestBody Character characterToAdd){
+    public ResponseEntity<String> post(@RequestBody Character characterToAdd) {
         repository.save(characterToAdd);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         boolean result = repository.deleteById(id, Character.class);
         if (result) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -53,7 +54,4 @@ public class CharacterController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-
-    
 }

@@ -14,12 +14,14 @@ public class StarshipController {
     private final EntityRepository repository;
 
     public StarshipController() {
+        // TODO
         this.repository = new EntityRepository();
     }
 
-    public StarshipController(EntityRepository repository){
+    public StarshipController(EntityRepository repository) {
         this.repository = repository;
     }
+
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Starship>> get() {
         List<Starship> result = repository.findAll(Starship.class);
@@ -27,26 +29,27 @@ public class StarshipController {
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
-    public ResponseEntity<Starship> get(@PathVariable("id") Long id){
+    public ResponseEntity<Starship> get(@PathVariable("id") Long id) {
         Starship result = repository.findById(id, Starship.class);
-        if (result!=null) {
-            return new ResponseEntity<>(result,HttpStatus.OK);
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method = HttpMethod.POST)
-    public ResponseEntity<String> post(@RequestBody Starship starshipToAdd){
+    public ResponseEntity<String> post(@RequestBody Starship starshipToAdd) {
         repository.save(starshipToAdd);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         boolean isDeleted = repository.deleteById(id, Starship.class);
         if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 }
