@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>TrainingTaskParent</artifactId>
         <groupId>com.example</groupId>
@@ -13,7 +12,7 @@
     <artifactId>validation-processor</artifactId>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.source>11</maven.compiler.source> <!-- TODO -->
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
@@ -43,12 +42,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.8</source>
+                    <source>1.8</source> <!-- TODO Why're you using Java 8? Copy-pasta? :D -->
                     <target>1.8</target>
                 </configuration>
                 <executions>
                     <execution>
                         <id>default-compile</id>
+                        <!-- TODO Do you really need this separate compilation? We needed it in the beginning when the annotation 
+                            processor was in the same module as the classes it needed to process. -->
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>

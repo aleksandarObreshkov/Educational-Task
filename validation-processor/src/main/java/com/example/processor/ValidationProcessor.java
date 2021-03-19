@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,12 +25,12 @@ public class ValidationProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        filer=processingEnv.getFiler();
-        messager=processingEnv.getMessager();
+        filer = processingEnv.getFiler();
+        messager = processingEnv.getMessager();
         annotationRegistry = fillAnnotationRegistry();
     }
 
-    private AnnotationRegistry fillAnnotationRegistry(){
+    private AnnotationRegistry fillAnnotationRegistry() {
         AnnotationRegistry registry = AnnotationRegistry.getInstance();
         registry.register(Positive.class);
         registry.register(PositiveOrZero.class);
@@ -44,6 +43,11 @@ public class ValidationProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotations = new LinkedHashSet<>();
+        // TODO With this line of code you're coupling your annotation processing code to JPA. You should strive to have
+        // low coupling in your code and high cohesion.
+        // Read this:
+        // https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6
+        // Use your own annotation to indicate that a validator should be created for some POJO.
         annotations.add(Entity.class.getCanonicalName());
         return annotations;
     }
@@ -55,21 +59,32 @@ public class ValidationProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element entityClass : roundEnv.getElementsAnnotatedWith(Entity.class)){
-            if (!entityClass.getKind().equals(ElementKind.CLASS)){
-                error(entityClass,"Only classes can be annotated as entities.");
+        for (Element entityClass : roundEnv.getElementsAnnotatedWith(Entity.class)) {
+            if (!entityClass.getKind().equals(ElementKind.CLASS)) {
+                error(entityClass, "Only classes can be annotated as entities.");
                 return true;
             }
+            // TODO The block after this comment can be extracted in a separate method.
             List<CodeBlock> ifBlocks = new ArrayList<>();
             List<MethodSpec> validationMethods = new ArrayList<>();
 
             String className = entityClass.getSimpleName() + "Validator";
 
-            Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = iterateOverEntityClassElements(entityClass);
+            Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = iterateOverEntityClassElements(
+                    entityClass);
+            // TODO If I have a field annotated with @NotNull in the subclass, then the fieldsWithAnnotation will
+            // contain:
+            // NotNull.class -> [my-field]
+            // If I then have another field in my super class that's also annotated with @NotNull, then won't the result
+            // of the next line be:
+            // NotNull.class -> [my-other-field]
+            // Instead of:
+            // NotNull.class -> [my-field, my-other-field]
             fieldsWithAnnotation.putAll(iterateOverSuperClassElements(entityClass));
 
-            for (Class<? extends Annotation> annotation : fieldsWithAnnotation.keySet()){
-                MethodSpec method = ValidationMethodFactory.createValidationMethod(annotation, fieldsWithAnnotation.get(annotation));
+            for (Class<? extends Annotation> annotation : fieldsWithAnnotation.keySet()) {
+                MethodSpec method = ValidationMethodFactory.createValidationMethod(annotation,
+                        fieldsWithAnnotation.get(annotation));
                 validationMethods.add(method);
                 ifBlocks.add(ifStatementForAnnotationType(annotation));
             }
@@ -78,21 +93,22 @@ public class ValidationProcessor extends AbstractProcessor {
         return true;
     }
 
-    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverEntityClassElements(Element entityClass){
+    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverEntityClassElements(Element entityClass) {
         List<? extends Element> classElements = entityClass.getEnclosedElements();
         Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = new HashMap<>();
-        for (Element classElement : classElements){
-            if (classElement.getKind()!=ElementKind.FIELD){
+        for (Element classElement : classElements) {
+            if (classElement.getKind() != ElementKind.FIELD) {
                 continue;
             }
 
-            //fill the map with Annotation - <fields types, that have the annotation>
-            for (Class<? extends Annotation> annotation : annotationRegistry.getAnnotationClasses()){
-                if (classElement.getAnnotation(annotation)==null){
+            // fill the map with Annotation - <fields types, that have the annotation>
+            for (Class<? extends Annotation> annotation : annotationRegistry.getAnnotationClasses()) {
+                if (classElement.getAnnotation(annotation) == null) {
                     continue;
                 }
+                // TODO Use computeIfAbsent instead of this complex logic.
                 List<TypeName> typeNames = new ArrayList<>();
-                if (fieldsWithAnnotation.containsKey(annotation)){
+                if (fieldsWithAnnotation.containsKey(annotation)) {
                     typeNames = fieldsWithAnnotation.get(annotation);
                     typeNames.add(ClassName.get(classElement.asType()));
                     continue;
@@ -103,72 +119,90 @@ public class ValidationProcessor extends AbstractProcessor {
         }
         return fieldsWithAnnotation;
     }
-    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverSuperClassElements(Element subClass){
+
+    // TODO You're handling only one level of inheritance. What if there were 4? (Character -> Human -> Jedi -> Dark
+    // Jedi) Use recursion.
+    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverSuperClassElements(Element subClass) {
         Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = new HashMap<>();
         TypeElement classAsTypeElement = (TypeElement) subClass;
         DeclaredType superClassAsDeclaredType = (DeclaredType) classAsTypeElement.getSuperclass();
-        if (superClassAsDeclaredType!=null){
+        if (superClassAsDeclaredType != null) {
             Element superClass = superClassAsDeclaredType.asElement();
             fieldsWithAnnotation.putAll(iterateOverEntityClassElements(superClass));
         }
         return fieldsWithAnnotation;
     }
 
-    private String createValidationMethodCall(Class<? extends Annotation> annotationClass){
-        return "validate"+annotationClass.getSimpleName()+"(object, message, annotationValue)";
+    private String createValidationMethodCall(Class<? extends Annotation> annotationClass) {
+        return "validate" + annotationClass.getSimpleName() + "(object, message, annotationValue)";
     }
-    private CodeBlock ifStatementForAnnotationType(Class<? extends Annotation> annotationClass){
-        return CodeBlock
-                .builder()
+
+    private CodeBlock ifStatementForAnnotationType(Class<? extends Annotation> annotationClass) {
+        return CodeBlock.builder()
                 .beginControlFlow("if(annotation.annotationType().equals($T.class))", annotationClass)
-                .addStatement(createValidationMethodCall( annotationClass))
+                .addStatement(createValidationMethodCall(annotationClass))
                 .addStatement("return")
                 .endControlFlow()
                 .build();
     }
 
-    private CodeBlock accessPrivateFieldsBlock(){
-        //get the fields from super class
-        return CodeBlock
-                .builder()
-                .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class, Annotation.class, HashMap.class)
-                .addStatement("$T[] fieldsArray = item.getClass().getDeclaredFields()",Field.class)
-                .addStatement("$T<$T> fields = new $T<>()",List.class, Field.class, ArrayList.class)
+    private CodeBlock accessPrivateFieldsBlock() {
+        // get the fields from super class
+        return CodeBlock.builder()
+                // TODO Declarations of variables should be close to the first use of the variable. Move this
+                // declaration right before the for-each statement.
+                .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class,
+                        Annotation.class, HashMap.class)
+                .addStatement("$T[] fieldsArray = item.getClass().getDeclaredFields()", Field.class)
+                .addStatement("$T<$T> fields = new $T<>()", List.class, Field.class, ArrayList.class)
                 .addStatement("fields.addAll($T.asList(fieldsArray))", Arrays.class)
+                // TODO You're again only handling one level of inheritance.
                 .addStatement("Class<?> superClass = item.getClass().getSuperclass()")
                 .beginControlFlow("if(superClass!=null)")
                 .addStatement("fields.addAll(Arrays.asList(superClass.getDeclaredFields()))")
                 .endControlFlow()
                 .beginControlFlow("for ($T field : fields)", Field.class)
+                // TODO Don't give special handling to fields with certain names. The handling should be based only on
+                // the annotation and the type of the field - nothing else.
                 .beginControlFlow("if(field.getName().equals(\"id\"))")
                 .addStatement("continue")
                 .endControlFlow()
                 .addStatement("field.setAccessible(true)")
                 .beginControlFlow("if (field.getAnnotations().length>0)")
+                // TODO Instead of having this complexity with putting the @NotNull annotation first, so that you can
+                // call validateField in the right order, you could do this:
+                // fieldAnnotationsMap.put(field.get(item), field.getDeclaredAnnotations());
+                // ...
+                // validateField(object, fieldAnnotationsMap.get(object));
+                //
+                // Then, the validateField method will be able to take care of the order of validation:
+                //
+                // void validateField(Object object, List<Annotation> annotations) {
+                //     if (annotations.contains(NotNull.class) {
+                //         validateNotNull(object);
+                //     }
+                //     ...
                 .addStatement("List<Annotation> annotations = putNotNullFirst(field)")
                 .addStatement("fieldAnnotationsMap.put(field.get(item), annotations)")
                 .endControlFlow()
                 .endControlFlow()
                 .build();
     }
+
     private void error(Element e, String msg, Object... args) {
-        messager.printMessage(
-                Diagnostic.Kind.ERROR,
-                String.format(msg, args),
-                e);
+        messager.printMessage(Diagnostic.Kind.ERROR, String.format(msg, args), e);
     }
 
-    private MethodSpec buildPutNotNullFirstMethod(){
-        return MethodSpec
-                .methodBuilder("putNotNullFirst")
+    private MethodSpec buildPutNotNullFirstMethod() {
+        return MethodSpec.methodBuilder("putNotNullFirst")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .returns(ParameterizedTypeName.get(List.class, Annotation.class))
                 .addParameter(ClassName.get(Field.class), "field")
                 .addStatement("int indexOfNotNull = 0")
-                .addStatement("$T<$T> annotations = $T.stream(field.getDeclaredAnnotations())" +
-                        ".filter(annotation -> " +
-                        "annotation.annotationType().getPackage().getName().startsWith(\"javax.validation.constraints\")" +
-                        ").collect($T.toList())", List.class, Annotation.class, Arrays.class, Collectors.class)
+                .addStatement("$T<$T> annotations = $T.stream(field.getDeclaredAnnotations())"
+                        + ".filter(annotation -> "
+                        + "annotation.annotationType().getPackage().getName().startsWith(\"javax.validation.constraints\")"
+                        + ").collect($T.toList())", List.class, Annotation.class, Arrays.class, Collectors.class)
                 .beginControlFlow("for ($T annotation : annotations)", Annotation.class)
                 .beginControlFlow("if(annotation.annotationType().equals($T.class))", NotNull.class)
                 .addStatement("indexOfNotNull = annotations.indexOf(annotation)")
@@ -182,9 +216,8 @@ public class ValidationProcessor extends AbstractProcessor {
                 .build();
     }
 
-    private MethodSpec buildSingleFieldValidationMethod(List<CodeBlock> ifStatements){
-        MethodSpec.Builder methodSpec = MethodSpec
-                .methodBuilder("validateField")
+    private MethodSpec buildSingleFieldValidationMethod(List<CodeBlock> ifStatements) {
+        MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("validateField")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addException(IllegalAccessException.class)
                 .returns(ClassName.VOID)
@@ -192,7 +225,8 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addException(InvocationTargetException.class)
                 .addParameter(ClassName.get(Object.class), "object")
                 .addParameter(ClassName.get(Annotation.class), "annotation")
-                .addStatement("String message = annotation.annotationType().getMethod(\"message\").invoke(annotation).toString()")
+                .addStatement(
+                        "String message = annotation.annotationType().getMethod(\"message\").invoke(annotation).toString()")
                 .addStatement("Object annotationValue = null")
                 .beginControlFlow("try")
                 .addStatement("annotationValue = annotation.annotationType().getMethod(\"value\").invoke(annotation)")
@@ -201,15 +235,15 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addStatement("System.out.println(\"Annotation doesn't have value() method.\")")
                 .endControlFlow();
 
-        for (CodeBlock block : ifStatements){
+        for (CodeBlock block : ifStatements) {
             methodSpec.addCode(block);
         }
 
         return methodSpec.build();
     }
-    private MethodSpec buildMainValidationMethod(){
-        return MethodSpec
-                .methodBuilder("validate")
+
+    private MethodSpec buildMainValidationMethod() {
+        return MethodSpec.methodBuilder("validate")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addException(IllegalAccessException.class)
                 .addException(NoSuchMethodException.class)
@@ -224,8 +258,11 @@ public class ValidationProcessor extends AbstractProcessor {
                 .endControlFlow()
                 .build();
     }
-    private void buildModelValidationClass(String className, List<MethodSpec> validationMethods, List<CodeBlock> ifBlocksForAnnotationType){
-        TypeSpec.Builder positiveAnnotationClass = TypeSpec  //public <ClassName>
+
+    private void buildModelValidationClass(String className, List<MethodSpec> validationMethods,
+                                           List<CodeBlock> ifBlocksForAnnotationType) {
+        // TODO Why is this variable called "positiveAnnotationClass"?
+        TypeSpec.Builder positiveAnnotationClass = TypeSpec // public <ClassName>
                 .classBuilder(className)
                 .addModifiers(Modifier.PUBLIC);
 
@@ -234,8 +271,8 @@ public class ValidationProcessor extends AbstractProcessor {
         positiveAnnotationClass.addMethod(buildSingleFieldValidationMethod(ifBlocksForAnnotationType));
         positiveAnnotationClass.addMethod(buildMainValidationMethod());
 
-
         try {
+            // TODO Use the package name of the entity class. "org" is too generic of a package name.
             JavaFile.builder("org", positiveAnnotationClass.build()).build().writeTo(filer);
         } catch (IOException e) {
             e.printStackTrace();
