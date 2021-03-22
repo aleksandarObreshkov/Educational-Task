@@ -1,13 +1,13 @@
 package com.example.backend.resolver.starship;
 
-import model.Starship;
+import com.example.model.Starship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Qualifier;
-import repositories.EntityRepository;
+import com.example.repositories.EntityRepository;
 
 import java.util.ArrayList;
 import java.util.List;

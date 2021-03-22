@@ -3,9 +3,9 @@ package com.example.backend.controllers;
 import com.example.backend.annotations.*;
 import com.example.backend.constants.HttpMethod;
 import com.example.backend.constants.HttpStatus;
-import repositories.EntityRepository;
-import com.example.backend.RESTEntities.ResponseEntity;
-import model.Movie;
+import com.example.repositories.EntityRepository;
+import com.example.backend.rest_entities.ResponseEntity;
+import com.example.model.Movie;
 
 import java.util.List;
 

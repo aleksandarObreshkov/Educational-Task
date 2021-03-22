@@ -1,10 +1,10 @@
 package com.example.backend.characterTests;
 
-import com.example.backend.controllers.CharacterController;
-import com.example.backend.errors.ExceptionResolver;
+import com.example.controllers.CharacterController;
+import com.example.errors.ExceptionResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
-import repositories.EntityRepository;
-import model.Character;
+import com.example.repositories.EntityRepository;
+import com.example.model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

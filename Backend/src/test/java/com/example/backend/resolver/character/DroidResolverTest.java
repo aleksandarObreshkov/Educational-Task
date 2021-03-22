@@ -1,13 +1,13 @@
 package com.example.backend.resolver.character;
 
-import model.Droid;
+import com.example.model.Droid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Qualifier;
-import repositories.CharacterRepository;
+import com.example.repositories.CharacterRepository;
 
 import java.util.ArrayList;
 import java.util.List;

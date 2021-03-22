@@ -1,8 +1,8 @@
 package com.example.backend.characterTests;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import repositories.EntityRepository;
-import model.Droid;
+import com.example.repositories.EntityRepository;
+import com.example.model.Droid;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

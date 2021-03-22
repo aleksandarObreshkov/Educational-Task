@@ -2,9 +2,9 @@ package com.example.backend.starshipTests;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import repositories.EntityRepository;
-import model.Movie;
-import model.Starship;
+import com.example.repositories.EntityRepository;
+import com.example.model.Movie;
+import com.example.model.Starship;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;

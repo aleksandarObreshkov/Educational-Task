@@ -1,8 +1,8 @@
 package com.example.backend;
 
-import com.example.backend.controllers.CharacterController;
-import com.example.backend.errors.ExceptionResolver;
-import model.Character;
+import com.example.controllers.CharacterController;
+import com.example.errors.ExceptionResolver;
+import com.example.model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import repositories.EntityRepository;
+import com.example.repositories.EntityRepository;
 import javax.persistence.PersistenceException;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;

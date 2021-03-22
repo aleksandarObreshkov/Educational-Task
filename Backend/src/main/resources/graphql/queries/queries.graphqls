@@ -1,5 +1,5 @@
 type Query{
-    allMovies:[Movie],
+    allMovies:[Movie]
     movie(id:ID):Movie
     allStarships:[Starship]
     starship(id:ID):Starship

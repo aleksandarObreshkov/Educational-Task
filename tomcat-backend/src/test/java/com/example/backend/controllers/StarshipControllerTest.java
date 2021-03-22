@@ -1,8 +1,8 @@
 package com.example.backend.controllers;
 
 import com.example.backend.constants.HttpStatus;
-import repositories.EntityRepository;
-import model.Starship;
+import com.example.repositories.EntityRepository;
+import com.example.model.Starship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

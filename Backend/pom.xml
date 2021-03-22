@@ -9,8 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>backend</artifactId>
-    <!-- TODO -->
-    <version>1.0-SNAPSHOT</version>
     <description>Backend part of TrainingTask</description>
 
     <properties>
@@ -25,9 +23,6 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>persistence</artifactId>
-            <version>1.0-SNAPSHOT</version> <!-- TODO This version is already specified in the parent, so you shouldn't override it here. Also since this is a sibling 
-                module, you should use ${project.version} instead of hardcoding it. Otherwise, if you decide to bump the version you'll have 
-                to remember to change it here as well. -->
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>

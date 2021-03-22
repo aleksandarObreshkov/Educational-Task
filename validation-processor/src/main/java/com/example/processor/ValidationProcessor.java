@@ -149,10 +149,6 @@ public class ValidationProcessor extends AbstractProcessor {
     private CodeBlock accessPrivateFieldsBlock() {
         // get the fields from super class
         return CodeBlock.builder()
-                // TODO Declarations of variables should be close to the first use of the variable. Move this
-                // declaration right before the for-each statement.
-                .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class,
-                        Annotation.class, HashMap.class)
                 .addStatement("$T[] fieldsArray = item.getClass().getDeclaredFields()", Field.class)
                 .addStatement("$T<$T> fields = new $T<>()", List.class, Field.class, ArrayList.class)
                 .addStatement("fields.addAll($T.asList(fieldsArray))", Arrays.class)
@@ -161,6 +157,8 @@ public class ValidationProcessor extends AbstractProcessor {
                 .beginControlFlow("if(superClass!=null)")
                 .addStatement("fields.addAll(Arrays.asList(superClass.getDeclaredFields()))")
                 .endControlFlow()
+                .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class,
+                        Annotation.class, HashMap.class)
                 .beginControlFlow("for ($T field : fields)", Field.class)
                 // TODO Don't give special handling to fields with certain names. The handling should be based only on
                 // the annotation and the type of the field - nothing else.
@@ -261,19 +259,17 @@ public class ValidationProcessor extends AbstractProcessor {
 
     private void buildModelValidationClass(String className, List<MethodSpec> validationMethods,
                                            List<CodeBlock> ifBlocksForAnnotationType) {
-        // TODO Why is this variable called "positiveAnnotationClass"?
-        TypeSpec.Builder positiveAnnotationClass = TypeSpec // public <ClassName>
+        TypeSpec.Builder classToGenerate = TypeSpec
                 .classBuilder(className)
                 .addModifiers(Modifier.PUBLIC);
 
-        positiveAnnotationClass.addMethods(validationMethods);
-        positiveAnnotationClass.addMethod(buildPutNotNullFirstMethod());
-        positiveAnnotationClass.addMethod(buildSingleFieldValidationMethod(ifBlocksForAnnotationType));
-        positiveAnnotationClass.addMethod(buildMainValidationMethod());
+        classToGenerate.addMethods(validationMethods);
+        classToGenerate.addMethod(buildPutNotNullFirstMethod());
+        classToGenerate.addMethod(buildSingleFieldValidationMethod(ifBlocksForAnnotationType));
+        classToGenerate.addMethod(buildMainValidationMethod());
 
         try {
-            // TODO Use the package name of the entity class. "org" is too generic of a package name.
-            JavaFile.builder("org", positiveAnnotationClass.build()).build().writeTo(filer);
+            JavaFile.builder("com.example", classToGenerate.build()).build().writeTo(filer);
         } catch (IOException e) {
             e.printStackTrace();
         }

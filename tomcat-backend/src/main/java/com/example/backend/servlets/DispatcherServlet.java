@@ -1,8 +1,8 @@
 package com.example.backend.servlets;
 
-import com.example.backend.RESTEntities.RequestEntity;
-import com.example.backend.RESTEntities.RequestEntityProvider;
-import com.example.backend.RESTEntities.ResponseEntity;
+import com.example.backend.rest_entities.RequestEntity;
+import com.example.backend.rest_entities.RequestEntityProvider;
+import com.example.backend.rest_entities.ResponseEntity;
 import com.example.backend.annotations.PathVariable;
 import com.example.backend.annotations.RequestBody;
 import com.example.backend.annotations.RequestMapping;
@@ -16,14 +16,16 @@ import com.example.backend.errors.MethodNotAllowedException;
 import com.example.backend.utils.ControllerRegistry;
 import com.example.backend.utils.RegexUtil;
 import com.example.backend.utils.URLValidator;
+import com.example.model.Droid;
+import com.example.model.Human;
+import com.example.model.Movie;
+import com.example.model.Starship;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import model.*;
-import org.*;
 
 import javax.persistence.Entity;
 import javax.servlet.ServletException;
@@ -144,7 +146,7 @@ public class DispatcherServlet extends HttpServlet {
         }
         for (Method method : requestTypeMethods) {
             String methodUri = method.getAnnotation(RequestMapping.class).value();
-            Map<String, Class<?>> pathVariableTypesMap = getPathVariableTypesMap(method);
+            Map<String, Class<?>> pathVariableTypesMap = getPathVariableTypes(method);
             String methodUriFromRequest = removeTrailingSlash(getMethodUri(request.getRequestURI(), controllerUri));
             if (URLValidator.isUrlValid(methodUriFromRequest, methodUri, pathVariableTypesMap)) {
                 return method;
@@ -176,18 +178,15 @@ public class DispatcherServlet extends HttpServlet {
         return handleableHttpMethod.equals(requestHttpMethod);
     }
 
-    // TODO The word "Map" is unnecessary at the end of the method name. The return type already tells the reader what
-    // to expect.
-    private Map<String, Class<?>> getPathVariableTypesMap(Method method) {
-        // TODO Again, "Map" is unnecessary in this name.
-        Map<String, Class<?>> resultMap = new HashMap<>();
+    private Map<String, Class<?>> getPathVariableTypes(Method method) {
+        Map<String, Class<?>> result = new HashMap<>();
         Parameter[] parameters = method.getParameters();
         for (Parameter parameter : parameters) {
             if (parameter.isAnnotationPresent(PathVariable.class)) {
-                resultMap.put(parameter.getAnnotation(PathVariable.class).value(), parameter.getType());
+                result.put(parameter.getAnnotation(PathVariable.class).value(), parameter.getType());
             }
         }
-        return resultMap;
+        return result;
     }
 
     private String removeTrailingSlash(String url) {
@@ -246,15 +245,12 @@ public class DispatcherServlet extends HttpServlet {
                                                           RequestEntity entity)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, JsonProcessingException {
         Parameter[] parameters = method.getParameters();
-        // TODO Rename to argumentsForMethodInvocation. Parameter is the declaration, argument is the actual value being
-        // passed to the method.
-        Object[] parametersForMethodInvocation = setUpParametersForMethodInvocation(parameters, entity);
-        Object result = method.invoke(instantiatedObject, parametersForMethodInvocation);
+        Object[] argumentsForMethodInvocation = setUpParametersForMethodInvocation(parameters, entity);
+        Object result = method.invoke(instantiatedObject, argumentsForMethodInvocation);
         if (result instanceof ResponseEntity) {
             return (ResponseEntity<Object>) result;
         }
-        // TODO Add the actual result type to the exception for easier debugging in case of errors.
-        throw new IllegalStateException("Invalid return entity type of controller method invocation.");
+        throw new IllegalStateException("Invalid return entity type of controller method invocation: "+result.getClass());
     }
 
     private Object[] setUpParametersForMethodInvocation(Parameter[] methodParameters, RequestEntity entity)
@@ -296,27 +292,16 @@ public class DispatcherServlet extends HttpServlet {
 
     private void respond(HttpServletResponse response, HttpStatus status, Object responseBody) throws IOException {
         response.setStatus(status.value());
+        response.setContentType("application/json");
         if (responseBody != null) {
-            // TODO Set the "Content-Type" header to "application/json". You then don't need to use pretty printing when
-            // serializing the JSON. In fact, pretty printing is a bad practice when returning responses, because it
-            // consumes bandwith due to the extra characters used for formatting. Leave it to Postman to format the
-            // response based on the Content-Type header.
             printResponse(response, responseBody);
         }
     }
 
     private <T> void printResponse(HttpServletResponse response, T controllerResponse) throws IOException {
-        ObjectWriter writer = setDateFormatForObjectMapper().writer().withDefaultPrettyPrinter();
+        ObjectWriter writer = new ObjectMapper().writer();
         String value = writer.writeValueAsString(controllerResponse);
         response.getWriter().println(value);
-    }
-
-    private ObjectMapper setDateFormatForObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        // TODO Do you need this considering that you're now using the @JsonFormat annotation?
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.registerModule(new JavaTimeModule());
-        return mapper;
     }
 
 }

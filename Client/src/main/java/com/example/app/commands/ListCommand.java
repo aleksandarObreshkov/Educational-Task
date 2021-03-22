@@ -1,14 +1,15 @@
 package com.example.app.commands;
 
-import com.example.app.commands.addCommands.AddCharacterCommand;
-import com.example.app.commands.addCommands.AddMovieCommand;
-import com.example.app.commands.addCommands.AddStarshipCommand;
-import com.example.app.commands.deleteCommands.DeleteCharacterCommand;
-import com.example.app.commands.deleteCommands.DeleteMovieCommand;
-import com.example.app.commands.deleteCommands.DeleteStarshipCommand;
-import com.example.app.commands.showCommands.ShowCharactersCommand;
-import com.example.app.commands.showCommands.ShowMoviesCommand;
-import com.example.app.commands.showCommands.ShowStarshipsCommand;
+import com.example.app.commands.add.AddCharacterCommand;
+import com.example.app.commands.add.AddMovieCommand;
+import com.example.app.commands.add.AddStarshipCommand;
+import com.example.app.commands.delete.DeleteCharacterCommand;
+import com.example.app.commands.delete.DeleteMovieCommand;
+import com.example.app.commands.delete.DeleteStarshipCommand;
+import com.example.app.commands.show.ShowCharactersCommand;
+import com.example.app.commands.show.ShowMoviesCommand;
+import com.example.app.commands.show.ShowStarshipsCommand;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
@@ -47,28 +48,11 @@ public class ListCommand implements Command {
             //   String description;
             // }
             String commandString = commandClass.getMethod("getCommandString").invoke(commandClass).toString();
-            System.out.println(commandString);
             Options commandOptions = commands.get(commandClass);
-            if (commandOptions != null) {
-                // TODO Use
-                // https://commons.apache.org/proper/commons-cli/javadocs/api-1.3.1/org/apache/commons/cli/HelpFormatter.html
-                Collection<Option> options = commands.get(commandClass).getOptions();
-                for (Option option : options) {
-                    StringBuilder commandDetails = new StringBuilder();
-                    if (option.getOpt() != null) {
-                        commandDetails.append(" -").append(option.getOpt());
-                    }
-                    if (option.getLongOpt() != null) {
-                        commandDetails.append("/-").append(option.getLongOpt());
-                    }
-                    if (option.getDescription() != null) {
-                        commandDetails.append(" (").append(option.getDescription()).append(")");
-                    }
-                    System.out.println(commandDetails);
-                }
-            }
             String commandDescription = commandClass.getMethod("getDescription").invoke(commandClass).toString();
-            System.out.println("Description: " + commandDescription);
+
+            HelpFormatter helpFormatter = new HelpFormatter();
+            helpFormatter.printHelp(commandString, "", commandOptions, commandDescription);
             System.out.println();
         }
     }

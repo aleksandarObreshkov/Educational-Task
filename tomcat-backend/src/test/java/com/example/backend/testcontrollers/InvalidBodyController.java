@@ -1,6 +1,6 @@
 package com.example.backend.testcontrollers;
 
-import com.example.backend.RESTEntities.ResponseEntity;
+import com.example.backend.rest_entities.ResponseEntity;
 import com.example.backend.annotations.RequestBody;
 import com.example.backend.annotations.RequestMapping;
 import com.example.backend.annotations.RequestPath;

@@ -1,8 +1,8 @@
 package com.example.backend.movieTests;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import repositories.EntityRepository;
-import model.Movie;
+import com.example.repositories.EntityRepository;
+import com.example.model.Movie;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

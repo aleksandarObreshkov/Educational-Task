@@ -1,12 +1,12 @@
 package com.example.backend.starshipTests;
 
-import com.example.backend.controllers.StarshipController;
+import com.example.controllers.StarshipController;
+import com.example.errors.ExceptionResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
-import repositories.EntityRepository;
-import model.Starship;
+import com.example.repositories.EntityRepository;
+import com.example.model.Starship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import com.example.backend.errors.ExceptionResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;

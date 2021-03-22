@@ -1,14 +1,14 @@
 package com.example.app.commands;
 
-import com.example.app.commands.addCommands.AddCharacterCommand;
-import com.example.app.commands.addCommands.AddMovieCommand;
-import com.example.app.commands.addCommands.AddStarshipCommand;
-import com.example.app.commands.deleteCommands.DeleteCharacterCommand;
-import com.example.app.commands.deleteCommands.DeleteMovieCommand;
-import com.example.app.commands.deleteCommands.DeleteStarshipCommand;
-import com.example.app.commands.showCommands.ShowCharactersCommand;
-import com.example.app.commands.showCommands.ShowMoviesCommand;
-import com.example.app.commands.showCommands.ShowStarshipsCommand;
+import com.example.app.commands.add.AddCharacterCommand;
+import com.example.app.commands.add.AddMovieCommand;
+import com.example.app.commands.add.AddStarshipCommand;
+import com.example.app.commands.delete.DeleteCharacterCommand;
+import com.example.app.commands.delete.DeleteMovieCommand;
+import com.example.app.commands.delete.DeleteStarshipCommand;
+import com.example.app.commands.show.ShowCharactersCommand;
+import com.example.app.commands.show.ShowMoviesCommand;
+import com.example.app.commands.show.ShowStarshipsCommand;
 import com.example.app.errors.InvalidInputException;
 import org.apache.commons.cli.*;
 import java.util.Arrays;

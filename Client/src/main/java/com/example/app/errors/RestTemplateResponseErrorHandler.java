@@ -1,9 +1,11 @@
 package com.example.app.errors;
 
+import com.example.errors.ErrorInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 import java.io.IOException;
+import java.rmi.ServerException;
 
 import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
@@ -18,7 +20,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
-        throw new IOException(errorInfo.getError());
+        throw new ServerException(errorInfo.getError());
     }
 
 }

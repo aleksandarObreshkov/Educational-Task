@@ -8,12 +8,12 @@
     <persistence-unit name="PostgreJPA" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-        <class>model.Movie</class>
-        <class>model.Character</class>
-        <class>model.Starship</class>
-        <class>model.Human</class>
-        <class>model.Droid</class>
-        <class>utils.LocalDateAttributeConverter</class>
+        <class>com.example.model.Movie</class>
+        <class>com.example.model.Character</class>
+        <class>com.example.model.Starship</class>
+        <class>com.example.model.Human</class>
+        <class>com.example.model.Droid</class>
+        <class>com.example.utils.LocalDateAttributeConverter</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/starwarsdb"/>
             <property name="javax.persistence.jdbc.user" value="i542072"/>
