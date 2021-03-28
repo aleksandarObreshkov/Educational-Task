@@ -1,8 +1,10 @@
 package com.example.backend.controllers;
 
-import com.example.backend.constants.HttpStatus;
+import com.example.constants.HttpStatus;
+import com.example.controllers.MovieController;
 import com.example.repositories.EntityRepository;
 import com.example.model.Movie;
+import com.example.repositories.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class MovieControllerTest {
 
     @Mock
-    public EntityRepository repository;
+    public MovieRepository repository;
 
     @BeforeEach
     public void setup(){
@@ -30,7 +32,7 @@ public class MovieControllerTest {
         Movie movie = Mockito.mock(Movie.class);
         ArrayList<Movie> resultList = new ArrayList<>();
         resultList.add(movie);
-        when(repository.findAll(Movie.class)).thenReturn(resultList);
+        when(repository.findAll()).thenReturn(resultList);
         assertEquals(controller.get().getStatus(), HttpStatus.OK);
         assertEquals(controller.get().getBody(), resultList);
     }
@@ -39,28 +41,28 @@ public class MovieControllerTest {
     public void validFindByIdRequest(){
         MovieController controller = new MovieController(repository);
         Movie movie = Mockito.mock(Movie.class);
-        when(repository.findById(10L, Movie.class)).thenReturn(movie);
+        when(repository.findById(10L)).thenReturn(movie);
         assertEquals(controller.get(10L).getBody(), movie);
     }
 
     @Test
     public void findByIdNotFoundRequest(){
         MovieController controller = new MovieController(repository);
-        when(repository.findById(10L, Movie.class)).thenReturn(null);
+        when(repository.findById(10L)).thenReturn(null);
         assertEquals(controller.get(10L).getStatus(), HttpStatus.NOT_FOUND);
     }
 
     @Test
     public void validDeleteByIdRequest(){
         MovieController controller = new MovieController(repository);
-        when(repository.deleteById(10L, Movie.class)).thenReturn(true);
+        when(repository.deleteById(10L)).thenReturn(true);
         assertEquals(controller.delete(10L).getStatus(), HttpStatus.NO_CONTENT);
     }
 
     @Test
     public void deleteByIdNotFoundRequest(){
         MovieController controller = new MovieController(repository);
-        when(repository.deleteById(10L, Movie.class)).thenReturn(false);
+        when(repository.deleteById(10L)).thenReturn(false);
         assertEquals(controller.get(10L).getStatus(), HttpStatus.NOT_FOUND);
     }
 

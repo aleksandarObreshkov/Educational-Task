@@ -1,5 +1,7 @@
 package com.example.model;
 
+import com.example.model.dto.HumanDTO;
+import com.example.processor.Validate;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +14,7 @@ import java.util.List;
 @DiscriminatorValue(value = "human")
 @JsonTypeName("human")
 @Data
+@Validate
 public class Human extends Character {
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -30,8 +33,12 @@ public class Human extends Character {
         this.starships = starships;
     }
 
-    // TODO
-    public Human() {
-
+    public static Human parseHuman(HumanDTO dto){
+        Human result = new Human();
+        result.setName(dto.getName());
+        result.setAge(dto.getAge());
+        result.setForceUser(dto.isForceUser());
+        return result;
     }
+
 }

@@ -19,11 +19,6 @@
             <version>1.9.0</version>
         </dependency>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>2.2</version>
-        </dependency>
-        <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>2.0.2</version>
@@ -39,8 +34,6 @@
                 <executions>
                     <execution>
                         <id>default-compile</id>
-                        <!-- TODO Do you really need this separate compilation? We needed it in the beginning when the annotation 
-                            processor was in the same module as the classes it needed to process. -->
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
@@ -48,6 +41,8 @@
                                 <include>com/example/processor/ValidationMethodFactory.java</include>
                                 <include>com/example/processor/TypeValidationGenerator.java</include>
                                 <include>com/example/processor/ValidationProcessor.java</include>
+                                <include>com/example/processor/ValidateWith.java</include>
+                                <include>com/example/processor/ValidatorFor.java</include>
                             </includes>
                         </configuration>
                     </execution>

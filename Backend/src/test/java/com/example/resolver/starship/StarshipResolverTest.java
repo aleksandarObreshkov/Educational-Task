@@ -1,46 +1,33 @@
 package com.example.resolver.starship;
 
 import com.example.model.Starship;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.example.repositories.EntityRepository;
+import com.example.repositories.StarshipRepository;
+import com.example.resolver.EntityResolver;
+import com.example.resolver.EntityResolverTest;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
-public class StarshipResolverTest {
+public class StarshipResolverTest extends EntityResolverTest<Starship, StarshipRepository> {
 
     @Mock
-    @Qualifier("entityRepository")
-    private EntityRepository repository;
+    StarshipRepository repository;
 
-    private StarshipResolver resolver;
+    @Mock
+    Starship starship;
 
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-        resolver = new StarshipResolver(repository);
+    @Override
+    protected EntityResolver<Starship, StarshipRepository> initResolver(StarshipRepository repository) {
+        return new StarshipResolver(repository);
     }
 
-    @Test
-    public void allStarships(){
-        List<Starship> starships = new ArrayList<>();
-        when(repository.findAll(Starship.class)).thenReturn(starships);
-        assertEquals(resolver.allStarships(), starships);
+    @Override
+    protected StarshipRepository mockRepo() {
+        return repository;
     }
 
-    @Test
-    public void starship(){
-        Starship starship = Mockito.mock(Starship.class);
-        when(repository.findById(10L, Starship.class)).thenReturn(starship);
-        assertEquals(resolver.starship(10L), Optional.of(starship));
+    @Override
+    protected Starship mockEntity() {
+        return starship;
     }
 }

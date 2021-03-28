@@ -1,34 +1,17 @@
 package com.example.resolver.starship;
 
-import com.example.errors.NotFoundException;
-import graphql.kickstart.tools.GraphQLResolver;
+import com.example.repositories.StarshipRepository;
+import com.example.resolver.EntityResolver;
 import com.example.model.Starship;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import com.example.repositories.EntityRepository;
-
-import java.util.Optional;
 
 @Component
-// TODO
-public class StarshipResolver implements GraphQLResolver<Starship> {
+public class StarshipResolver extends EntityResolver<Starship, StarshipRepository>{
 
-    private final EntityRepository<Starship> repository;
-
-    public StarshipResolver(@Qualifier("entityRepository") EntityRepository<Starship> repository) {
-        this.repository = repository;
+    public StarshipResolver(StarshipRepository repository){
+        super(repository);
     }
-
-    public Iterable<Starship> allStarships() {
-        return repository.findAll();
+    public StarshipResolver() {
+        this(new StarshipRepository());
     }
-
-    public Optional<Starship> starship(Long id) {
-        Starship starshipToReturn = repository.findById(id);
-        if (starshipToReturn == null) {
-            throw new NotFoundException("No Starship with the specified id.");
-        }
-        return Optional.of(starshipToReturn);
-    }
-
 }

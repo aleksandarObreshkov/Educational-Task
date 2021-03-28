@@ -1,35 +1,24 @@
 package com.example.app.commands.show;
 
+import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
-import com.example.app.errors.RestTemplateResponseErrorHandler;
-import com.example.app.printing.MoviePrinter;
-import com.example.model.Movie;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
-import java.util.Arrays;
-import java.util.List;
+import com.example.app.printing.printers.MoviePrinter;
 
-public class ShowMoviesCommand implements Command {
+public class ShowMoviesCommand extends Command {
 
-    private final List<Movie> movies;
-
-    public ShowMoviesCommand(String url) {
-        RestTemplate template = new RestTemplateBuilder()
-                .errorHandler(new RestTemplateResponseErrorHandler()).build();
-        movies= Arrays.asList(template.getForObject(url, Movie[].class));
+    @Override
+    public void execute(String[] arguments) {
+        MoviePrinter printer = new MoviePrinter();
+        printer.printTable(StarWarsClient.movies().list());
     }
 
     @Override
-    public void execute() {
-        MoviePrinter printer = new MoviePrinter();
-        printer.printMovieTable(movies);
+    public String getDescription(){
+        return "Show all Movies";
     }
 
-    public static String getDescription(){
-        return "Show all movies";
-    }
-
-    public static String getCommandString(){
+    @Override
+    public String getCommandString(){
         return "movies";
     }
 }

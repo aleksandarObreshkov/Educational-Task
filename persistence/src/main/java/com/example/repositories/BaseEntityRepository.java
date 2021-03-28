@@ -13,7 +13,6 @@ abstract class BaseEntityRepository {
             manager.getTransaction().begin();
             T result = databaseAction.apply(manager);
             manager.getTransaction().commit();
-            manager.close();
             return result;
         } catch (RollbackException e){
             if (manager.getTransaction().isActive()){
@@ -30,8 +29,7 @@ abstract class BaseEntityRepository {
         try{
             return databaseAction.apply(manager);
         }catch (Exception e){
-            throw new RollbackException("Database error: "+e.getMessage(), e);
-            //TODO: Add an adequate exception and message
+            throw new PersistenceException("Database error: "+e.getMessage(), e);
         }finally {
             manager.close();
         }

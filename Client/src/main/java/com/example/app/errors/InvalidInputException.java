@@ -1,10 +1,10 @@
 package com.example.app.errors;
 
-// TODO Add a serialVersionUid constant.
 public class InvalidInputException extends RuntimeException {
+
+    private static final Long serialVersionUid = 1L;
 
     public InvalidInputException(String message, Throwable cause) {
         super(message, cause);
     }
-
 }

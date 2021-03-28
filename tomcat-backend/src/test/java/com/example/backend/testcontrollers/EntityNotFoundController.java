@@ -1,13 +1,13 @@
 package com.example.backend.testcontrollers;
 
-import com.example.backend.rest_entities.ResponseEntity;
-import com.example.backend.annotations.PathVariable;
-import com.example.backend.annotations.RequestMapping;
-import com.example.backend.annotations.RequestPath;
-import com.example.backend.constants.HttpMethod;
-import com.example.backend.constants.HttpStatus;
+import com.example.rest_entities.ResponseEntity;
+import com.example.annotations.PathVariable;
+import com.example.annotations.RequestMapping;
+import com.example.annotations.RequestPath;
+import com.example.constants.HttpMethod;
+import com.example.constants.HttpStatus;
 
-@RequestPath(value = "/tomcat_backend_war_exploded/notFoundController")
+@RequestPath(value = "/notFoundController")
 public class EntityNotFoundController {
 
     public EntityNotFoundController(){

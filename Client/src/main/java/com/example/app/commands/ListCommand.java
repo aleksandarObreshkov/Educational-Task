@@ -1,60 +1,37 @@
 package com.example.app.commands;
 
-import com.example.app.commands.add.AddCharacterCommand;
-import com.example.app.commands.add.AddMovieCommand;
-import com.example.app.commands.add.AddStarshipCommand;
-import com.example.app.commands.delete.DeleteCharacterCommand;
-import com.example.app.commands.delete.DeleteMovieCommand;
-import com.example.app.commands.delete.DeleteStarshipCommand;
-import com.example.app.commands.show.ShowCharactersCommand;
-import com.example.app.commands.show.ShowMoviesCommand;
-import com.example.app.commands.show.ShowStarshipsCommand;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+public class ListCommand extends Command {
 
-public class ListCommand implements Command {
-
-    public static String getDescription() {
+    @Override
+    public String getDescription() {
         return "Show all available commands";
     }
 
-    public static String getCommandString() {
+    @Override
+    public String getCommandString() {
         return "list";
     }
 
     @Override
-    public void execute() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Map<Class<? extends Command>, Options> commands = new LinkedHashMap<>();
-        commands.put(AddCharacterCommand.class, AddCharacterCommand.getAddCharacterOptions());
-        commands.put(AddMovieCommand.class, AddMovieCommand.getAddMovieOptions());
-        commands.put(AddStarshipCommand.class, AddStarshipCommand.getAddStarshipOptions());
-        commands.put(DeleteCharacterCommand.class, DeleteCharacterCommand.getDeleteOptions());
-        commands.put(DeleteMovieCommand.class, DeleteMovieCommand.getDeleteOptions());
-        commands.put(DeleteStarshipCommand.class, DeleteStarshipCommand.getDeleteOptions());
-        commands.put(ShowCharactersCommand.class, null);
-        commands.put(ShowMoviesCommand.class, null);
-        commands.put(ShowStarshipsCommand.class, null);
-        commands.put(ListCommand.class, null);
+    public void execute(String[] arguments) {
+        CommandRegistry registry = new CommandRegistry();
 
-        for (Class<? extends Command> commandClass : commands.keySet()) {
-            // TODO Don't get too comfortable with Java's reflection API. Think of it as a last resort. Create a
-            // registry of command descriptions instead of this and use it.
-            // class CommandDescription {
-            //   String name;
-            //   String description;
-            // }
-            String commandString = commandClass.getMethod("getCommandString").invoke(commandClass).toString();
-            Options commandOptions = commands.get(commandClass);
-            String commandDescription = commandClass.getMethod("getDescription").invoke(commandClass).toString();
+        for (Command command : registry.getCommands()){
+            Options options = command.getOptions();
+            String commandDescription = command.getDescription();
+            String commandString = command.getCommandString();
 
             HelpFormatter helpFormatter = new HelpFormatter();
-            helpFormatter.printHelp(commandString, "", commandOptions, commandDescription);
-            System.out.println();
+            helpFormatter.setWidth(120);
+            helpFormatter.printHelp(commandString, commandDescription, options, "");
+            if (!options.getOptions().isEmpty()){
+                //printHelp() adds an empty line if Options is empty, but if then the new lines will be 2, so
+                //I added this if to skip the repetition
+                System.out.println();
+            }
         }
     }
-
 }

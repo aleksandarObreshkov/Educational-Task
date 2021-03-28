@@ -1,6 +1,7 @@
 
 package com.example.model;
 
+import com.example.processor.Validate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Entity
+@Validate
 public class Movie {
 
     @Id
@@ -32,9 +34,6 @@ public class Movie {
     @NotNull(message = "Please provide a rating.")
     @Max(value = 10L, message = "Rating should be less than 10.")
     private Float rating;
-
-    // TODO
-    public Movie(){}
 
     @JsonSetter
     public void setReleaseDate(String releaseDate) {

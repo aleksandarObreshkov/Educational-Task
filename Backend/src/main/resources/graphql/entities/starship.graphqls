@@ -1,5 +1,5 @@
 type Starship{
     id:ID
     name:String
-    length:Float
+    lengthInMeters:Float
 }

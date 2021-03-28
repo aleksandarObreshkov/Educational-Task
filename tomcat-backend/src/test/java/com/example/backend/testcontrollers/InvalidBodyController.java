@@ -1,12 +1,12 @@
 package com.example.backend.testcontrollers;
 
-import com.example.backend.rest_entities.ResponseEntity;
-import com.example.backend.annotations.RequestBody;
-import com.example.backend.annotations.RequestMapping;
-import com.example.backend.annotations.RequestPath;
-import com.example.backend.constants.HttpMethod;
+import com.example.rest_entities.ResponseEntity;
+import com.example.annotations.RequestBody;
+import com.example.annotations.RequestMapping;
+import com.example.annotations.RequestPath;
+import com.example.constants.HttpMethod;
 
-@RequestPath(value = "/tomcat_backend_war_exploded/invalidBodyController")
+@RequestPath(value = "/invalidBodyController")
 public class InvalidBodyController {
 
     public InvalidBodyController() {

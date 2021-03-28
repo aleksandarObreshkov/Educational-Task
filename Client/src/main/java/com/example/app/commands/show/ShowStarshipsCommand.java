@@ -1,35 +1,65 @@
 package com.example.app.commands.show;
 
+import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
-import com.example.app.errors.RestTemplateResponseErrorHandler;
-import com.example.app.printing.StarshipPrinter;
+import com.example.app.printing.printers.StarshipPrinter;
 import com.example.model.Starship;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
-import java.util.Arrays;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+
 import java.util.List;
 
-public class ShowStarshipsCommand implements Command {
 
-    private final List<Starship> starships;
+public class ShowStarshipsCommand extends Command {
 
-    public ShowStarshipsCommand(String url) {
-        RestTemplate template = new RestTemplateBuilder()
-                .errorHandler(new RestTemplateResponseErrorHandler()).build();
-        starships= Arrays.asList(template.getForObject(url, Starship[].class));
+    private final static Float METER_TO_FEET = 3.2808f;
+
+    private static final String UNIT_OF_MEASUREMENT_OPTION = "u";
+    private static final String UNIT_OF_MEASUREMENT_OPTION_LONG = "unit";
+
+
+    @Override
+    public void execute(String[] arguments) {
+        CommandLine cmd = parseCommandLine(getOptions(), arguments);
+        List<Starship> starships = StarWarsClient.starships().list();
+        StarshipPrinter printer = new StarshipPrinter();
+        if (!cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
+            printer.printTable(starships);
+            return;
+        }
+        String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
+        //This if is added in case we have other units of measurement (inches, decimeters, etc.)
+        if (unitOfMeasurement.equals("imperial")){
+            for (Starship starship : starships){
+                starship.setLengthInMeters(starship.getLengthInMeters()*METER_TO_FEET);
+            }
+        }
+        printer.printTable(starships);
+
     }
 
     @Override
-    public void execute() {
-        StarshipPrinter printer = new StarshipPrinter();
-        printer.printStarshipsTable(starships);
+    public String getDescription(){
+        return "Show all Starships";
     }
 
-    public static String getDescription(){
-        return "Show all starships";
-    }
-
-    public static String getCommandString(){
+    @Override
+    public String getCommandString(){
         return "starships";
+    }
+
+    @Override
+    public Options getOptions() {
+        Option unitOfMeasurement = Option.builder(UNIT_OF_MEASUREMENT_OPTION)
+                .longOpt(UNIT_OF_MEASUREMENT_OPTION_LONG)
+                .desc("unit of measurement: metric(default)/imperial")
+                .hasArg()
+                .argName("unit")
+                .type(String.class)
+                .build();
+        Options options = new Options();
+        options.addOption(unitOfMeasurement);
+        return options;
     }
 }

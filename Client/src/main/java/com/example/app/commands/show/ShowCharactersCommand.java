@@ -1,37 +1,48 @@
 package com.example.app.commands.show;
 
-import com.example.app.errors.RestTemplateResponseErrorHandler;
-import com.example.app.printing.CharacterPrinter;
+import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
+import com.example.app.printing.printers.CharacterMoviesPrinter;
+import com.example.app.printing.printers.CharacterPrinter;
+import com.example.app.printing.printers.FriendsPrinter;
+import com.example.app.printing.printers.HumanStarshipsPrinter;
+import com.example.app.printing.representers.CharacterMoviesRepresenter;
 import com.example.model.Character;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
-import java.util.Arrays;
+import com.example.model.Human;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ShowCharactersCommand implements Command {
+public class ShowCharactersCommand extends Command {
 
-    private final List<Character> characters;
-
-    public ShowCharactersCommand(String url) {
-        RestTemplate template = new RestTemplateBuilder().errorHandler(new RestTemplateResponseErrorHandler()).build();
-        // TODO Methods should have one single purpose. The purpose of the constructor should be to construct the object
-        // and nothing else. Leave this work to the execute method.
-        characters = Arrays.asList(template.getForObject(url, Character[].class));
-    }
-
-    public static String getDescription() {
-        return "Show all characters";
-    }
-
-    public static String getCommandString() {
+    @Override
+    public String getCommandString() {
         return "characters";
     }
 
     @Override
-    public void execute() {
-        CharacterPrinter printer = new CharacterPrinter();
-        printer.printCharacterTable(characters);
+    public String getDescription() {
+        return "Show all characters";
     }
 
+    @Override
+    public void execute(String[] arguments) {
+        CharacterPrinter printer = new CharacterPrinter();
+        FriendsPrinter friendsPrinter = new FriendsPrinter();
+        HumanStarshipsPrinter humanStarshipsPrinter = new HumanStarshipsPrinter();
+        CharacterMoviesPrinter characterMoviesPrinter = new CharacterMoviesPrinter();
+
+        List<Character> characters = StarWarsClient.characters().list();
+        printer.printTable(characters);
+        friendsPrinter.printTable(characters);
+        humanStarshipsPrinter.printTable(getAllHumans(characters));
+        characterMoviesPrinter.printTable(characters);
+    }
+
+    private List<Human> getAllHumans(List<Character> characters){
+        return characters.stream()
+                .filter(character -> character.getCharacterType().equals("human"))
+                .map(character -> (Human)character)
+                .collect(Collectors.toList());
+    }
 }

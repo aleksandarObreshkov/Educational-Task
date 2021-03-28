@@ -1,46 +1,46 @@
 package com.example.resolver.character;
 
 import com.example.model.Droid;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.resolver.EntityResolver;
+import com.example.resolver.EntityResolverTest;
+import com.example.repositories.CharacterRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.CharacterRepository;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class DroidResolverTest {
+public class DroidResolverTest extends EntityResolverTest<Droid, CharacterRepository<Droid>> {
 
     @Mock
-    @Qualifier("characterRepository")
-    private CharacterRepository repository;
+    CharacterRepository<Droid> repository;
 
-    private DroidResolver resolver;
+    @Mock
+    Droid droid;
 
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-        resolver = new DroidResolver(repository);
+    @Override
+    protected EntityResolver<Droid, CharacterRepository<Droid>> initResolver(CharacterRepository<Droid> repository) {
+        return new DroidResolver(repository);
     }
 
-    @Test
-    public void allDroids(){
-        List<Droid> droids = new ArrayList<>();
-        when(repository.findAll(Droid.class)).thenReturn(droids);
-        assertEquals(resolver.allDroids(), droids);
+    @Override
+    protected CharacterRepository<Droid> mockRepo() {
+        return repository;
     }
 
+    @Override
+    protected Droid mockEntity() {
+        return droid;
+    }
+
+    @Override
     @Test
-    public void human(){
-        Droid droid = Mockito.mock(Droid.class);
-        when(repository.findById(10L, Droid.class)).thenReturn(droid);
-        assertEquals(resolver.droid(10L), Optional.of(droid));
+    public void findAllTest() {
+        List<Droid> entities = new ArrayList<>();
+        entities.add(entity);
+        when(repository.findAllOfType()).thenReturn(entities);
+        assertEquals(resolver.all(), entities);
     }
 }

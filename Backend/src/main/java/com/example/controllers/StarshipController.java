@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.repositories.StarshipRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import com.example.repositories.EntityRepository;
 import com.example.model.Starship;
@@ -13,43 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/starships")
-public class StarshipController {
+public class StarshipController extends EntityController<Starship>{
 
-    public final EntityRepository<Starship> repository;
-
-    @Autowired
-    public StarshipController(@Qualifier("entityRepository") EntityRepository<Starship> repository) {
-        this.repository = repository;
+    public StarshipController() {
+        this(new StarshipRepository());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Starship>> getAllStarships() {
-        List<Starship> result = repository.findAll();
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Starship> getStarshipById(@PathVariable Long id) {
-        Starship result = repository.findById(id);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStarshipById(@PathVariable Long id) {
-        boolean isDeleted = repository.deleteById(id);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @PostMapping
-    public ResponseEntity<String> addStarship(@Valid @RequestBody Starship starship) {
-        repository.save(starship);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public StarshipController(EntityRepository<Starship> repository){
+        super(repository);
     }
 
 }

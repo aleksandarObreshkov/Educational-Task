@@ -1,48 +1,32 @@
 package com.example.resolver.movie;
 
 import com.example.model.Movie;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.example.repositories.MovieRepository;
+import com.example.resolver.EntityResolver;
+import com.example.resolver.EntityResolverTest;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class MovieResolverTest {
+public class MovieResolverTest extends EntityResolverTest<Movie, MovieRepository> {
 
     @Mock
-    @Qualifier("entityRepository")
-    private EntityRepository repository;
+    MovieRepository repository;
 
-    private MovieResolver resolver;
+    @Mock
+    Movie movie;
 
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-        resolver = new MovieResolver(repository);
+    @Override
+    protected EntityResolver<Movie, MovieRepository> initResolver(MovieRepository repository) {
+        return new MovieResolver(repository);
     }
 
-    @Test
-    public void allMovies(){
-        List<Movie> movies = new ArrayList<>();
-        when(repository.findAll(Movie.class)).thenReturn(movies);
-        assertEquals(resolver.allMovies(), movies);
+    @Override
+    protected MovieRepository mockRepo() {
+        return repository;
     }
 
-    @Test
-    public void movie(){
-        Movie movie = Mockito.mock(Movie.class);
-        when(repository.findById(10L, Movie.class)).thenReturn(movie);
-        assertEquals(resolver.movie(10L), Optional.of(movie));
+    @Override
+    protected Movie mockEntity() {
+        return movie;
     }
-
-
 }

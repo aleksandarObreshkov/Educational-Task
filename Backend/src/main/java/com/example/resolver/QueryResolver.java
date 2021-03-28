@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class QueryResolver implements GraphQLQueryResolver {
+public class QueryResolver implements GraphQLQueryResolver{
 
     private final StarshipResolver starshipResolver;
     private final MovieResolver movieResolver;
@@ -28,19 +28,19 @@ public class QueryResolver implements GraphQLQueryResolver {
     }
 
     public Iterable<Movie> allMovies() {
-        return movieResolver.allMovies();
+        return movieResolver.all();
     }
 
     public Optional<Movie> movie(Long id) {
-        return movieResolver.movie(id);
+        return movieResolver.entityWithId(id);
     }
 
     public Iterable<Starship> allStarships() {
-        return starshipResolver.allStarships();
+        return starshipResolver.all();
     }
 
     public Optional<Starship> starship(Long id) {
-        return starshipResolver.starship(id);
+        return starshipResolver.entityWithId(id);
     }
 
     public Iterable<Character> allCharacters() {
@@ -48,19 +48,20 @@ public class QueryResolver implements GraphQLQueryResolver {
     }
 
     public Optional<Droid> droid(Long id) {
-        return null;//droidResolver.characterWithIdAndType(id);
+        return droidResolver.entityWithId(id);
     }
 
     public Iterable<Droid> allDroids() {
-        return null;//droidResolver.allDroids();
+        return droidResolver.all();
     }
 
     public Optional<Human> human(Long id) {
-        return humanResolver.human(id);
+        return humanResolver.entityWithId(id);
     }
 
     public Iterable<Human> allHumans() {
-        return humanResolver.allHumans();
+        return humanResolver.all();
     }
+
 
 }

@@ -1,5 +1,7 @@
 package com.example.model;
 
+import com.example.model.dto.DroidDTO;
+import com.example.model.dto.HumanDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -11,7 +13,9 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "characterType")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Human.class),
-        @JsonSubTypes.Type(value = Droid.class)})
+        @JsonSubTypes.Type(value = Droid.class),
+        @JsonSubTypes.Type(value = HumanDTO.class),
+        @JsonSubTypes.Type(value = DroidDTO.class)})
 @Entity
 @Table
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )

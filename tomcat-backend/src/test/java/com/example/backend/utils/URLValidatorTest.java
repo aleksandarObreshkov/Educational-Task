@@ -1,5 +1,6 @@
 package com.example.backend.utils;
 
+import com.example.utils.URLParser;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -13,7 +14,7 @@ public class URLValidatorTest {
     @ValueSource(strings = {"", "/{id}"})
     public void invalidUrlTest(String uriWithPathVariablePlaceholders){
         assertThrows(IllegalArgumentException.class, () -> {
-            URLValidator.isUrlValid(
+            URLParser.parseUrl(
                     "////",
                     uriWithPathVariablePlaceholders,
                     new HashMap<>());

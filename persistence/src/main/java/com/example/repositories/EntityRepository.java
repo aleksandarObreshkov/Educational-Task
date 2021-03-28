@@ -1,16 +1,19 @@
 package com.example.repositories;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
-@Repository
-public class EntityRepository<T> extends BaseEntityRepository {
+public abstract class EntityRepository<T> extends BaseEntityRepository {
 
-    public List<T> findAll(Class<T> type) {
+    protected Class<T> type;
+
+    public EntityRepository(Class<T> type) {
+        this.type = type;
+    }
+
+    public List<T> findAll() {
         return execute(
-                // TODO
-                manager -> manager.createQuery("SELECT a FROM " + type.getSimpleName() + " a", type).getResultList());
+                manager -> manager.createQuery("SELECT a FROM " + type.getSimpleName() + " a", type)
+                        .getResultList());
     }
 
     public void save(T objectToPersist) {
@@ -20,16 +23,15 @@ public class EntityRepository<T> extends BaseEntityRepository {
         });
     }
 
-    public boolean deleteById(Long id, Class<T> type) {
+    public boolean deleteById(Long id) {
         return executeInTransaction(manager -> {
-            // TODO
-            int affectedRows = manager.createQuery("DELETE FROM " + type.getSimpleName() + " a WHERE a.id=" + id)
+            int affectedRows = manager.createQuery("DELETE FROM " + type.getSimpleName() + " a WHERE a.id="+id)
                     .executeUpdate();
             return affectedRows > 0;
         });
     }
 
-    public T findById(Long id, Class<T> type) {
+    public T findById(Long id) {
         return execute(manager -> manager.find(type, id));
     }
 

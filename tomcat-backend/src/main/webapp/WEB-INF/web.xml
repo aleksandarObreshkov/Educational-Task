@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>DispatcherServlet</servlet-name>
-        <servlet-class>com.example.backend.servlets.DispatcherServlet</servlet-class>
+        <servlet-class>com.example.servlets.DispatcherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DispatcherServlet</servlet-name>

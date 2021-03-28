@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GraphQLConfig {
-
     @Bean
     public SchemaParserDictionary schemaParserDictionary(){
         return new SchemaParserDictionary()

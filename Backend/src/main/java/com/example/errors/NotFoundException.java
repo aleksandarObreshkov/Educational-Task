@@ -1,20 +1,32 @@
 package com.example.errors;
 
-import graphql.GraphQLException;
+import graphql.ErrorClassification;
+import graphql.GraphQLError;
+import graphql.language.SourceLocation;
 
-// TODO You've implemented Serializable (comes from the Throwable interface), but you haven't added a serialVersionUid
-// constant to the class.
-public class NotFoundException extends GraphQLException {
+import java.util.List;
 
-    private final String message; // TODO Why introduce a new message field when Throwable already has one.
+public class NotFoundException extends RuntimeException implements GraphQLError {
 
-    public NotFoundException(String message) {
-        super();
+    private static final Long serialVersionUid = 1L;
+    private final String message;
+
+    public NotFoundException(String message){
         this.message = message;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
+    public List<SourceLocation> getLocations() {
+        return null;
+    }
+
+    @Override
+    public ErrorClassification getErrorType() {
+        return null;
+    }
 }

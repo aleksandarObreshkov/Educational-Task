@@ -21,7 +21,7 @@ public class ExceptionResolver {
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(JsonProcessingException.class)
+    @ExceptionHandler({JsonProcessingException.class})
     @ResponseBody
     ErrorInfo handleInvalidInputFormat(Exception ex) {
         return new ErrorInfo("Invalid input format. Cause: " + ex.getMessage());
@@ -31,10 +31,7 @@ public class ExceptionResolver {
     @ExceptionHandler(RollbackException.class)
     @ResponseBody
     ErrorInfo handleEntityExistsException(RollbackException ex) {
-        // TODO This exception message could be misleading, because a RollbackException could occur for numerous other
-        // reasons besides a unique constraint conflict. For example, trying to delete an entity that is referenced by
-        // other entities.
-        return new ErrorInfo("Object already exists. " + ex.getLocalizedMessage());
+        return new ErrorInfo("Database exception: " + ex.getLocalizedMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

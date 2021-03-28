@@ -1,8 +1,10 @@
 package com.example.backend.controllers;
 
-import com.example.backend.constants.HttpStatus;
+import com.example.constants.HttpStatus;
+import com.example.controllers.StarshipController;
 import com.example.repositories.EntityRepository;
 import com.example.model.Starship;
+import com.example.repositories.StarshipRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class StarshipControllerTest {
 
     @Mock
-    public EntityRepository repository;
+    public StarshipRepository repository;
 
     @BeforeEach
     public void setup(){
@@ -30,7 +32,7 @@ public class StarshipControllerTest {
         Starship starship = Mockito.mock(Starship.class);
         ArrayList<Starship> resultList = new ArrayList<>();
         resultList.add(starship);
-        when(repository.findAll(Starship.class)).thenReturn(resultList);
+        when(repository.findAll()).thenReturn(resultList);
         assertEquals(controller.get().getStatus(), HttpStatus.OK);
         assertEquals(controller.get().getBody(), resultList);
     }
@@ -39,28 +41,28 @@ public class StarshipControllerTest {
     public void validFindByIdRequest(){
         StarshipController controller = new StarshipController(repository);
         Starship starship = Mockito.mock(Starship.class);
-        when(repository.findById(10L, Starship.class)).thenReturn(starship);
+        when(repository.findById(10L)).thenReturn(starship);
         assertEquals(controller.get(10L).getBody(), starship);
     }
 
     @Test
     public void findByIdNotFoundRequest(){
         StarshipController controller = new StarshipController(repository);
-        when(repository.findById(10L, Starship.class)).thenReturn(null);
+        when(repository.findById(10L)).thenReturn(null);
         assertEquals(controller.get(10L).getStatus(), HttpStatus.NOT_FOUND);
     }
 
     @Test
     public void validDeleteByIdRequest(){
         StarshipController controller = new StarshipController(repository);
-        when(repository.deleteById(10L, Starship.class)).thenReturn(true);
+        when(repository.deleteById(10L)).thenReturn(true);
         assertEquals(controller.delete(10L).getStatus(), HttpStatus.NO_CONTENT);
     }
 
     @Test
     public void deleteByIdNotFoundRequest(){
         StarshipController controller = new StarshipController(repository);
-        when(repository.deleteById(10L, Starship.class)).thenReturn(false);
+        when(repository.deleteById(10L)).thenReturn(false);
         assertEquals(controller.get(10L).getStatus(), HttpStatus.NOT_FOUND);
     }
 

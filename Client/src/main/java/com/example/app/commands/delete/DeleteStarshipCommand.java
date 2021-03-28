@@ -1,38 +1,33 @@
 package com.example.app.commands.delete;
 
+import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
-import com.example.app.errors.RestTemplateResponseErrorHandler;
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
 
-public class DeleteStarshipCommand implements Command {
-
-    private final RestTemplate template;
-    private final String url;
-
-    public DeleteStarshipCommand(String url) {
-        this.url = url;
-        this.template = new RestTemplateBuilder().errorHandler(new RestTemplateResponseErrorHandler()).build();
-    }
+public class DeleteStarshipCommand extends Command {
 
     @Override
-    public void execute() {
-        template.delete(url);
-    }
-
-    public static String getDescription() {
+    public String getDescription() {
         return "Delete a starship with the specified id";
     }
 
-    public static String getCommandString() {
+    @Override
+    public String getCommandString() {
         return "delete-starship";
     }
 
-    public static Options getDeleteOptions() {
+    @Override
+    public Options getOptions() {
         final Options options = new Options();
-        options.addOption("id", true, "delete an item with the specified id");
+        options.addOption("id", true, "the id of the starship");
         return options;
     }
 
+    @Override
+    public void execute(String[] arguments) {
+        CommandLine cmd = parseCommandLine(getOptions(), arguments);
+        Long id = Long.parseLong(cmd.getOptionValue("id"));
+        StarWarsClient.starships().delete(id);
+    }
 }

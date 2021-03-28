@@ -1,12 +1,15 @@
 package com.example.processor;
 
 import com.squareup.javapoet.*;
+import jdk.dynalink.linker.support.TypeUtilities;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
-import javax.persistence.Entity;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.validation.constraints.*;
 import java.io.IOException;
@@ -15,12 +18,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ValidationProcessor extends AbstractProcessor {
 
     private Filer filer;
     private Messager messager;
     private AnnotationRegistry annotationRegistry;
+    private Types typeUtilities;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -28,6 +33,7 @@ public class ValidationProcessor extends AbstractProcessor {
         filer = processingEnv.getFiler();
         messager = processingEnv.getMessager();
         annotationRegistry = fillAnnotationRegistry();
+        this.typeUtilities=processingEnv.getTypeUtils();
     }
 
     private AnnotationRegistry fillAnnotationRegistry() {
@@ -42,13 +48,8 @@ public class ValidationProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        Set<String> annotations = new LinkedHashSet<>();
-        // TODO With this line of code you're coupling your annotation processing code to JPA. You should strive to have
-        // low coupling in your code and high cohesion.
-        // Read this:
-        // https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6
-        // Use your own annotation to indicate that a validator should be created for some POJO.
-        annotations.add(Entity.class.getCanonicalName());
+        Set<String> annotations = new HashSet<>();
+        annotations.add(Validate.class.getCanonicalName());
         return annotations;
     }
 
@@ -59,41 +60,36 @@ public class ValidationProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element entityClass : roundEnv.getElementsAnnotatedWith(Entity.class)) {
+        for (Element entityClass : roundEnv.getElementsAnnotatedWith(Validate.class)) {
             if (!entityClass.getKind().equals(ElementKind.CLASS)) {
                 error(entityClass, "Only classes can be annotated as entities.");
                 return true;
             }
-            // TODO The block after this comment can be extracted in a separate method.
-            List<CodeBlock> ifBlocks = new ArrayList<>();
-            List<MethodSpec> validationMethods = new ArrayList<>();
-
-            String className = entityClass.getSimpleName() + "Validator";
-
-            Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = iterateOverEntityClassElements(
-                    entityClass);
-            // TODO If I have a field annotated with @NotNull in the subclass, then the fieldsWithAnnotation will
-            // contain:
-            // NotNull.class -> [my-field]
-            // If I then have another field in my super class that's also annotated with @NotNull, then won't the result
-            // of the next line be:
-            // NotNull.class -> [my-other-field]
-            // Instead of:
-            // NotNull.class -> [my-field, my-other-field]
-            fieldsWithAnnotation.putAll(iterateOverSuperClassElements(entityClass));
-
-            for (Class<? extends Annotation> annotation : fieldsWithAnnotation.keySet()) {
-                MethodSpec method = ValidationMethodFactory.createValidationMethod(annotation,
-                        fieldsWithAnnotation.get(annotation));
-                validationMethods.add(method);
-                ifBlocks.add(ifStatementForAnnotationType(annotation));
-            }
-            buildModelValidationClass(className, validationMethods, ifBlocks);
+           buildValidationClass(entityClass);
         }
         return true;
     }
 
-    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverEntityClassElements(Element entityClass) {
+    private void buildValidationClass(Element entityClass){
+        List<CodeBlock> ifBlocks = new ArrayList<>();
+        List<MethodSpec> validationMethods = new ArrayList<>();
+
+        String className = entityClass.getSimpleName() + "Validator";
+
+        Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = getAnnotatedFields(
+                entityClass);
+        fieldsWithAnnotation = iterateOverSuperClassElements(entityClass, fieldsWithAnnotation);
+
+        for (Class<? extends Annotation> annotation : fieldsWithAnnotation.keySet()) {
+            MethodSpec method = ValidationMethodFactory.createValidationMethod(annotation,
+                    fieldsWithAnnotation.get(annotation));
+            validationMethods.add(method);
+            ifBlocks.add(ifStatementForAnnotationType(annotation));
+        }
+        buildClass(className, validationMethods, ifBlocks, entityClass.asType());
+    }
+
+    private Map<Class<? extends Annotation>, List<TypeName>> getAnnotatedFields(Element entityClass) {
         List<? extends Element> classElements = entityClass.getEnclosedElements();
         Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = new HashMap<>();
         for (Element classElement : classElements) {
@@ -106,31 +102,44 @@ public class ValidationProcessor extends AbstractProcessor {
                 if (classElement.getAnnotation(annotation) == null) {
                     continue;
                 }
-                // TODO Use computeIfAbsent instead of this complex logic.
-                List<TypeName> typeNames = new ArrayList<>();
-                if (fieldsWithAnnotation.containsKey(annotation)) {
-                    typeNames = fieldsWithAnnotation.get(annotation);
-                    typeNames.add(ClassName.get(classElement.asType()));
-                    continue;
-                }
-                typeNames.add(ClassName.get(classElement.asType()));
-                fieldsWithAnnotation.put(annotation, typeNames);
+                TypeName fieldType = ClassName.get(classElement.asType());
+                fieldsWithAnnotation.computeIfAbsent(annotation, a -> new ArrayList<>()).add(fieldType);
             }
         }
         return fieldsWithAnnotation;
     }
 
-    // TODO You're handling only one level of inheritance. What if there were 4? (Character -> Human -> Jedi -> Dark
-    // Jedi) Use recursion.
-    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverSuperClassElements(Element subClass) {
-        Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = new HashMap<>();
+    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverSuperClassElements(
+            Element subClass,
+            Map<Class<? extends Annotation>, List<TypeName>> subclassAnnotations) {
+
         TypeElement classAsTypeElement = (TypeElement) subClass;
-        DeclaredType superClassAsDeclaredType = (DeclaredType) classAsTypeElement.getSuperclass();
-        if (superClassAsDeclaredType != null) {
-            Element superClass = superClassAsDeclaredType.asElement();
-            fieldsWithAnnotation.putAll(iterateOverEntityClassElements(superClass));
+        TypeMirror superclass = classAsTypeElement.getSuperclass();
+        if (superclass.getKind().equals(TypeKind.NONE)) {
+            return subclassAnnotations;
         }
-        return fieldsWithAnnotation;
+        Element superClass = typeUtilities.asElement(superclass);
+        subclassAnnotations = mergeAnnotationMaps(getAnnotatedFields(superClass), subclassAnnotations);
+        return iterateOverSuperClassElements(superClass,subclassAnnotations);
+    }
+
+    private Map<Class<? extends Annotation>, List<TypeName>> mergeAnnotationMaps(
+            Map<Class<? extends Annotation>, List<TypeName>> map1,
+            Map<Class<? extends Annotation>, List<TypeName>> map2){
+
+        return Stream.of(map1, map2)
+                .flatMap(map -> map.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (map1List, map2List)->{
+                            for (TypeName name : map2List){
+                                if (!map1List.contains(name)){
+                                    map1List.add(name);
+                                }
+                            }
+                            return map1List;
+                        }));
     }
 
     private String createValidationMethodCall(Class<? extends Annotation> annotationClass) {
@@ -141,46 +150,23 @@ public class ValidationProcessor extends AbstractProcessor {
         return CodeBlock.builder()
                 .beginControlFlow("if(annotation.annotationType().equals($T.class))", annotationClass)
                 .addStatement(createValidationMethodCall(annotationClass))
-                .addStatement("return")
                 .endControlFlow()
                 .build();
     }
 
     private CodeBlock accessPrivateFieldsBlock() {
-        // get the fields from super class
+        // get the fields from super classes
         return CodeBlock.builder()
                 .addStatement("$T[] fieldsArray = item.getClass().getDeclaredFields()", Field.class)
                 .addStatement("$T<$T> fields = new $T<>()", List.class, Field.class, ArrayList.class)
                 .addStatement("fields.addAll($T.asList(fieldsArray))", Arrays.class)
-                // TODO You're again only handling one level of inheritance.
-                .addStatement("Class<?> superClass = item.getClass().getSuperclass()")
-                .beginControlFlow("if(superClass!=null)")
-                .addStatement("fields.addAll(Arrays.asList(superClass.getDeclaredFields()))")
-                .endControlFlow()
+                .addStatement("fields = superclassFieldCollector(item, fields)")
                 .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class,
                         Annotation.class, HashMap.class)
                 .beginControlFlow("for ($T field : fields)", Field.class)
-                // TODO Don't give special handling to fields with certain names. The handling should be based only on
-                // the annotation and the type of the field - nothing else.
-                .beginControlFlow("if(field.getName().equals(\"id\"))")
-                .addStatement("continue")
-                .endControlFlow()
                 .addStatement("field.setAccessible(true)")
                 .beginControlFlow("if (field.getAnnotations().length>0)")
-                // TODO Instead of having this complexity with putting the @NotNull annotation first, so that you can
-                // call validateField in the right order, you could do this:
-                // fieldAnnotationsMap.put(field.get(item), field.getDeclaredAnnotations());
-                // ...
-                // validateField(object, fieldAnnotationsMap.get(object));
-                //
-                // Then, the validateField method will be able to take care of the order of validation:
-                //
-                // void validateField(Object object, List<Annotation> annotations) {
-                //     if (annotations.contains(NotNull.class) {
-                //         validateNotNull(object);
-                //     }
-                //     ...
-                .addStatement("List<Annotation> annotations = putNotNullFirst(field)")
+                .addStatement("List<Annotation> annotations = filterSupportedAnnotations(field)")
                 .addStatement("fieldAnnotationsMap.put(field.get(item), annotations)")
                 .endControlFlow()
                 .endControlFlow()
@@ -191,26 +177,36 @@ public class ValidationProcessor extends AbstractProcessor {
         messager.printMessage(Diagnostic.Kind.ERROR, String.format(msg, args), e);
     }
 
-    private MethodSpec buildPutNotNullFirstMethod() {
-        return MethodSpec.methodBuilder("putNotNullFirst")
+    private MethodSpec buildSuperclassFieldCollectorMethod(){
+        return MethodSpec
+                .methodBuilder("superclassFieldCollector")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .returns(ParameterizedTypeName.get(List.class, Annotation.class))
+                .returns(ParameterizedTypeName.get(List.class, Field.class))
+                .addParameter(ClassName.get(Object.class), "item")
+                .addParameter(ParameterizedTypeName.get(List.class, Field.class), "classFields")
+                .beginControlFlow("if(item.getClass().getSuperclass()==$T.class)", Object.class)
+                .addStatement("return classFields")
+                .endControlFlow()
+                .addStatement("$T[] currentClassFields = item.getClass().getSuperclass().getDeclaredFields()", Field.class)
+                .beginControlFlow("for($T field : currentClassFields)", Field.class)
+                .beginControlFlow("if(!classFields.contains(field))")
+                .addStatement("classFields.add(field)")
+                .endControlFlow()
+                .endControlFlow()
+                .addStatement("return superclassFieldCollector(item.getClass().getSuperclass(), classFields)")
+                .build();
+
+    }
+
+    private MethodSpec buildFilterSupportedAnnotations(){
+        return MethodSpec.methodBuilder("filterSupportedAnnotations")
+                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .addParameter(ClassName.get(Field.class), "field")
-                .addStatement("int indexOfNotNull = 0")
-                .addStatement("$T<$T> annotations = $T.stream(field.getDeclaredAnnotations())"
+                .returns(ParameterizedTypeName.get(List.class, Annotation.class))
+                .addStatement("return $T.stream(field.getAnnotations())"
                         + ".filter(annotation -> "
                         + "annotation.annotationType().getPackage().getName().startsWith(\"javax.validation.constraints\")"
-                        + ").collect($T.toList())", List.class, Annotation.class, Arrays.class, Collectors.class)
-                .beginControlFlow("for ($T annotation : annotations)", Annotation.class)
-                .beginControlFlow("if(annotation.annotationType().equals($T.class))", NotNull.class)
-                .addStatement("indexOfNotNull = annotations.indexOf(annotation)")
-                .addStatement("break")
-                .endControlFlow()
-                .endControlFlow()
-                .addStatement("Annotation temp = annotations.get(0)")
-                .addStatement("annotations.set(0, annotations.get(indexOfNotNull))")
-                .addStatement("annotations.set(indexOfNotNull, temp)")
-                .addStatement("return annotations")
+                        + ").collect($T.toList())", Arrays.class, Collectors.class)
                 .build();
     }
 
@@ -222,7 +218,21 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addException(NoSuchMethodException.class)
                 .addException(InvocationTargetException.class)
                 .addParameter(ClassName.get(Object.class), "object")
-                .addParameter(ClassName.get(Annotation.class), "annotation")
+                .addParameter(ParameterizedTypeName.get(List.class, Annotation.class), "annotations")
+                .beginControlFlow("if(annotations.contains($T.class))", NotNull.class)
+                .addStatement("$T notNullAnnotation = annotations.get(annotations.indexOf($T.class))", Annotation.class, NotNull.class)
+                .addStatement("String message = notNullAnnotation.annotationType().getMethod(\"message\").invoke(notNullAnnotation).toString()")
+                .addStatement("$T annotationValue = null;", Object.class)
+                .beginControlFlow("try")
+                .addStatement("annotationValue = notNullAnnotation.annotationType().getMethod(\"value\").invoke(notNullAnnotation)")
+                .endControlFlow()
+                .beginControlFlow("catch($T e)", NoSuchMethodException.class)
+                .addStatement("System.out.println(\"Annotation doesn't have value() method.\");")
+                .endControlFlow()
+                .addStatement("validateNotNull(object, message, annotationValue)")
+                .addStatement("annotations.remove(notNullAnnotation)")
+                .endControlFlow()
+                .beginControlFlow("for (Annotation annotation : annotations)")
                 .addStatement(
                         "String message = annotation.annotationType().getMethod(\"message\").invoke(annotation).toString()")
                 .addStatement("Object annotationValue = null")
@@ -236,6 +246,7 @@ public class ValidationProcessor extends AbstractProcessor {
         for (CodeBlock block : ifStatements) {
             methodSpec.addCode(block);
         }
+        methodSpec.endControlFlow();
 
         return methodSpec.build();
     }
@@ -250,26 +261,30 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addParameter(ClassName.get(Object.class), "item")
                 .addCode(accessPrivateFieldsBlock())
                 .beginControlFlow("for (Object object : fieldAnnotationsMap.keySet())")
-                .beginControlFlow("for(Annotation annotation : fieldAnnotationsMap.get(object))")
-                .addStatement("validateField(object, annotation)")
-                .endControlFlow()
+                .addStatement("validateField(object, fieldAnnotationsMap.get(object))")
                 .endControlFlow()
                 .build();
     }
 
-    private void buildModelValidationClass(String className, List<MethodSpec> validationMethods,
-                                           List<CodeBlock> ifBlocksForAnnotationType) {
+    private void buildClass(String className, List<MethodSpec> validationMethods,
+                            List<CodeBlock> ifBlocksForAnnotationType, TypeMirror classToValidate) {
+        AnnotationSpec a = AnnotationSpec
+                .builder(ValidatorFor.class)
+                .addMember("value", "$T.class", classToValidate)
+                .build();
         TypeSpec.Builder classToGenerate = TypeSpec
                 .classBuilder(className)
+                .addAnnotation(a)
                 .addModifiers(Modifier.PUBLIC);
 
         classToGenerate.addMethods(validationMethods);
-        classToGenerate.addMethod(buildPutNotNullFirstMethod());
+        classToGenerate.addMethod(buildFilterSupportedAnnotations());
+        classToGenerate.addMethod(buildSuperclassFieldCollectorMethod());
         classToGenerate.addMethod(buildSingleFieldValidationMethod(ifBlocksForAnnotationType));
         classToGenerate.addMethod(buildMainValidationMethod());
 
         try {
-            JavaFile.builder("com.example", classToGenerate.build()).build().writeTo(filer);
+            JavaFile.builder("com.example.validator", classToGenerate.build()).build().writeTo(filer);
         } catch (IOException e) {
             e.printStackTrace();
         }

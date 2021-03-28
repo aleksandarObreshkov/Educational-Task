@@ -1,44 +1,49 @@
 package com.example.resolver.character;
 
 import com.example.model.Human;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.resolver.EntityResolver;
+import com.example.resolver.EntityResolverTest;
+import com.example.repositories.CharacterRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.CharacterRepository;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class HumanResolverTest {
+public class HumanResolverTest extends EntityResolverTest<Human, CharacterRepository<Human>> {
 
     @Mock
-    @Qualifier("characterRepository")
-    private CharacterRepository repository;
+    CharacterRepository<Human> repository;
 
-    private HumanResolver resolver;
+    @Mock
+    Human human;
 
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-        resolver = new HumanResolver(repository);
+    @Override
+    protected EntityResolver<Human, CharacterRepository<Human>> initResolver(CharacterRepository<Human> repository) {
+        return new HumanResolver(repository);
     }
 
-    @Test
-    public void allHumans(){
-        List<Human> humans = new ArrayList<>();
-        when(repository.findAll(Human.class)).thenReturn(humans);
-        assertEquals(resolver.allHumans(), humans);
+    @Override
+    protected CharacterRepository<Human> mockRepo() {
+        return repository;
     }
 
+    @Override
+    protected Human mockEntity() {
+        return human;
+    }
+
+    @Override
     @Test
-    public void human(){
-        Human human = Mockito.mock(Human.class);
-        when(repository.findById(10L, Human.class)).thenReturn(human);
-        assertEquals(resolver.human(10L), Optional.of(human));
+    public void findAllTest() {
+        List<Human> entities = new ArrayList<>();
+        entities.add(entity);
+        when(repository.findAllOfType()).thenReturn(entities);
+        assertEquals(resolver.all(), entities);
     }
 }

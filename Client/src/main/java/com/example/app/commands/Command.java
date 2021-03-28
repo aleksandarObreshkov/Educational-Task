@@ -1,14 +1,26 @@
 package com.example.app.commands;
 
-import java.lang.reflect.InvocationTargetException;
+import org.apache.commons.cli.*;
 
-public interface Command {
+import java.util.Arrays;
 
-    // TODO You modified the interface to accommodate a quirk of a single Command - ListCommand and the fact that it's
-    // using reflection. You shouldn't do that. Even if we assume that reflection was the perfect solution to the
-    // problem ListCommand is trying to solve, the command should've handled these exceptions (NoSuchMethodException,
-    // InvocationTargetException, IllegalAccessException) and rethrown them in a way that does not require the
-    // modification of the interface (it could've wrapped them in an IllegalStateException, for example).
-    void execute() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
+public abstract class Command {
 
+    public Options getOptions(){
+        return new Options();
+    }
+    public abstract String getCommandString();
+    public abstract String getDescription();
+
+    public abstract void execute(String[] arguments);
+
+    protected CommandLine parseCommandLine(Options options, String[] commandArguments) {
+        CommandLineParser parser = new DefaultParser();
+        String[] commandOptions = Arrays.copyOfRange(commandArguments, 1, commandArguments.length);
+        try {
+            return parser.parse(options, commandOptions);
+        }catch (ParseException e){
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+    }
 }

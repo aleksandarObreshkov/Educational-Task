@@ -1,65 +1,88 @@
 package com.example.app.commands.add;
 
+import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
 import com.example.app.errors.InvalidInputException;
-import com.example.app.errors.RestTemplateResponseErrorHandler;
 import com.example.model.Starship;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
 
-public class AddStarshipCommand implements Command {
+import java.util.Arrays;
+import java.util.List;
 
-    private final RestTemplate template;
-    private final String url;
-    private final CommandLine cmd;
+public class AddStarshipCommand extends Command {
 
-    public AddStarshipCommand(CommandLine cmd, String url){
-        this.cmd = cmd;
-        this.url = url;
-        this.template = new RestTemplateBuilder()
-                .errorHandler(new RestTemplateResponseErrorHandler()).build();
+    private final static Float FEET_TO_METER_COEFFICIENT = 0.3048f;
+
+    private static final String NAME_OPTION = "n";
+    private static final String LENGTH_OPTION = "l";
+    private static final String UNIT_OF_MEASUREMENT_OPTION = "u";
+
+    private static final String NAME_OPTION_LONG = "name";
+    private static final String LENGTH_OPTION_LONG = "length";
+    private static final String UNIT_OF_MEASUREMENT_OPTION_LONG = "unit";
+
+    @Override
+    public void execute(String[] arguments) {
+        CommandLine cmd = parseCommandLine(getOptions(), arguments);
+        Starship starshipToAdd = createStarship(cmd);
+        StarWarsClient.starships().create(starshipToAdd);
     }
 
     @Override
-    public void execute() {
-        Starship starshipToAdd = createStarship(cmd);
-        template.postForObject(url, starshipToAdd, Starship.class);
-    }
-
-    public static String getDescription(){
+    public String getDescription(){
         return "Add a starship to the database";
     }
 
-    public static String getCommandString(){
+    @Override
+    public String getCommandString(){
         return "add-starship";
     }
 
-    public static Options getAddStarshipOptions(){
+    @Override
+    public Options getOptions(){
         final Options options = new Options();
-        Option name = Option.builder("n")
-                .longOpt("name")
+        Option name = Option.builder(NAME_OPTION)
+                .longOpt(NAME_OPTION_LONG)
                 .hasArg()
+                .argName("name")
                 .required()
                 .type(String.class)
                 .build();
-        Option length = Option.builder("l")
-                .longOpt("length")
+        Option length = Option.builder(LENGTH_OPTION)
+                .longOpt(LENGTH_OPTION_LONG)
                 .hasArg()
-                .required()
+                .argName("length")
                 .type(Float.class)
+                .required()
+                .build();
+        Option unitOfMeasurement = Option.builder(UNIT_OF_MEASUREMENT_OPTION)
+                .longOpt(UNIT_OF_MEASUREMENT_OPTION_LONG)
+                .desc("unit of measurement: metric(default)/imperial")
+                .hasArg()
+                .argName("unit")
+                .type(String.class)
                 .build();
 
         options.addOption(name);
         options.addOption(length);
+        options.addOption(unitOfMeasurement);
         return options;
     }
 
     private static Starship createStarship(CommandLine cmd) {
         try {
-            return new Starship(cmd.getOptionValue("n"), Float.parseFloat(cmd.getOptionValue("l")));
+            Starship starship = new Starship();
+            starship.setName(cmd.getOptionValue(NAME_OPTION));
+            Float length = Float.parseFloat(cmd.getOptionValue(LENGTH_OPTION));
+            if (cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)){
+                String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
+                if (unitOfMeasurement.equals("imperial")){
+                    starship.setLengthInMeters(length*FEET_TO_METER_COEFFICIENT);
+                }
+            }
+            return starship;
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Length should be float.", e);
         }
