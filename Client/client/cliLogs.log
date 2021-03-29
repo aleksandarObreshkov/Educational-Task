@@ -1,0 +1,6 @@
+09:20:05.605 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+09:20:05.685 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:20:05.703 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@2d6aca33] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+13:04:40.616 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/movies/102
+13:04:41.649 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/starships/102
+13:04:42.661 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/102

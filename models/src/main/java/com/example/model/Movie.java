@@ -68,5 +68,16 @@ public class Movie {
     public void setRating(Float rating) {
         this.rating = rating;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!Movie.class.equals(obj.getClass())){
+            return false;
+        }
+        Movie movieToCompare = (Movie) obj;
+        return this.getTitle().equals(movieToCompare.getTitle()) &&
+                this.getRating().equals(movieToCompare.getRating()) &&
+                this.getReleaseDate().equals(movieToCompare.getReleaseDate());
+    }
 }
 

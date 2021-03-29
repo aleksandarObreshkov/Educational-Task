@@ -1,5 +1,6 @@
 package com.example.app.commands.add;
 
+import com.example.app.clients.CharacterClient;
 import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
 import com.example.app.errors.InvalidInputException;
@@ -37,11 +38,21 @@ public class AddCharacterCommand extends Command {
     private static final String STARSHIPS_OPTION_LONG = "starships";
     private static final String CHARACTER_TYPE_OPTION_LONG = "type";
 
+    private final CharacterClient client;
+
+    public AddCharacterCommand(CharacterClient client) {
+        this.client = client;
+    }
+
+    public AddCharacterCommand(){
+        this(StarWarsClient.characters());
+    }
+
     @Override
     public void execute(String[] arguments) {
         CommandLine cmd = parseCommandLine(getOptions(), arguments);
         Character characterToAdd = createCharacterDTO(cmd);
-        StarWarsClient.characters().create(characterToAdd);
+        client.create(characterToAdd);
     }
 
     @Override
@@ -142,11 +153,14 @@ public class AddCharacterCommand extends Command {
     private static DroidDTO createDroid(CommandLine cmd){
         DroidDTO droidDTO = new DroidDTO();
         fillCharacterDTO(cmd, droidDTO);
+        if (!cmd.hasOption(PRIMARY_FUNCTION_OPTION)){
+            throw new InvalidInputException("Please specify the primary function of the droid.");
+        }
         droidDTO.setPrimaryFunction(cmd.getOptionValue(PRIMARY_FUNCTION_OPTION));
         return droidDTO;
     }
 
-    private static CharacterDTO createCharacterDTO(CommandLine cmd){
+    public   static CharacterDTO createCharacterDTO(CommandLine cmd){
         String type = cmd.getOptionValue(CHARACTER_TYPE_OPTION);
         if (type.equals("droid")) {
             return createDroid(cmd);
@@ -160,7 +174,7 @@ public class AddCharacterCommand extends Command {
             Long[] ids = new ObjectMapper().readValue(idString, Long[].class);
             return Arrays.asList(ids);
         }catch (IOException e){
-            throw new IllegalArgumentException("Incorrect format for ids: should be [<id>, <id>,...]");
+            throw new InvalidInputException("Incorrect format for ids: should be [<id>, <id>,...].", e);
         }
     }
 

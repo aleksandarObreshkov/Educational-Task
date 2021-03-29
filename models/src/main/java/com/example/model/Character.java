@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "characterType")
@@ -40,10 +41,10 @@ public abstract class Character {
     public abstract String getCharacterType();
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private List<Movie> appearsIn;
+    private List<Movie> appearsIn = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private List<Character> friends;
+    private List<Character> friends = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -91,5 +92,18 @@ public abstract class Character {
 
     public void setFriends(List<Character> friends) {
         this.friends = friends;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        //This is context validation in that the objects represent characters in the StarWars movies.
+        //Therefore, I assume that we can differentiate two characters even by only their name.
+        //Furthermore, the database uses the same validation (the column name being UNIQUE CONSTRAINT).
+        if (!Character.class.isAssignableFrom(obj.getClass())){
+            return false;
+        }
+        Character characterToCompare = (Character) obj;
+        return this.getName().equals(characterToCompare.getName());
+
     }
 }

@@ -13,7 +13,6 @@ public class PersistenceConfig {
     @Bean
     public DataSource postgreDataSource() {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        //TODO: why does it need this line
         dataSource.setDatabaseName("starwarsdb");
         return dataSource;
     }

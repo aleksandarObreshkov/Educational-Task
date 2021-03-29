@@ -1,5 +1,6 @@
 package com.example.app.commands.add;
 
+import com.example.app.clients.MovieClient;
 import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
 import com.example.app.errors.InvalidInputException;
@@ -12,19 +13,28 @@ import java.time.format.DateTimeParseException;
 
 public class AddMovieCommand extends Command {
 
-    private static final String TITLE_OPTION = "title";
+    private static final String TITLE_OPTION = "t";
     private static final String RATING_OPTION = "r";
     private static final String RELEASE_DATE_OPTION = "d";
 
     private static final String TITLE_OPTION_LONG = "title";
     private static final String RATING_OPTION_LONG = "rating";
     private static final String RELEASE_DATE_OPTION_LONG = "release-date";
+    private final MovieClient client;
+
+    public AddMovieCommand(MovieClient client) {
+        this.client = client;
+    }
+
+    public AddMovieCommand(){
+        this(StarWarsClient.movies());
+    }
 
     @Override
     public void execute(String[] arguments) {
         CommandLine cmd = parseCommandLine(getOptions(), arguments);
-        Movie movie = createMovie(cmd);
-        StarWarsClient.movies().create(movie);
+        Movie movieToAdd = createMovie(cmd);
+        client.create(movieToAdd);
     }
 
     @Override

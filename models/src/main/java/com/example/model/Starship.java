@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-@Data
+
 @Validate
 @Entity
 public class Starship {
@@ -46,5 +46,14 @@ public class Starship {
 
     public void setLengthInMeters(Float length) {
         this.lengthInMeters = length;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+       if (!Starship.class.equals(obj.getClass())){
+           return false;
+       }
+       Starship starshipToCompare = (Starship) obj;
+       return this.getName().equals(starshipToCompare.getName());
     }
 }

@@ -6,7 +6,6 @@ import com.example.app.printing.printers.CharacterMoviesPrinter;
 import com.example.app.printing.printers.CharacterPrinter;
 import com.example.app.printing.printers.FriendsPrinter;
 import com.example.app.printing.printers.HumanStarshipsPrinter;
-import com.example.app.printing.representers.CharacterMoviesRepresenter;
 import com.example.model.Character;
 import com.example.model.Human;
 

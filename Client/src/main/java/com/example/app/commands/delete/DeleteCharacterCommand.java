@@ -1,5 +1,6 @@
 package com.example.app.commands.delete;
 
+import com.example.app.clients.CharacterClient;
 import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
 import org.apache.commons.cli.CommandLine;
@@ -8,6 +9,17 @@ import org.apache.commons.cli.Options;
 public class DeleteCharacterCommand extends Command {
 
     private static final String ID_OPTION = "id";
+    private static final String ID_OPTION_LONG = "identifier";
+
+    private final CharacterClient client;
+
+    public DeleteCharacterCommand(CharacterClient client) {
+        this.client = client;
+    }
+
+    public DeleteCharacterCommand() {
+        this.client = StarWarsClient.characters();
+    }
 
     @Override
     public String getDescription() {
@@ -22,7 +34,7 @@ public class DeleteCharacterCommand extends Command {
     @Override
     public Options getOptions() {
         final Options options = new Options();
-        options.addOption(ID_OPTION, true, "the id of the character");
+        options.addRequiredOption(ID_OPTION, ID_OPTION_LONG, true, "the id of the character");
         return options;
     }
 
@@ -30,6 +42,6 @@ public class DeleteCharacterCommand extends Command {
     public void execute(String[] arguments) {
         CommandLine cmd = parseCommandLine(getOptions(), arguments);
         Long id = Long.parseLong(cmd.getOptionValue(ID_OPTION));
-        StarWarsClient.characters().delete(id);
+        client.delete(id);
     }
 }

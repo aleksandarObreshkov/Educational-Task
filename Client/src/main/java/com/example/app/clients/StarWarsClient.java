@@ -10,8 +10,12 @@ public abstract class StarWarsClient {
     private static final String URL_ENDPOINT = "http://localhost:8080/";
     protected final String url;
 
-    protected StarWarsClient(String url) {
+    public StarWarsClient(String url) {
         this.url = url;
+    }
+
+    public StarWarsClient(){
+        this(URL_ENDPOINT);
     }
 
     public static MovieClient movies(){

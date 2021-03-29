@@ -1,6 +1,7 @@
 package com.example.app.commands.add;
 
 import com.example.app.clients.StarWarsClient;
+import com.example.app.clients.StarshipClient;
 import com.example.app.commands.Command;
 import com.example.app.errors.InvalidInputException;
 import com.example.model.Starship;
@@ -23,11 +24,22 @@ public class AddStarshipCommand extends Command {
     private static final String LENGTH_OPTION_LONG = "length";
     private static final String UNIT_OF_MEASUREMENT_OPTION_LONG = "unit";
 
+    private final StarshipClient client;
+
+    public AddStarshipCommand(StarshipClient client) {
+        this.client = client;
+    }
+
+    public AddStarshipCommand(){
+        this(StarWarsClient.starships());
+    }
+
+
     @Override
     public void execute(String[] arguments) {
         CommandLine cmd = parseCommandLine(getOptions(), arguments);
         Starship starshipToAdd = createStarship(cmd);
-        StarWarsClient.starships().create(starshipToAdd);
+        client.create(starshipToAdd);
     }
 
     @Override
@@ -81,6 +93,7 @@ public class AddStarshipCommand extends Command {
                 if (unitOfMeasurement.equals("imperial")){
                     starship.setLengthInMeters(length*FEET_TO_METER_COEFFICIENT);
                 }
+                else throw new InvalidInputException("Unrecognised unit of measurement: "+unitOfMeasurement);
             }
             return starship;
         } catch (NumberFormatException e) {
