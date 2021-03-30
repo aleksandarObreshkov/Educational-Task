@@ -11,7 +11,7 @@ public class App {
         //Left for debugging purposes and will be deleted once the project is completed.
         //args = new String[]{"add-character", "-n", "Jar Jar Binks", "-a", "24", "-f", "-t", "droid", "-pf", "Be supportive","-fr", "[502, 503]"};
         //args = new String[]{"characters"};
-        args = new String[]{"list"};
+        //args = new String[]{"list", "-c","add-movie"};
         //args = new String[]{"add-character", "-n", "Padme", "-a", "21", "-t", "human", "-ap", "[902]"};
         CommandFactory factory = new CommandFactory();
         try {
