@@ -1,12 +1,11 @@
 applications:
 - name: StarWarsSpringServer
   path: target/backend-1.0-SNAPSHOT.jar
-  instances: 3
+  instances: 1
   routes:
-    - route: starwars.cfapps.sap.hana.ondemand.com
+    - route: starwars-i318495-2.cfapps.sap.hana.ondemand.com
   buildpacks:
-    - sap_java_buildpack
+    - java_buildpack
   env:
-    JAVA_OPTS: '-XX:ReservedCodeCacheSize=32M -XX:MaxDirectMemorySize=32M'
-    JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jdk.SAPMachineJDK']"
-    SPRING_PROFILES_ACTIVE: cloud
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+}}'
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: true }'
