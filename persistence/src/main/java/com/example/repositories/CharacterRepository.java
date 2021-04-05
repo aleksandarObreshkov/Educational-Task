@@ -4,10 +4,8 @@ import com.example.model.*;
 import com.example.model.Character;
 import com.example.model.dto.CharacterDTO;
 import com.example.model.dto.DroidDTO;
-import com.example.model.dto.HumanDTO;;
-
+import com.example.model.dto.HumanDTO;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ public class CharacterRepository<T extends Character> extends EntityRepository<T
 
     public CharacterRepository(Class<T> tClass) {
         super(tClass);
-        type = tClass;
     }
 
     public List<T> findAllOfType() {

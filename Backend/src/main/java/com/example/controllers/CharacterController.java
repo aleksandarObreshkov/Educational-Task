@@ -1,17 +1,26 @@
 package com.example.controllers;
 
 import com.example.model.Character;
-import com.example.repositories.CharacterRepository;
+import com.example.spring_data_repositories.CharacterRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("characters")
 public class CharacterController extends EntityController<Character>{
 
-    public CharacterController() {
-        this(new CharacterRepository<>(Character.class));
-    }
-    public CharacterController(CharacterRepository<Character> repository) {
+    public CharacterController(CharacterRepository repository) {
         super(repository);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        CharacterRepository characterRepository = (CharacterRepository) repository;
+        Character deleted = characterRepository.deleteCharacterById(id);
+        if (deleted!=null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

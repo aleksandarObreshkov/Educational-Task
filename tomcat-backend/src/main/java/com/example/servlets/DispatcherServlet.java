@@ -16,7 +16,6 @@ import com.example.utils.RegexUtil;
 import com.example.utils.URLParser;
 
 import com.example.utils.VariableConverter;
-import com.example.validator.MovieValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -246,7 +245,7 @@ public class DispatcherServlet extends HttpServlet {
                 Set<Class<?>> validatorClasses = reflections.getTypesAnnotatedWith(ValidatorFor.class);
                 for (Class<?> validator : validatorClasses){
                     if (validator.getAnnotation(ValidatorFor.class).value().equals(entityClass)){
-                        mappingResult = validator.getMethod("validate", Object.class).invoke(validator, mappingResult);
+                        validator.getMethod("validate", Object.class).invoke(validator, mappingResult);
                     }
                 }
                 resultParameters.add(mappingResult);

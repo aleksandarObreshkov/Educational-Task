@@ -1,10 +1,7 @@
 package com.example.starshipTests;
 
-import com.example.repositories.StarshipRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.example.spring_data_repositories.StarshipRepository;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.example.repositories.EntityRepository;
-import com.example.model.Movie;
 import com.example.model.Starship;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,9 +9,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
@@ -22,7 +19,6 @@ import static org.mockito.Mockito.when;
 public class StarshipValidRequestTest {
 
     @MockBean
-    @Qualifier("entityRepository")
     private StarshipRepository repository;
 
     private static final Starship starship = new Starship();
@@ -44,8 +40,8 @@ public class StarshipValidRequestTest {
 
     @Test
     public void getStarshipById(){
-        when(repository.findById(1L)).thenReturn(starship);
-        assertEquals(starship, repository.findById(1L));
+        when(repository.findById(1L)).thenReturn(Optional.of(starship));
+        assertEquals(Optional.of(starship), repository.findById(1L));
     }
 
     @Test
@@ -59,8 +55,8 @@ public class StarshipValidRequestTest {
 
     @Test
     public void deleteStarship(){
-        when(repository.deleteById(1L)).thenReturn(true);
-        assertTrue(repository.deleteById(1L));
+        when(repository.deleteStarshipById(1L)).thenReturn(starship);
+        assertEquals(repository.deleteStarshipById(1L), starship);
     }
 
 

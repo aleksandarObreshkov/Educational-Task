@@ -1,11 +1,11 @@
 package com.example.resolver;
 
 import com.example.errors.NotFoundException;
-import com.example.repositories.EntityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-public abstract class EntityResolverTest<T, R extends EntityRepository<T>> {
+public abstract class EntityResolverTest<T, R extends JpaRepository<T, Long>> {
 
     protected EntityResolver<T, R> resolver;
 
@@ -52,7 +52,7 @@ public abstract class EntityResolverTest<T, R extends EntityRepository<T>> {
 
     @Test
     public void findByIdTest(){
-        when(repository.findById(10L)).thenReturn(entity);
+        when(repository.findById(10L)).thenReturn(Optional.of(entity));
         assertEquals(resolver.entityWithId(10L), Optional.of(entity));
     }
 }

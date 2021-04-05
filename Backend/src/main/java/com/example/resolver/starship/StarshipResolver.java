@@ -1,6 +1,6 @@
 package com.example.resolver.starship;
 
-import com.example.repositories.StarshipRepository;
+import com.example.spring_data_repositories.StarshipRepository;
 import com.example.resolver.EntityResolver;
 import com.example.model.Starship;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,5 @@ public class StarshipResolver extends EntityResolver<Starship, StarshipRepositor
     public StarshipResolver(StarshipRepository repository){
         super(repository);
     }
-    public StarshipResolver() {
-        this(new StarshipRepository());
-    }
+
 }

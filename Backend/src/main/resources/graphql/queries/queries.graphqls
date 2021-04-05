@@ -4,8 +4,4 @@ type Query{
     allStarships:[Starship]
     starship(id:ID):Starship
     allCharacters:[Character]
-    droid(id:ID):Droid
-    allDroids:[Droid]
-    human(id:ID):Human
-    allHumans:[Human]
 }

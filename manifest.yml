@@ -1,6 +1,6 @@
 applications:
-- name: TrainingTaskParent
-  path: TrainingTaskParent-backend/target/TrainingTaskParent-backend-1.0-SNAPSHOT.jar
+- name: StarWars
+  path: StarWars-backend/target/backend-1.0-SNAPSHOT.jar
   memory: 256m
   env:
     JAVA_OPTS: '-XX:ReservedCodeCacheSize=32M -XX:MaxDirectMemorySize=32M'

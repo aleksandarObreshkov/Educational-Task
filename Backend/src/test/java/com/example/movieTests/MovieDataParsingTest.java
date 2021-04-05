@@ -2,7 +2,7 @@ package com.example.movieTests;
 
 import com.example.controllers.MovieController;
 import com.example.errors.ExceptionResolver;
-import com.example.repositories.MovieRepository;
+import com.example.spring_data_repositories.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -62,7 +62,7 @@ public class MovieDataParsingTest {
 
     @Test
     public void deleteMovieByIdExceptionTest() throws Exception {
-        when(repository.deleteById(10L)).thenReturn(false);
+        when(repository.deleteMovieById(10L)).thenReturn(null);
         mockMvc.perform(delete("/movies/10"))
                 .andExpect(status().is(404));
     }

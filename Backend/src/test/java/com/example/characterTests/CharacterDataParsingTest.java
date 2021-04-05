@@ -2,14 +2,11 @@ package com.example.characterTests;
 
 import com.example.controllers.CharacterController;
 import com.example.errors.ExceptionResolver;
-import com.example.repositories.CharacterRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
-import com.example.model.Character;
+import com.example.spring_data_repositories.CharacterRepository;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -20,17 +17,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CharacterController.class)
 public class CharacterDataParsingTest {
 
     private MockMvc mockMvc;
 
-    @MockBean
-    private CharacterRepository<Character> repository;
+    @Mock
+    private CharacterRepository repository;
 
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new CharacterController())
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(new CharacterController(repository))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
@@ -44,7 +41,7 @@ public class CharacterDataParsingTest {
 
     @Test
     public void deleteCharacterByIdExceptionTest() throws Exception {
-        when(repository.deleteById(10L)).thenReturn(false);
+        when(repository.deleteCharacterById(10L)).thenReturn(null);
         mockMvc.perform(delete("/characters/10"))
                 .andExpect(status().is(404));
     }

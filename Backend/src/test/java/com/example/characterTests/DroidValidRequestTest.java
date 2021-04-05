@@ -1,8 +1,7 @@
 package com.example.characterTests;
 
-import com.example.repositories.CharacterRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
+import com.example.model.Character;
+import com.example.spring_data_repositories.CharacterRepository;
 import com.example.model.Droid;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,8 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class DroidValidRequestTest {
 
     @MockBean
-    public CharacterRepository<Droid> repository;
+    public CharacterRepository repository;
 
     private static final Droid droid = new Droid();
 
@@ -34,13 +34,13 @@ public class DroidValidRequestTest {
 
     @Test
     public void getDroidByIdTest() {
-        when(repository.findById(10L)).thenReturn(droid);
-        assertEquals(droid, repository.findById(10L));
+        when(repository.findById(10L)).thenReturn(Optional.of(droid));
+        assertEquals(Optional.of(droid), repository.findById(10L));
     }
 
     @Test
     public void getAllDroidsTest() {
-        List<Droid> droids = new ArrayList<>();
+        List<Character> droids = new ArrayList<>();
         droids.add(droid);
         when(repository.findAll()).thenReturn(droids);
         assertEquals(droids, repository.findAll());
@@ -57,7 +57,7 @@ public class DroidValidRequestTest {
 
     @Test
     public void deleteCharacterTest() {
-        when(repository.deleteById(10L)).thenReturn(true);
-        assertTrue(repository.deleteById(10L));
+        when(repository.deleteCharacterById(10L)).thenReturn(droid);
+        assertEquals(droid, repository.deleteCharacterById(10L));
     }
 }

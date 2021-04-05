@@ -1,25 +1,26 @@
 package com.example.resolver.character;
 
 import com.example.model.Character;
-import com.example.repositories.CharacterRepository;
 import com.example.resolver.EntityResolver;
+import com.example.spring_data_repositories.CharacterRepository;
+import org.springframework.stereotype.Component;
 
-abstract class CharacterResolver<T extends Character> extends EntityResolver<T, CharacterRepository<T>> {
+import java.util.List;
+@Component
+public class CharacterResolver extends EntityResolver<Character, CharacterRepository> {
 
-    protected CharacterResolver(CharacterRepository<T> repository){
+    protected CharacterResolver(CharacterRepository repository){
         super(repository);
     }
 
-    protected CharacterResolver(Class<T> type) {
-        this(new CharacterRepository<>(type));
+    public List<Character> allCharacters() {
+        return null;//repository.findAll();
     }
 
-    public Iterable<Character> allCharacters() {
-        return repository.findAllCharacters();
-    }
 
     @Override
-    public Iterable<T> all() {
-        return repository.findAllOfType();
+    public Iterable<Character> all() {
+        return null;//repository.find();
     }
+
 }

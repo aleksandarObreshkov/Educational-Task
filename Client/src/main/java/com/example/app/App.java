@@ -9,6 +9,7 @@ public class App {
 
     public static void main(String[] args) {
         //Left for debugging purposes and will be deleted once the project is completed.
+
         //args = new String[]{"add-character", "-n", "Jar Jar Binks", "-a", "24", "-f", "-t", "droid", "-pf", "Be supportive","-fr", "[502, 503]"};
         //args = new String[]{"characters"};
         //args = new String[]{"list", "-c","add-movie"};

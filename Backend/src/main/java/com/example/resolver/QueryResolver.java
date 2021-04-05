@@ -1,7 +1,6 @@
 package com.example.resolver;
 
-import com.example.resolver.character.DroidResolver;
-import com.example.resolver.character.HumanResolver;
+import com.example.resolver.character.CharacterResolver;
 import com.example.resolver.movie.MovieResolver;
 import com.example.resolver.starship.StarshipResolver;
 import com.example.model.*;
@@ -16,15 +15,12 @@ public class QueryResolver implements GraphQLQueryResolver{
 
     private final StarshipResolver starshipResolver;
     private final MovieResolver movieResolver;
-    private final DroidResolver droidResolver;
-    private final HumanResolver humanResolver;
+    private final CharacterResolver characterResolver;
 
-    public QueryResolver(StarshipResolver starshipResolver, MovieResolver movieResolver, DroidResolver droidResolver,
-                         HumanResolver humanResolver) {
+    public QueryResolver(StarshipResolver starshipResolver, MovieResolver movieResolver, CharacterResolver characterResolver) {
         this.starshipResolver = starshipResolver;
         this.movieResolver = movieResolver;
-        this.droidResolver = droidResolver;
-        this.humanResolver = humanResolver;
+        this.characterResolver = characterResolver;
     }
 
     public Iterable<Movie> allMovies() {
@@ -44,24 +40,7 @@ public class QueryResolver implements GraphQLQueryResolver{
     }
 
     public Iterable<Character> allCharacters() {
-        return droidResolver.allCharacters();
+        return characterResolver.allCharacters();
     }
-
-    public Optional<Droid> droid(Long id) {
-        return droidResolver.entityWithId(id);
-    }
-
-    public Iterable<Droid> allDroids() {
-        return droidResolver.all();
-    }
-
-    public Optional<Human> human(Long id) {
-        return humanResolver.entityWithId(id);
-    }
-
-    public Iterable<Human> allHumans() {
-        return humanResolver.all();
-    }
-
 
 }

@@ -1,9 +1,7 @@
 package com.example.characterTests;
 
-import com.example.repositories.CharacterRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
-import com.example.model.Droid;
+import com.example.model.Character;
+import com.example.spring_data_repositories.CharacterRepository;
 import com.example.model.Human;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doAnswer;
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class HumanValidRequestTest {
 
     @MockBean
-    public CharacterRepository<Human> repository;
+    public CharacterRepository repository;
 
     private static final Human human = new Human();
 
@@ -35,13 +34,13 @@ public class HumanValidRequestTest {
 
     @Test
     public void getDroidByIdTest() {
-        when(repository.findById(10L)).thenReturn(human);
-        assertEquals(human, repository.findById(10L));
+        when(repository.findById(10L)).thenReturn(Optional.of(human));
+        assertEquals(Optional.of(human), repository.findById(10L));
     }
 
     @Test
     public void getAllDroidsTest() {
-        List<Human> humans = new ArrayList<>();
+        List<Character> humans = new ArrayList<>();
         humans.add(human);
         when(repository.findAll()).thenReturn(humans);
         assertEquals(humans, repository.findAll());
@@ -61,7 +60,7 @@ public class HumanValidRequestTest {
         doAnswer((i) -> {
             assertEquals(i.getArgument(0), human.getId());
             return null;
-        }).when(repository).deleteById(human.getId());
-        repository.deleteById(human.getId());
+        }).when(repository).deleteCharacterById(human.getId());
+        repository.deleteCharacterById(human.getId());
     }
 }

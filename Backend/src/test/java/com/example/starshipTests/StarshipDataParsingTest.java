@@ -2,10 +2,7 @@ package com.example.starshipTests;
 
 import com.example.controllers.StarshipController;
 import com.example.errors.ExceptionResolver;
-import com.example.repositories.StarshipRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
-import com.example.model.Starship;
+import com.example.spring_data_repositories.StarshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +65,7 @@ public class StarshipDataParsingTest {
 
     @Test
     public void deleteStarshipByIdExceptionTest() throws Exception {
-        when(repository.deleteById(90L)).thenReturn(false);
+        when(repository.deleteStarshipById(90L)).thenReturn(null);
         mockMvc.perform(delete("/starships/90"))
                 .andExpect(status().is(404));
     }

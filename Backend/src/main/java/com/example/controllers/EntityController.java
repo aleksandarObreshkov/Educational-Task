@@ -1,17 +1,18 @@
 package com.example.controllers;
 
-import com.example.repositories.EntityRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class EntityController<T> {
 
-    public final EntityRepository<T> repository;
+    public final JpaRepository<T, Long> repository;
 
-    public EntityController(EntityRepository<T> repository) {
+    public EntityController(JpaRepository<T, Long> repository) {
         this.repository = repository;
     }
 
@@ -23,21 +24,12 @@ public abstract class EntityController<T> {
 
     @GetMapping("/{id}")
     public ResponseEntity<T> getById(@PathVariable Long id) {
-        T result = repository.findById(id);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        }
-        return ResponseEntity.notFound().build();
+        Optional<T> result = repository.findById(id);
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
-        boolean isDeleted = repository.deleteById(id);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
+    public abstract ResponseEntity<String> deleteById(@PathVariable Long id);
 
     @PostMapping
     public ResponseEntity<String> add(@Valid @RequestBody T entity) {

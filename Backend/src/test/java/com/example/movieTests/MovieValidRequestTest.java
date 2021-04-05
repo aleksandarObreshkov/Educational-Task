@@ -1,8 +1,6 @@
 package com.example.movieTests;
 
-import com.example.repositories.MovieRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import com.example.repositories.EntityRepository;
+import com.example.spring_data_repositories.MovieRepository;
 import com.example.model.Movie;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class MovieValidRequestTest {
@@ -28,6 +26,7 @@ public class MovieValidRequestTest {
         movie.setId(1L);
         movie.setTitle("Title");
         movie.setRating(2.2f);
+        movie.setReleaseDate("2020-12-12");
     }
 
     @Test
@@ -40,8 +39,8 @@ public class MovieValidRequestTest {
 
     @Test
     public void getMovieById(){
-        when(repository.findById(1L)).thenReturn(movie);
-        assertEquals(movie, repository.findById(1L));
+        when(repository.findById(1L)).thenReturn(Optional.of(movie));
+        assertEquals(Optional.of(movie), repository.findById(1L));
     }
 
     @Test
@@ -55,8 +54,8 @@ public class MovieValidRequestTest {
 
     @Test
     public void deleteMovie(){
-        when(repository.deleteById(1L)).thenReturn(true);
-        assertTrue(repository.deleteById(1L));
+        when(repository.deleteMovieById(1L)).thenReturn(movie);
+        assertEquals(repository.deleteMovieById(1L), movie);
     }
 
 

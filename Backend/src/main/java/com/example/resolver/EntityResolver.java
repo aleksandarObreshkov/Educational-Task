@@ -1,14 +1,12 @@
 package com.example.resolver;
 
 import com.example.errors.NotFoundException;
-import com.example.repositories.EntityRepository;
-import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.kickstart.tools.GraphQLResolver;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public abstract class EntityResolver<T, R extends EntityRepository<T>> implements GraphQLResolver<T> {
+public abstract class EntityResolver<T, R extends JpaRepository<T, Long>> implements GraphQLResolver<T> {
 
     protected final R repository;
 
@@ -21,10 +19,10 @@ public abstract class EntityResolver<T, R extends EntityRepository<T>> implement
     }
 
     public Optional<T> entityWithId(Long id){
-        T objectToReturn = repository.findById(id);
-        if (objectToReturn == null) {
+        Optional<T> objectToReturn = repository.findById(id);
+        if (objectToReturn.isEmpty()) {
             throw new NotFoundException("No entity with the specified id.");
         }
-        return Optional.of(objectToReturn);
+        return objectToReturn;
     }
 }

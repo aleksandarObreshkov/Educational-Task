@@ -1,11 +1,10 @@
 package com.example.repositories;
-
 import javax.persistence.*;
 import java.util.function.Function;
 
 abstract class BaseEntityRepository {
 
-    private static final EntityManagerFactory factory = Persistence.createEntityManagerFactory("PostgreJPA");
+    protected final EntityManagerFactory factory = Persistence.createEntityManagerFactory("PostgreJPA");
 
     public <T> T executeInTransaction(Function<EntityManager, T> databaseAction) {
         EntityManager manager = factory.createEntityManager();
