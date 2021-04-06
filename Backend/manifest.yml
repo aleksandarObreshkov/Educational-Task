@@ -3,7 +3,7 @@ applications:
   path: target/backend-1.0-SNAPSHOT.jar
   instances: 1
   routes:
-    - route: starwars-i318495-2.cfapps.sap.hana.ondemand.com
+    - route: starwars.cfapps.sap.hana.ondemand.com
   buildpacks:
     - java_buildpack
   env:
