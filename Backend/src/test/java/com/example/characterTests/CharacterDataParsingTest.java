@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,7 +36,7 @@ public class CharacterDataParsingTest {
 
     @Test
     public void getCharacterByIdExceptionTest() throws Exception {
-        when(repository.findById(10L)).thenReturn(null);
+        when(repository.findById(10L)).thenReturn(Optional.empty());
         mockMvc.perform(get("/characters/10"))
                 .andExpect(status().is(404));
     }

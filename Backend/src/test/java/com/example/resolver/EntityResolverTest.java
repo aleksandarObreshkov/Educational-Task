@@ -37,7 +37,7 @@ public abstract class EntityResolverTest<T, R extends JpaRepository<T, Long>> {
 
     @Test
     public void notFoundExceptionTest(){
-        when(repository.findById(10L)).thenReturn(null);
+        when(repository.findById(10L)).thenReturn(Optional.empty());
         Throwable thrownException = assertThrows(NotFoundException.class, () -> resolver.entityWithId(10L));
         assert(thrownException.getMessage().contains("No entity with the specified id."));
     }
