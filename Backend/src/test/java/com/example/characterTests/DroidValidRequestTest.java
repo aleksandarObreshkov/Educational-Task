@@ -57,7 +57,7 @@ public class DroidValidRequestTest {
 
     @Test
     public void deleteCharacterTest() {
-        when(repository.deleteCharacterById(10L)).thenReturn(droid);
-        assertEquals(droid, repository.deleteCharacterById(10L));
+        when(repository.deleteCharacterById(10L)).thenReturn(1);
+        assertEquals(1, repository.deleteCharacterById(10L));
     }
 }

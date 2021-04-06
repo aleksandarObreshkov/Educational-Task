@@ -18,8 +18,8 @@ public class StarshipController extends EntityController<Starship>{
     @Override
     public ResponseEntity<String> deleteById(Long id) {
         StarshipRepository starshipRepository = (StarshipRepository) repository;
-        Starship deleted = starshipRepository.deleteStarshipById(id);
-        if (deleted!=null) {
+        int deleted = starshipRepository.deleteStarshipById(id);
+        if (deleted==1) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

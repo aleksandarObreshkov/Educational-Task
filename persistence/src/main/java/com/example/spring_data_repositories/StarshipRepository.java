@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StarshipRepository extends JpaRepository<Starship, Long> {
-    Starship deleteStarshipById(Long id);
+    int deleteStarshipById(Long id);
 }

@@ -17,8 +17,8 @@ public class CharacterController extends EntityController<Character>{
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         CharacterRepository characterRepository = (CharacterRepository) repository;
-        Character deleted = characterRepository.deleteCharacterById(id);
-        if (deleted!=null) {
+        int deleted = characterRepository.deleteCharacterById(id);
+        if (deleted==1) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

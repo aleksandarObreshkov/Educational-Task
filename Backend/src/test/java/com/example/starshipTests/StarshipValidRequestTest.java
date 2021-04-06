@@ -55,8 +55,8 @@ public class StarshipValidRequestTest {
 
     @Test
     public void deleteStarship(){
-        when(repository.deleteStarshipById(1L)).thenReturn(starship);
-        assertEquals(repository.deleteStarshipById(1L), starship);
+        when(repository.deleteStarshipById(1L)).thenReturn(1);
+        assertEquals(repository.deleteStarshipById(1L), 1);
     }
 
 

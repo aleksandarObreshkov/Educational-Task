@@ -18,8 +18,8 @@ public class MovieController extends EntityController<Movie>{
     @Override
     public ResponseEntity<String> deleteById(Long id) {
         MovieRepository movieRepository = (MovieRepository) repository;
-        Movie deleted = movieRepository.deleteMovieById(id);
-        if (deleted!=null) {
+        int deleted = movieRepository.deleteMovieById(id);
+        if (deleted==1) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

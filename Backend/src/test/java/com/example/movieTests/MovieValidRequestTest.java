@@ -54,8 +54,8 @@ public class MovieValidRequestTest {
 
     @Test
     public void deleteMovie(){
-        when(repository.deleteMovieById(1L)).thenReturn(movie);
-        assertEquals(repository.deleteMovieById(1L), movie);
+        when(repository.deleteMovieById(1L)).thenReturn(1);
+        assertEquals(repository.deleteMovieById(1L), 1);
     }
 
 
