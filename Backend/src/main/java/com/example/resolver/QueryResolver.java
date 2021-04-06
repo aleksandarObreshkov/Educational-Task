@@ -40,7 +40,11 @@ public class QueryResolver implements GraphQLQueryResolver{
     }
 
     public Iterable<Character> allCharacters() {
-        return characterResolver.allCharacters();
+        return characterResolver.all();
+    }
+
+    public Optional<Character> character(Long id){
+        return characterResolver.entityWithId(id);
     }
 
 }

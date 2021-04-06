@@ -880,3 +880,111 @@
 18:50:19.948 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
 18:50:19.963 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
 18:50:19.966 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+15:34:53.404 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+15:34:53.529 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:34:53.565 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@40238dd0] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:34:55.436 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:36:16.120 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+15:36:16.179 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:36:16.195 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@16fdec90] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:36:16.268 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:58:45.555 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+15:58:45.630 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:58:45.648 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@40238dd0] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:59:51.320 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:06:21.542 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:06:21.653 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:06:21.679 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:15:27.136 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:15:27.251 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:15:27.276 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@34a875b3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:15:29.484 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:15:43.463 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:15:43.638 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:15:43.678 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@34a875b3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:15:43.815 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:16:03.731 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:16:03.812 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:16:03.831 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:16:57.201 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:17:01.480 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:17:01.616 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:17:01.659 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:18:42.021 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:28:15.890 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:28:16.027 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:28:16.063 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:29:21.086 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:32:58.225 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:32:58.300 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:32:58.322 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:33:11.134 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:35:32.427 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:35:32.569 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:35:32.594 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:36:15.466 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:37:26.233 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:37:26.440 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:37:26.498 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:37:58.893 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:38:53.208 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:38:53.296 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:38:53.313 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:39:08.696 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:39:36.393 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:39:36.453 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:39:36.468 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:39:36.516 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:39:53.861 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:39:53.930 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:39:53.950 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:39:53.999 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:41:03.738 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:41:03.859 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:41:03.938 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:42:42.585 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:42:55.463 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:42:55.597 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:42:55.643 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:43:40.043 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:50:12.556 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:50:12.653 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:50:12.676 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:53:27.694 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:54:01.074 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:54:01.156 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:54:01.176 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:54:29.406 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:55:00.165 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:55:00.235 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:55:00.255 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:55:38.567 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+16:57:51.377 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+16:57:51.528 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:57:51.586 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:58:27.161 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+17:04:14.974 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:04:15.123 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:04:15.156 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:04:35.713 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:04:35.772 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:04:35.787 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:05:15.947 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:05:16.021 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:05:16.043 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:05:58.551 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+17:06:19.463 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:06:19.556 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:06:19.592 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:07:07.604 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:07:07.663 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:07:07.677 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:07:20.064 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+17:09:03.940 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:09:04.086 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:09:04.106 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:10:48.347 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+17:18:59.052 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/tomcat_backend_war_exploded/characters/
+17:18:59.155 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:18:59.175 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:19:00.155 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST

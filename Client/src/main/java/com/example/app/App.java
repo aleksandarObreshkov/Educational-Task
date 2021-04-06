@@ -3,14 +3,15 @@ package com.example.app;
 import com.example.app.commands.Command;
 import com.example.app.commands.CommandFactory;
 import com.example.app.errors.InvalidInputException;
+import com.example.model.dto.CharacterDTO;
+import com.example.model.dto.DroidDTO;
 import org.apache.commons.cli.ParseException;
 
 public class App {
 
     public static void main(String[] args) {
-        //Left for debugging purposes and will be deleted once the project is completed.
-
-        //args = new String[]{"add-character", "-n", "Jar Jar Binks", "-a", "24", "-f", "-t", "droid", "-pf", "Be supportive","-fr", "[502, 503]"};
+        //Left for debugging purposes and will be deleted once the project is completed
+        //args = new String[]{"add-character", "-n", "Jar Jar Binks", "-a", "11", "-f", "-t", "droid", "-pf", "Be supportive","-fr", "[502, 503]"};
         //args = new String[]{"characters"};
         //args = new String[]{"list", "-c","add-movie"};
         //args = new String[]{"add-character", "-n", "Padme", "-a", "21", "-t", "human", "-ap", "[902]"};
