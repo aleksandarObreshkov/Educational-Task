@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 @Table
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@DiscriminatorColumn( name = "characterType" )
+@DiscriminatorColumn( name = "character_type" )
 public abstract class Character {
 
     @Id
@@ -28,13 +28,15 @@ public abstract class Character {
     private Long id;
 
     @NotNull(message = "Please provide a name.")
-    @Column(unique = true)
+    @Column(unique = true, name = "name")
     private String name;
 
     @NotNull(message = "Please provide age.")
     @PositiveOrZero(message = "Age must be positive.")
+    @Column(name = "age")
     private Integer age;
 
+    @Column(name = "force_user")
     private boolean forceUser;
 
     @JsonIgnore

@@ -22,17 +22,19 @@ public class Movie {
     private Long id;
 
     @NotNull(message = "Please provide a title")
-    @Column(unique = true)
+    @Column(unique = true, name = "title")
     private String title;
 
     @NotNull(message = "Wrong date format.")
     @Past(message = "Please provide a date from the past.")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "release_date")
     private LocalDate releaseDate;
 
     @PositiveOrZero(message = "Rating can't be negative.")
     @NotNull(message = "Please provide a rating.")
     @Max(value = 10L, message = "Rating should be less than 10.")
+    @Column(name = "rating")
     private Float rating;
 
     @JsonSetter

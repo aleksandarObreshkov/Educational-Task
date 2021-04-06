@@ -1,5 +1,8 @@
 package com.example.model.dto;
 
+import com.example.processor.Validate;
+
+@Validate
 public class DroidDTO extends CharacterDTO{
 
     private String primaryFunction;

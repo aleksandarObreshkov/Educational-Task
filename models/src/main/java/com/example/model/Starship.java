@@ -16,12 +16,12 @@ public class Starship {
     private Long id;
 
     @NotNull(message = "Please provide a name.")
-    @Column(unique = true)
+    @Column(unique = true, name = "name")
     private String name;
 
     @Positive
     @NotNull(message = "Please specify the length of the ship.")
-
+    @Column(name = "length_in_meters")
     private Float lengthInMeters;
 
     public Long getId() {

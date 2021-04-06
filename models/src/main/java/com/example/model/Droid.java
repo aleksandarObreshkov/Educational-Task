@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 public class Droid extends Character{
 
     @NotNull(message = "Please specify the primary function of the droid.")
+    @Column(name = "primary_function")
     private String primaryFunction;
 
     @Override

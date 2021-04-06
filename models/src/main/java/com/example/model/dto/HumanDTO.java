@@ -1,8 +1,10 @@
 package com.example.model.dto;
 
+import com.example.processor.Validate;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@Validate
 public class HumanDTO extends CharacterDTO{
 
     public String getCharacterType() {
