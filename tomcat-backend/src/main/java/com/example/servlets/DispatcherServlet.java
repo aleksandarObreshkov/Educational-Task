@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.reflections.Reflections;
 
 import javax.servlet.http.HttpServlet;
@@ -244,7 +246,8 @@ public class DispatcherServlet extends HttpServlet {
                 Reflections reflections = new Reflections("com.example");
                 Set<Class<?>> validatorClasses = reflections.getTypesAnnotatedWith(ValidatorFor.class);
                 for (Class<?> validator : validatorClasses){
-                    if (validator.getAnnotation(ValidatorFor.class).value().equals(entityClass)){
+                    //the second line is added to support the entities derived from Character
+                    if (validator.getAnnotation(ValidatorFor.class).value().equals(mappingResult.getClass())){
                         validator.getMethod("validate", Object.class).invoke(validator, mappingResult);
                     }
                 }
@@ -269,7 +272,11 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private <T> void printResponse(HttpServletResponse response, T controllerResponse) throws IOException {
-        ObjectWriter writer = new ObjectMapper().writer();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        ObjectWriter writer = mapper.writer();
+
         String value = writer.writeValueAsString(controllerResponse);
         response.getWriter().println(value);
     }

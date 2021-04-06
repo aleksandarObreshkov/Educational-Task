@@ -15,24 +15,10 @@ public class CharacterRepository<T extends Character> extends EntityRepository<T
         super(tClass);
     }
 
-    public List<T> findAllOfType() {
-        return execute(manager ->
-                manager.createQuery(
-                        "SELECT a FROM Character a WHERE TYPE(a) = "+type.getSimpleName(), type)
-                .getResultList());
-    }
-
-    public List<Character> findAllCharacters(){
-        return execute(manager ->
-                manager.createQuery(
-                        "SELECT a FROM Character a ", Character.class)
-                        .getResultList());
-    }
-
     @Override
     public void save(T objectToPersist) {
         executeInTransaction(manager -> {
-            if (objectToPersist.getClass().equals(DroidDTO.class)){
+            if (objectToPersist instanceof DroidDTO){
                 Droid characterToPersist = getDroidFromRequestDto(objectToPersist, manager);
                 manager.persist(characterToPersist);
             }
@@ -54,7 +40,7 @@ public class CharacterRepository<T extends Character> extends EntityRepository<T
 
         for (Long id : friendIds){
             Character friend = manager.find(requestDto.getClass(), id);
-            //This is purposely commented out so that you can see that I managed to solve the 'friends' issue we discussed.
+            //This is purposely commented out so that you can see I managed to solve the 'friends' issue we discussed.
             //However, if I try to get all the characters, I get an infinite recursion due to the nature of the relationship.
                 /*
                 List<Character> friendsOfFriend = friend.getFriends();

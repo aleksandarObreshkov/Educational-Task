@@ -160,7 +160,7 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addStatement("$T[] fieldsArray = item.getClass().getDeclaredFields()", Field.class)
                 .addStatement("$T<$T> fields = new $T<>()", List.class, Field.class, ArrayList.class)
                 .addStatement("fields.addAll($T.asList(fieldsArray))", Arrays.class)
-                .addStatement("fields = superclassFieldCollector(item, fields)")
+                .addStatement("fields = superclassFieldCollector(item.getClass(), fields)")
                 .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class,
                         Annotation.class, HashMap.class)
                 .beginControlFlow("for ($T field : fields)", Field.class)
@@ -182,18 +182,18 @@ public class ValidationProcessor extends AbstractProcessor {
                 .methodBuilder("superclassFieldCollector")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .returns(ParameterizedTypeName.get(List.class, Field.class))
-                .addParameter(ClassName.get(Object.class), "item")
+                .addParameter(ClassName.get(Class.class), "itemClass")
                 .addParameter(ParameterizedTypeName.get(List.class, Field.class), "classFields")
-                .beginControlFlow("if(item.getClass().getSuperclass()==$T.class)", Object.class)
+                .beginControlFlow("if(itemClass.getSuperclass().equals($T.class))", Object.class)
                 .addStatement("return classFields")
                 .endControlFlow()
-                .addStatement("$T[] currentClassFields = item.getClass().getSuperclass().getDeclaredFields()", Field.class)
+                .addStatement("$T[] currentClassFields = itemClass.getSuperclass().getDeclaredFields()", Field.class)
                 .beginControlFlow("for($T field : currentClassFields)", Field.class)
                 .beginControlFlow("if(!classFields.contains(field))")
                 .addStatement("classFields.add(field)")
                 .endControlFlow()
                 .endControlFlow()
-                .addStatement("return superclassFieldCollector(item.getClass().getSuperclass(), classFields)")
+                .addStatement("return superclassFieldCollector(itemClass.getSuperclass(), classFields)")
                 .build();
 
     }
