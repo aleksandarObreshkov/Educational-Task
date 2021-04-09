@@ -2,6 +2,7 @@ package com.example.characterTests;
 
 import com.example.controllers.CharacterController;
 import com.example.errors.ExceptionResolver;
+import com.example.services.CharacterService;
 import com.example.spring_data_repositories.CharacterRepository;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,10 +27,14 @@ public class CharacterDataParsingTest {
     @Mock
     private CharacterRepository repository;
 
+    @Mock
+    private CharacterService service;
+
+
     @BeforeEach
     public void setupMockMvc(){
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(new CharacterController(repository))
+        mockMvc = MockMvcBuilders.standaloneSetup(new CharacterController(repository, service))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
@@ -43,7 +48,7 @@ public class CharacterDataParsingTest {
 
     @Test
     public void deleteCharacterByIdExceptionTest() throws Exception {
-        when(repository.deleteCharacterById(10L)).thenReturn(null);
+        when(service.deleteById(10L)).thenReturn(false);
         mockMvc.perform(delete("/characters/10"))
                 .andExpect(status().is(404));
     }

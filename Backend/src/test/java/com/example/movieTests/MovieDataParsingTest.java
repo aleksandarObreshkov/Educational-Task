@@ -2,6 +2,7 @@ package com.example.movieTests;
 
 import com.example.controllers.MovieController;
 import com.example.errors.ExceptionResolver;
+import com.example.services.MovieService;
 import com.example.spring_data_repositories.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +27,12 @@ public class MovieDataParsingTest {
     @MockBean
     private MovieRepository repository;
 
+    @MockBean
+    private MovieService service;
+
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(repository))
+        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(repository, service))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
@@ -53,7 +57,7 @@ public class MovieDataParsingTest {
                 "  \"releaseDate\" : \"2018/03-25\",\n" +
                 "  \"rating\" : 3.2\n" +
                 "}";
-        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(repository))
+        mockMvc = MockMvcBuilders.standaloneSetup(new MovieController(repository, null))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
 
@@ -65,7 +69,7 @@ public class MovieDataParsingTest {
 
     @Test
     public void deleteMovieByIdExceptionTest() throws Exception {
-        when(repository.deleteMovieById(10L)).thenReturn(null);
+        when(service.deleteById(10L)).thenReturn(false);
         mockMvc.perform(delete("/movies/10"))
                 .andExpect(status().is(404));
     }
@@ -76,6 +80,5 @@ public class MovieDataParsingTest {
         mockMvc.perform(get("/movies/10"))
                 .andExpect(status().is(404));
     }
-
 
 }

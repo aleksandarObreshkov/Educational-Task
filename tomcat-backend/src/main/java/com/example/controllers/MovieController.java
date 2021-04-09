@@ -6,9 +6,13 @@ import com.example.annotations.RequestMapping;
 import com.example.annotations.RequestPath;
 import com.example.constants.HttpMethod;
 import com.example.constants.HttpStatus;
+import com.example.repositories.CharacterRepository;
 import com.example.repositories.MovieRepository;
 import com.example.model.Movie;
 import com.example.rest_entities.ResponseEntity;
+import com.example.services.MovieService;
+import com.example.services.deletion.MovieDeletionService;
+
 import java.util.List;
 
 
@@ -16,14 +20,17 @@ import java.util.List;
 public class MovieController {
 
     private final MovieRepository repository;
+    private final MovieService service;
 
-    public MovieController(MovieRepository repository) {
+    public MovieController(MovieRepository repository, MovieService service) {
         this.repository=repository;
+        this.service=service;
     }
 
     public MovieController(){
-        this(new MovieRepository());
+        this(new MovieRepository(), new MovieService(new MovieRepository(), new MovieDeletionService()));
     }
+
 
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Movie>> get() {
@@ -48,7 +55,7 @@ public class MovieController {
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        boolean result = repository.deleteById(id);
+        boolean result = service.deleteById(id);
         if (result) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

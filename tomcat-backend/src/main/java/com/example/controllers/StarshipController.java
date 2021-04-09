@@ -6,9 +6,15 @@ import com.example.annotations.RequestMapping;
 import com.example.annotations.RequestPath;
 import com.example.constants.HttpMethod;
 import com.example.constants.HttpStatus;
+import com.example.repositories.CharacterRepository;
+import com.example.repositories.MovieRepository;
 import com.example.repositories.StarshipRepository;
 import com.example.model.Starship;
 import com.example.rest_entities.ResponseEntity;
+import com.example.services.MovieService;
+import com.example.services.StarshipService;
+import com.example.services.deletion.MovieDeletionService;
+import com.example.services.deletion.StarshipDeletionService;
 
 import java.util.List;
 
@@ -17,13 +23,16 @@ import java.util.List;
 public class StarshipController{
 
     private final StarshipRepository repository;
+    private final StarshipService service;
 
-    public StarshipController(StarshipRepository repository) {
+
+    public StarshipController(StarshipRepository repository, StarshipService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     public StarshipController(){
-        this(new StarshipRepository());
+        this(new StarshipRepository(), new StarshipService(new StarshipRepository(), new StarshipDeletionService()));
     }
 
     @RequestMapping(method = HttpMethod.GET)
@@ -49,7 +58,7 @@ public class StarshipController{
 
     @RequestMapping(value = "/{id}", method = HttpMethod.DELETE)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        boolean result = repository.deleteById(id);
+        boolean result = service.deleteById(id);
         if (result) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

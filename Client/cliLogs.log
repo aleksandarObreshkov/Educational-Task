@@ -988,3 +988,202 @@
 17:18:59.155 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
 17:18:59.175 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@dbd8e44] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 17:19:00.155 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:44:20.589 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+15:44:20.657 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:44:20.673 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:44:55.141 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:44:55.229 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:44:55.247 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:44:55.879 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:47:02.841 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:47:02.922 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:47:02.941 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:47:03.335 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:47:26.271 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:47:26.349 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:47:26.386 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:47:29.805 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:48:34.416 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:48:34.493 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:48:34.511 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:48:34.916 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+15:49:08.848 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:49:08.936 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:49:08.968 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:49:11.836 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+15:51:29.320 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+15:51:29.382 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:51:29.397 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+15:51:29.604 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:02:24.823 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:02:24.926 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:02:24.944 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:02:25.125 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:04:52.911 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:04:53.025 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:04:53.053 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:04:53.306 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:05:53.012 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:05:53.088 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:05:53.124 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:06:30.004 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:08:49.422 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:08:49.605 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:08:49.644 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:08:52.922 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:14:54.654 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:14:54.836 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:14:54.869 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:14:55.204 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:20:35.806 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:20:35.881 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:20:35.896 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:20:54.827 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:24:28.544 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:24:28.636 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:24:28.654 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:24:28.914 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:25:17.272 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:25:17.364 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:25:17.385 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:25:17.643 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:37:54.379 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:37:54.497 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:37:54.540 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:37:54.944 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:38:32.466 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:38:32.545 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:38:32.563 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:38:32.836 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:44:47.049 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:44:47.132 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:44:47.155 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:44:47.199 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:45:10.600 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:45:10.795 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:45:10.832 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:45:24.410 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:45:53.404 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:45:53.485 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:45:53.504 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:46:39.994 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:53:07.595 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:53:07.718 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:53:07.746 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:53:34.889 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:53:59.429 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:53:59.582 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:53:59.601 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:54:19.878 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:54:34.316 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+16:54:34.381 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:54:34.397 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+16:58:14.077 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:06:05.457 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:06:05.546 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:06:05.567 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@7d1cfb8b] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:06:44.633 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:07:35.152 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:07:35.247 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:07:35.267 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:08:13.262 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:08:56.148 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:08:56.236 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:08:56.256 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@7d1cfb8b] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:09:53.026 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:14:23.972 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:14:24.064 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:14:24.087 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@386f0da3] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:14:53.442 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:15:02.538 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:15:02.796 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:15:02.819 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:19:33.474 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:19:50.237 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:19:50.422 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:19:50.475 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:20:02.085 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:21:15.360 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:21:15.455 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:21:15.477 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:24:17.711 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:27:55.447 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:27:55.556 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:27:55.579 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:27:55.897 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+17:29:31.735 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+17:29:31.902 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+17:29:31.959 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3e7dd664] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+17:29:32.300 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:29:30.696 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:29:30.796 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:29:30.822 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:29:50.336 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:30:33.377 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:30:33.468 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:30:33.488 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:30:36.379 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:32:26.885 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:32:27.065 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:32:27.086 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:32:32.527 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:34:00.313 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:34:00.405 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:34:00.423 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:34:06.119 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:35:22.646 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:35:22.820 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:35:22.842 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:35:34.170 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:37:37.379 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:37:37.522 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:37:37.543 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:37:55.304 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+11:51:34.512 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+11:51:34.723 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:51:34.744 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+11:51:43.370 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:19:40.946 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:19:41.053 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:19:41.077 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:19:50.118 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:21:06.411 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:21:06.506 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:21:06.527 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:21:39.805 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:23:49.094 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:23:49.186 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:23:49.207 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:23:54.345 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:28:44.092 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:28:44.185 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:28:44.213 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:28:50.165 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:30:10.766 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:30:10.854 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:30:10.879 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:30:11.156 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:30:59.755 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:30:59.854 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:30:59.879 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@33308786] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:30:59.941 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:37:36.237 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:37:36.368 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:37:36.395 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@42039326] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:37:43.403 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:38:29.157 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:38:29.257 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:38:29.285 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:38:34.776 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+13:01:17.859 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+13:01:17.970 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:01:17.998 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+13:01:18.326 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+13:03:16.412 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+13:03:16.490 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:03:16.513 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+13:04:11.599 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+13:04:51.023 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+13:04:51.127 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:04:51.147 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+13:04:51.469 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED

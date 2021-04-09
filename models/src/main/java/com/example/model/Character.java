@@ -42,10 +42,20 @@ public abstract class Character {
     @JsonIgnore
     public abstract String getCharacterType();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name="character_movies",
+            joinColumns=
+            @JoinColumn(name="movie", referencedColumnName="id"),
+            inverseJoinColumns=
+            @JoinColumn(name="character", referencedColumnName="id")
+    )
     private List<Movie> appearsIn = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name="character_friends",
+            joinColumns=
+            @JoinColumn(name="character", referencedColumnName="id")
+    )
     private List<Character> friends = new ArrayList<>();
 
     public Long getId() {

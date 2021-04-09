@@ -2,6 +2,7 @@ package com.example.starshipTests;
 
 import com.example.controllers.StarshipController;
 import com.example.errors.ExceptionResolver;
+import com.example.services.StarshipService;
 import com.example.spring_data_repositories.StarshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,15 +23,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(StarshipController.class)
 public class StarshipDataParsingTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private StarshipRepository repository;
 
+    @MockBean
+    private StarshipService service;
+
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new StarshipController(repository))
+        mockMvc = MockMvcBuilders.standaloneSetup(new StarshipController(repository, service))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
     }
@@ -67,7 +70,7 @@ public class StarshipDataParsingTest {
 
     @Test
     public void deleteStarshipByIdExceptionTest() throws Exception {
-        when(repository.deleteStarshipById(90L)).thenReturn(null);
+        when(service.deleteById(90L)).thenReturn(false);
         mockMvc.perform(delete("/starships/90"))
                 .andExpect(status().is(404));
     }

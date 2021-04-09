@@ -6,7 +6,8 @@
    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
     <persistence-unit name="PostgreJPA" transaction-type="RESOURCE_LOCAL">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>com.example.model.Movie</class>
         <class>com.example.model.Character</class>
@@ -14,13 +15,15 @@
         <class>com.example.model.Human</class>
         <class>com.example.model.Droid</class>
         <class>com.example.utils.LocalDateAttributeConverter</class>
+
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/starwarsdb"/>
             <property name="javax.persistence.jdbc.user" value="i542072"/>
             <property name="javax.persistence.jdbc.password" value="postgres"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="eclipselink.ddl-generation" value="create-tables" />
-            <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            <property name="hibernate.ddl-generation" value="update" />
+            <property name="hibernate.ddl-generation.output-mode" value="database" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
         </properties>
 
     </persistence-unit>

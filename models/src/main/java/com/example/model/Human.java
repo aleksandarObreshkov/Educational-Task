@@ -17,7 +17,13 @@ import java.util.List;
 @Validate
 public class Human extends Character {
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="character_starships",
+            joinColumns=
+            @JoinColumn(name="character", referencedColumnName="id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "starship", referencedColumnName = "id")
+    )
     private List<Starship> starships;
 
     @Override

@@ -5,7 +5,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
 public abstract class StarWarsClient {
-
+    //Tomcat url: http://localhost:9090/tomcat_backend_war_exploded/
+    //Spring url: http://localhost:8080/
     protected RestTemplate template = new RestTemplateBuilder().errorHandler(new RestTemplateResponseErrorHandler()).build();
     private static final String URL_ENDPOINT = "http://localhost:8080/";
     protected final String url;

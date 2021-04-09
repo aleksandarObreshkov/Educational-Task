@@ -17,7 +17,7 @@ public abstract class EntityRepository<T> extends BaseEntityRepository {
 
     public void save(T objectToPersist) {
         executeInTransaction(manager -> {
-            manager.persist(objectToPersist);
+            manager.merge(objectToPersist);
             return null;
         });
     }

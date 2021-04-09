@@ -1,5 +1,7 @@
 package com.example.controllers;
 
+import com.example.services.EntityService;
+import com.example.services.deletion.DeletionService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +10,14 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class EntityController<T> {
+public abstract class EntityController<T, S extends EntityService<T, ? extends JpaRepository<T, Long>, ? extends DeletionService<T>>> {
 
     public final JpaRepository<T, Long> repository;
+    public final S service;
 
-    public EntityController(JpaRepository<T, Long> repository) {
+    public EntityController(JpaRepository<T, Long> repository, S service) {
         this.repository = repository;
+        this.service = service;
     }
 
     @GetMapping

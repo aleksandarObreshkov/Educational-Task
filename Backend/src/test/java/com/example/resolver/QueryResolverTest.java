@@ -49,26 +49,12 @@ public class QueryResolverTest {
         when(starshipResolver.all()).thenReturn(starships);
         assertEquals(resolver.allStarships(), starships);
     }
-/*
+
     @Test
     public void allCharacters(){
         List<Character> characters = new ArrayList<>();
-        when(droidResolver.allCharacters()).thenReturn(characters);
+        when(characterResolver.all()).thenReturn(characters);
         assertEquals(resolver.allCharacters(), characters);
-    }
-
-    @Test
-    public void allHumans(){
-        Iterable<Human> humans = new ArrayList<>();
-        when(humanResolver.all()).thenReturn(humans);
-        assertEquals(resolver.allHumans(), humans);
-    }
-
-    @Test
-    public void allDroids(){
-        Iterable<Droid> droids = new ArrayList<>();
-        when(droidResolver.all()).thenReturn(droids);
-        assertEquals(resolver.allDroids(), droids);
     }
 
     @Test
@@ -86,18 +72,11 @@ public class QueryResolverTest {
     }
 
     @Test
-    public void human(){
-        Human human = Mockito.mock(Human.class);
-        when(humanResolver.entityWithId(10L)).thenReturn(Optional.of(human));
-        assertEquals(resolver.human(10L), Optional.of(human));
+    public void character(){
+        Character character = Mockito.mock(Character.class);
+        when(characterResolver.entityWithId(10L)).thenReturn(Optional.of(character));
+        assertEquals(resolver.character(10L), Optional.of(character));
     }
 
-    @Test
-    public void droid() {
-        Droid droid = Mockito.mock(Droid.class);
-        when(droidResolver.entityWithId(10L)).thenReturn(Optional.of(droid));
-        assertEquals(resolver.droid(10L), Optional.of(droid));
-    }
 
- */
 }
