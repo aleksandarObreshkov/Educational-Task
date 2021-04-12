@@ -161,13 +161,13 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addStatement("$T<$T> fields = new $T<>()", List.class, Field.class, ArrayList.class)
                 .addStatement("fields.addAll($T.asList(fieldsArray))", Arrays.class)
                 .addStatement("fields = superclassFieldCollector(item.getClass(), fields)")
-                .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Object.class, List.class,
+                .addStatement("$T<$T, $T<$T>> fieldAnnotationsMap = new $T<>()", Map.class, Field.class, List.class,
                         Annotation.class, HashMap.class)
                 .beginControlFlow("for ($T field : fields)", Field.class)
                 .addStatement("field.setAccessible(true)")
                 .beginControlFlow("if (field.getAnnotations().length>0)")
                 .addStatement("List<Annotation> annotations = filterSupportedAnnotations(field)")
-                .addStatement("fieldAnnotationsMap.put(field.get(item), annotations)")
+                .addStatement("fieldAnnotationsMap.put(field, annotations)")
                 .endControlFlow()
                 .endControlFlow()
                 .build();
@@ -260,8 +260,8 @@ public class ValidationProcessor extends AbstractProcessor {
                 .returns(ClassName.VOID)
                 .addParameter(ClassName.get(Object.class), "item")
                 .addCode(accessPrivateFieldsBlock())
-                .beginControlFlow("for (Object object : fieldAnnotationsMap.keySet())")
-                .addStatement("validateField(object, fieldAnnotationsMap.get(object))")
+                .beginControlFlow("for (Field object : fieldAnnotationsMap.keySet())")
+                .addStatement("validateField(object.get(item), fieldAnnotationsMap.get(object))")
                 .endControlFlow()
                 .build();
     }
