@@ -87,7 +87,7 @@ public class AddCharacterCommand extends Command {
         Option friends = Option
                 .builder(FRIENDS_OPTION)
                 .longOpt(FRIENDS_OPTION_LONG)
-                .desc("id's of the character's friends i.e [<id>, <id>, ...]")
+                .desc("id's of the character's friends i.e [<id>,<id>, ...]")
                 .hasArg()
                 .type(Character[].class)
                 .build();
@@ -95,7 +95,7 @@ public class AddCharacterCommand extends Command {
         Option appearsIn = Option
                 .builder(APPEARS_IN_OPTION)
                 .longOpt(APPEARS_IN_OPTION_LONG)
-                .desc("id's of the movies in which the character appears i.e [<id>, <id>, ...]")
+                .desc("id's of the movies in which the character appears i.e [<id>,<id>, ...]")
                 .hasArg()
                 .type(Movie[].class)
                 .build();
@@ -103,7 +103,7 @@ public class AddCharacterCommand extends Command {
         Option starships = Option
                 .builder(STARSHIPS_OPTION)
                 .longOpt(STARSHIPS_OPTION_LONG)
-                .desc("id's of the starships that the character has(applicable to 'human' only) i.e [<id>, <id>, ...]")
+                .desc("id's of the starships that the character has(applicable to 'human' only) i.e [<id>,<id>, ...]")
                 .hasArg()
                 .type(Starship[].class)
                 .build();
@@ -174,7 +174,7 @@ public class AddCharacterCommand extends Command {
             Long[] ids = new ObjectMapper().readValue(idString, Long[].class);
             return Arrays.asList(ids);
         }catch (IOException e){
-            throw new InvalidInputException("Incorrect format for ids: should be [<id>, <id>,...].", e);
+            throw new InvalidInputException("Incorrect format for ids: should be [<id>,<id>,...].", e);
         }
     }
 

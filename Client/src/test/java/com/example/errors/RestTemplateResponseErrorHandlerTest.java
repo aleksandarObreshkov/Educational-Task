@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.ByteArrayInputStream;
@@ -32,6 +33,7 @@ public class RestTemplateResponseErrorHandlerTest {
 
     @Test
     public void testProperExceptionFormat() throws IOException {
+        when(response.getStatusCode()).thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
         String errorInfoJson = "{\"error\":\"Test error\"}";
         InputStream errorInputStream = new ByteArrayInputStream(errorInfoJson.getBytes());
         when(response.getBody()).thenReturn(errorInputStream);

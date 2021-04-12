@@ -94,7 +94,7 @@ public class AddCharacterCommandTest {
                 "-t", "droid",
                 "-ap", "1,2,3"};
         Throwable thrownException = assertThrows(InvalidInputException.class, ()-> command.execute(arguments));
-        assertEquals(thrownException.getMessage(), "Incorrect format for ids: should be [<id>, <id>,...].");
+        assertEquals(thrownException.getMessage(), "Incorrect format for ids: should be [<id>,<id>,...].");
     }
 
     @Test
