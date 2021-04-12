@@ -39,9 +39,6 @@ public abstract class Character {
     @Column(name = "force_user")
     private boolean forceUser;
 
-    @JsonIgnore
-    public abstract String getCharacterType();
-
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="character_movies",
             joinColumns=

@@ -33,7 +33,6 @@ public class CharacterController {
         this(new CharacterRepository(), new CharacterService(new CharacterRepository(), new CharacterDeletionService()));
     }
 
-
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Character>> get() {
         List<Character> result = repository.findAll();

@@ -88,10 +88,14 @@ public class AddStarshipCommand extends Command {
             Starship starship = new Starship();
             starship.setName(cmd.getOptionValue(NAME_OPTION));
             Float length = Float.parseFloat(cmd.getOptionValue(LENGTH_OPTION));
+            starship.setLengthInMeters(length);
             if (cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)){
                 String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
                 if (unitOfMeasurement.equals("imperial")){
                     starship.setLengthInMeters(length*FEET_TO_METER_COEFFICIENT);
+                }
+                else if (unitOfMeasurement.equals("metric")){
+                    starship.setLengthInMeters(length);
                 }
                 else throw new InvalidInputException("Unrecognised unit of measurement: "+unitOfMeasurement);
             }

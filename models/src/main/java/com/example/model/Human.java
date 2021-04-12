@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -25,11 +26,6 @@ public class Human extends Character {
             @JoinColumn(name = "starship", referencedColumnName = "id")
     )
     private List<Starship> starships;
-
-    @Override
-    public String getCharacterType() {
-        return "human";
-    }
 
     public List<Starship> getStarships() {
         return starships;

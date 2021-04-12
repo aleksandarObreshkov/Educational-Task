@@ -20,7 +20,7 @@ public class CharacterRepresenter extends EntityRepresenter<Character> {
         values.add(character.getName());
         values.add(character.getAge().toString());
         values.add(character.isForceUser()+"");
-        values.add(character.getCharacterType());
+        values.add(character.getClass().getSimpleName());
         if (character instanceof Droid){
             Droid droid = (Droid)character;
             values.add(droid.getPrimaryFunction());

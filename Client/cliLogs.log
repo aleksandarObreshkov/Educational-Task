@@ -1187,3 +1187,276 @@
 13:04:51.127 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
 13:04:51.147 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 13:04:51.469 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+09:13:53.515 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+09:13:54.060 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:13:54.154 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@517d4a0d] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:13:54.393 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+09:15:00.417 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+09:15:00.933 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:15:01.021 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@517d4a0d] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:15:01.115 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+09:18:01.494 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+09:18:01.572 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:18:01.591 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:18:01.623 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+09:21:04.082 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+09:21:04.158 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:21:04.178 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:21:04.212 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+09:37:37.395 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+09:37:37.482 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:37:37.505 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@71c27ee8] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:37:59.198 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+09:55:18.158 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+09:55:21.876 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+09:55:34.678 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+09:55:40.588 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+09:56:09.539 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+09:56:09.577 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+09:56:54.783 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+09:56:54.817 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+09:58:09.940 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+09:58:09.964 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:01:03.971 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+10:01:03.997 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:03:36.397 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+10:04:09.081 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:05:06.835 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+10:05:11.157 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:05:31.226 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+10:05:31.262 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+10:08:12.113 [main] DEBUG o.s.web.client.RestTemplate - HTTP DELETE http://localhost:8080/characters/2
+10:08:12.148 [main] DEBUG o.s.web.client.RestTemplate - Response 404 NOT_FOUND
+11:47:25.135 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+11:47:25.185 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:47:25.217 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+11:47:25.221 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+11:47:55.813 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+11:47:55.884 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+11:47:56.768 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+11:47:56.774 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:16:18.823 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:16:18.923 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:16:18.963 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@6d1ef78d] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:16:19.413 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+12:29:02.431 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:29:02.527 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:29:02.553 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@db57326] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:30:13.275 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+12:30:21.267 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:30:21.282 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:30:21.288 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@79179359] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:30:24.884 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:41:32.643 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:41:32.672 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:41:32.682 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@db57326] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:41:33.458 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+12:42:55.140 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:42:55.158 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:42:55.165 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@79179359] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:42:58.530 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:44:00.724 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:44:00.762 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:44:01.942 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:44:01.953 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:44:25.342 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+12:44:25.386 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:44:25.645 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:44:25.651 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:48:15.604 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+12:48:15.640 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:48:15.656 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:48:15.659 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:49:03.643 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:49:03.659 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:49:03.666 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@517d4a0d] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:49:03.849 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+12:50:40.554 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+12:50:40.619 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:50:40.655 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:50:40.659 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:51:13.452 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+12:51:13.475 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:51:13.520 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@517d4a0d] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:51:13.593 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:52:25.992 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:52:26.140 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:52:26.845 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:52:26.851 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:52:45.202 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/movies/
+12:52:45.239 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:52:45.825 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:52:45.831 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Movie[]]
+12:52:55.281 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:52:55.340 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:52:55.790 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:52:55.799 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:53:14.553 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:53:14.588 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:54:17.232 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:54:17.236 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:55:26.097 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:55:26.113 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:55:26.121 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@517d4a0d] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:55:26.598 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:57:16.092 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:57:16.179 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:57:16.202 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:57:47.417 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+12:57:50.659 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:57:50.752 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:57:50.781 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+12:58:06.480 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+12:58:18.705 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:58:18.749 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:58:19.107 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:58:19.113 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:58:52.142 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:58:52.191 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+12:59:27.954 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+12:59:27.960 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+12:59:49.093 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+12:59:49.149 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:00:46.917 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:00:46.924 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:01:01.881 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+13:01:01.923 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:01:43.491 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:01:43.497 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:04:20.360 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+13:04:20.394 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:04:20.751 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:04:20.758 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:04:30.019 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+13:04:30.053 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:04:30.379 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:04:30.383 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:04:33.228 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+13:04:33.282 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:04:33.577 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:04:33.583 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:05:09.765 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+13:05:09.820 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:05:09.875 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:05:09.879 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:05:23.460 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+13:05:23.557 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:05:23.967 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:05:23.972 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+13:08:14.919 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+13:08:14.973 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+13:08:25.168 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+13:08:25.173 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:35:06.640 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+14:35:06.685 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:35:06.723 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:35:06.727 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:36:53.949 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+14:36:53.993 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:36:54.024 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:36:54.028 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:37:08.769 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+14:37:08.807 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:37:23.408 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:37:23.413 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:38:20.013 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:38:20.055 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:42:17.300 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:42:17.306 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:46:56.093 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:46:56.142 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:47:17.946 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:47:17.950 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:51:29.713 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:51:29.793 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:51:52.377 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+14:52:04.893 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:52:04.928 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:52:09.196 [main] DEBUG o.s.web.client.RestTemplate - Response 400 BAD_REQUEST
+14:52:39.912 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:52:39.959 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:53:34.199 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:53:34.202 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:54:38.609 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:54:38.659 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:54:48.455 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+14:54:48.458 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+14:56:48.819 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:56:48.942 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:56:48.976 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.DroidDTO@3568f9d2] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+14:56:49.844 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED
+14:58:35.279 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+14:58:55.448 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:59:39.383 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:00:07.146 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+15:00:16.444 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:00:16.566 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:00:33.064 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:01:08.676 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+15:02:30.258 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:02:30.278 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:02:34.811 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:02:34.814 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json;charset=ISO-8859-1"
+15:02:48.705 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:02:48.711 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:02:49.051 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:02:49.053 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json;charset=ISO-8859-1"
+15:06:13.017 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:06:13.025 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:06:13.518 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:06:13.520 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json;charset=ISO-8859-1"
+15:08:37.485 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+15:08:37.502 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:08:37.572 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:08:37.574 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json"
+15:10:11.336 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:8080/characters/
+15:10:11.345 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:10:11.391 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:10:11.394 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json"
+15:10:24.368 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:10:24.377 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:17:06.909 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:17:06.911 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json;charset=ISO-8859-1"
+15:17:16.843 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:17:16.851 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:17:31.459 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+15:17:31.461 [main] DEBUG o.s.web.client.RestTemplate - Reading to [java.lang.String] as "application/json;charset=ISO-8859-1"
+15:50:28.195 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:50:28.205 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:50:30.982 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+15:51:26.322 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:51:26.332 [main] DEBUG o.s.web.client.RestTemplate - Accept=[text/plain, application/json, application/*+json, */*]
+15:51:28.953 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+15:52:25.241 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:52:25.506 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:52:25.867 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+15:53:47.392 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:53:47.723 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:53:48.033 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+15:55:10.433 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:55:10.486 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+15:56:50.811 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+15:59:50.110 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+15:59:50.160 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:00:11.018 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:00:38.158 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+16:00:38.202 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:00:43.785 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:02:31.958 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+16:02:32.018 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:02:35.757 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:02:52.350 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+16:02:52.387 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:03:10.118 [main] DEBUG o.s.web.client.RestTemplate - Response 500 INTERNAL_SERVER_ERROR
+16:14:47.557 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/characters/
+16:14:47.605 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:14:50.564 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+16:14:50.568 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Character[]]
+16:15:28.050 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/movies/
+16:15:28.084 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:15:28.566 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+16:15:28.577 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Movie[]]
+16:15:36.514 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://localhost:9090/tomcat_backend_war_exploded/starships/
+16:15:36.537 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+16:15:36.958 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
+16:15:36.964 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Starship[]]

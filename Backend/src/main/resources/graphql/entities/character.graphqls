@@ -5,7 +5,6 @@ interface Character{
     appearsIn:[Movie!]!
     friends:[Character!]!
     forceUser:Boolean
-    characterType:String!
 }
 
 type Human implements Character{
@@ -16,7 +15,6 @@ type Human implements Character{
     appearsIn: [Movie!]!
     starships: [Starship!]!
     forceUser:Boolean
-    characterType:String!
 }
 
 type Droid implements Character{
@@ -27,5 +25,4 @@ type Droid implements Character{
     appearsIn: [Movie!]!
     primaryFunction: String
     forceUser:Boolean
-    characterType:String!
 }

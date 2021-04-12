@@ -7,10 +7,6 @@ import java.util.List;
 @Validate
 public class HumanDTO extends CharacterDTO{
 
-    public String getCharacterType() {
-        return "human";
-    }
-
     private List<Long> starshipsIds = new ArrayList<>();
 
     public List<Long> getStarshipsIds() {

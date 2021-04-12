@@ -15,8 +15,4 @@ public class DroidDTO extends CharacterDTO{
         this.primaryFunction = primaryFunction;
     }
 
-    @Override
-    public String getCharacterType() {
-        return "droid";
-    }
 }

@@ -3,6 +3,7 @@ package com.example.app.commands.show;
 import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
 import com.example.app.printing.printers.MoviePrinter;
+import org.apache.commons.cli.Options;
 
 public class ShowMoviesCommand extends Command {
 
@@ -21,4 +22,5 @@ public class ShowMoviesCommand extends Command {
     public String getCommandString(){
         return "movies";
     }
+
 }

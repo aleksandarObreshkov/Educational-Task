@@ -22,7 +22,7 @@ public class CharacterDeletionService extends DeletionService<Character> {
         }
         entity.setAppearsIn(null);
         entity.setFriends(null);
-        if (entity.getCharacterType().equals("human")){
+        if (entity.getClass().equals(Human.class)){
             ((Human)entity).setStarships(null);
         }
         repository.save(entity);

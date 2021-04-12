@@ -18,7 +18,7 @@ public class StarshipDeletionService extends DeletionService<Starship> {
     public void unlink(Starship entity) {
         List<Character> allCharacters = repository.findAll();
         for (Character character : allCharacters){
-            if (character.getCharacterType().equals("human")){
+            if (character.getClass().equals(Human.class)){
                 ((Human)character).getStarships().remove(entity);
             }
         }

@@ -23,8 +23,9 @@ public class ShowStarshipsCommand extends Command {
     public void execute(String[] arguments) {
         CommandLine cmd = parseCommandLine(getOptions(), arguments);
         List<Starship> starships = StarWarsClient.starships().list();
-        StarshipPrinter printer = new StarshipPrinter();
+
         if (!cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
+            StarshipPrinter printer = new StarshipPrinter();
             printer.printTable(starships);
             return;
         }
@@ -35,6 +36,7 @@ public class ShowStarshipsCommand extends Command {
                 starship.setLengthInMeters(starship.getLengthInMeters()*METER_TO_FEET);
             }
         }
+        StarshipPrinter printer = new StarshipPrinter(unitOfMeasurement);
         printer.printTable(starships);
 
     }
@@ -48,7 +50,7 @@ public class ShowStarshipsCommand extends Command {
     public String getCommandString(){
         return "starships";
     }
-
+//fix length stuff
     @Override
     public Options getOptions() {
         Option unitOfMeasurement = Option.builder(UNIT_OF_MEASUREMENT_OPTION)

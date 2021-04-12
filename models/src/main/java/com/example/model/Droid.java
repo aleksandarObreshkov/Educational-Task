@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -15,16 +16,11 @@ import javax.validation.constraints.NotNull;
 @JsonTypeName("droid")
 @Data
 @Validate
-public class Droid extends Character{
+public class Droid extends Character {
 
     @NotNull(message = "Please specify the primary function of the droid.")
     @Column(name = "primary_function")
     private String primaryFunction;
-
-    @Override
-    public String getCharacterType() {
-        return "droid";
-    }
 
     public String getPrimaryFunction() {
         return primaryFunction;

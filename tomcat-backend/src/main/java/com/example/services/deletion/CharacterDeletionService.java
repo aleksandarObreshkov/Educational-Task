@@ -18,7 +18,7 @@ public class CharacterDeletionService extends DeletionService<Character> {
     public void unlink(Character entity) {
         entity.setAppearsIn(null);
         entity.setFriends(null);
-        if (entity.getCharacterType().equals("human")){
+        if (entity.getClass().equals(Human.class)){
             ((Human)entity).setStarships(null);
         }
         List<Character> allCharacters = repository.findAll();
