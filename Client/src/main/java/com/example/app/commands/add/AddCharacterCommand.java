@@ -44,12 +44,13 @@ public class AddCharacterCommand extends Command {
         this.client = client;
     }
 
-    public AddCharacterCommand(){
+    public AddCharacterCommand() {
         this(StarWarsClient.characters());
     }
 
     @Override
     public void execute(String[] arguments) {
+        // TODO This line is repeated in every command with options. Can you move it to the abstract command class.
         CommandLine cmd = parseCommandLine(getOptions(), arguments);
         Character characterToAdd = createCharacterDTO(cmd);
         client.create(characterToAdd);
@@ -69,39 +70,50 @@ public class AddCharacterCommand extends Command {
     public Options getOptions() {
         Options options = new Options();
 
-        Option name = Option.builder(NAME_OPTION).longOpt(NAME_OPTION_LONG).hasArg().required().type(String.class).build();
-        Option age = Option.builder(AGE_OPTION).longOpt(AGE_OPTION_LONG).hasArg().required().type(Integer.class).build();
+        Option name = Option.builder(NAME_OPTION)
+                .longOpt(NAME_OPTION_LONG)
+                .hasArg()
+                .required()
+                .type(String.class)
+                .build();
+        Option age = Option.builder(AGE_OPTION)
+                .longOpt(AGE_OPTION_LONG)
+                .hasArg()
+                .required()
+                .type(Integer.class)
+                .build();
 
         Option forceUser = Option.builder(FORCE_USER_OPTION).longOpt(FORCE_USER_OPTION_LONG).build();
 
         Option characterType = Option.builder(CHARACTER_TYPE_OPTION)
                 .longOpt(CHARACTER_TYPE_OPTION_LONG)
-                .desc("human/droid (specify primaryFunction -"+PRIMARY_FUNCTION_OPTION+" for droid)")
+                .desc("human/droid (specify primaryFunction -" + PRIMARY_FUNCTION_OPTION + " for droid)")
                 .required()
                 .hasArg()
                 .type(String.class)
                 .build();
 
-        Option primaryFunction = Option.builder(PRIMARY_FUNCTION_OPTION).longOpt(PRIMARY_FUNCTION_OPTION_LONG).hasArg().type(String.class).build();
+        Option primaryFunction = Option.builder(PRIMARY_FUNCTION_OPTION)
+                .longOpt(PRIMARY_FUNCTION_OPTION_LONG)
+                .hasArg()
+                .type(String.class)
+                .build();
 
-        Option friends = Option
-                .builder(FRIENDS_OPTION)
+        Option friends = Option.builder(FRIENDS_OPTION)
                 .longOpt(FRIENDS_OPTION_LONG)
                 .desc("id's of the character's friends i.e [<id>,<id>, ...]")
                 .hasArg()
                 .type(Character[].class)
                 .build();
 
-        Option appearsIn = Option
-                .builder(APPEARS_IN_OPTION)
+        Option appearsIn = Option.builder(APPEARS_IN_OPTION)
                 .longOpt(APPEARS_IN_OPTION_LONG)
                 .desc("id's of the movies in which the character appears i.e [<id>,<id>, ...]")
                 .hasArg()
                 .type(Movie[].class)
                 .build();
 
-        Option starships = Option
-                .builder(STARSHIPS_OPTION)
+        Option starships = Option.builder(STARSHIPS_OPTION)
                 .longOpt(STARSHIPS_OPTION_LONG)
                 .desc("id's of the starships that the character has(applicable to 'human' only) i.e [<id>,<id>, ...]")
                 .hasArg()
@@ -120,7 +132,7 @@ public class AddCharacterCommand extends Command {
     }
 
     private static void fillCharacterDTO(CommandLine cmd, CharacterDTO dto) {
-        try{
+        try {
             dto.setName(cmd.getOptionValue(NAME_OPTION));
             dto.setAge(Integer.parseInt(cmd.getOptionValue(AGE_OPTION)));
             dto.setForceUser(false);
@@ -135,12 +147,12 @@ public class AddCharacterCommand extends Command {
                 String movieIdsString = cmd.getOptionValue(APPEARS_IN_OPTION);
                 dto.setMovieIds(getIds(movieIdsString));
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new InvalidInputException("Age should be a number.", e);
         }
     }
 
-    private static HumanDTO createHuman(CommandLine cmd){
+    private static HumanDTO createHuman(CommandLine cmd) {
         HumanDTO humanDTO = new HumanDTO();
         fillCharacterDTO(cmd, humanDTO);
         if (cmd.hasOption(STARSHIPS_OPTION)) {
@@ -150,30 +162,31 @@ public class AddCharacterCommand extends Command {
         return humanDTO;
     }
 
-    private static DroidDTO createDroid(CommandLine cmd){
+    private static DroidDTO createDroid(CommandLine cmd) {
         DroidDTO droidDTO = new DroidDTO();
         fillCharacterDTO(cmd, droidDTO);
-        if (!cmd.hasOption(PRIMARY_FUNCTION_OPTION)){
+        if (!cmd.hasOption(PRIMARY_FUNCTION_OPTION)) {
             throw new InvalidInputException("Please specify the primary function of the droid.");
         }
         droidDTO.setPrimaryFunction(cmd.getOptionValue(PRIMARY_FUNCTION_OPTION));
         return droidDTO;
     }
 
-    public   static CharacterDTO createCharacterDTO(CommandLine cmd){
+    public static CharacterDTO createCharacterDTO(CommandLine cmd) {
         String type = cmd.getOptionValue(CHARACTER_TYPE_OPTION);
         if (type.equals("droid")) {
             return createDroid(cmd);
-        } else {
+        } else { // TODO If I put "alien" it'll still create a human. Add some validation that ensures that the
+                 // character type specified by the user is valid.
             return createHuman(cmd);
         }
     }
 
-    private static List<Long> getIds(String idString){
-        try{
+    private static List<Long> getIds(String idString) {
+        try {
             Long[] ids = new ObjectMapper().readValue(idString, Long[].class);
             return Arrays.asList(ids);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new InvalidInputException("Incorrect format for ids: should be [<id>,<id>,...].", e);
         }
     }

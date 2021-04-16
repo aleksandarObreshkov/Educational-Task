@@ -17,6 +17,7 @@ public class CharacterController extends EntityController<Character, CharacterSe
         super(repository, service);
     }
 
+    // TODO This method is repeated in all controllers. Why not move it to EntityController?
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
@@ -27,6 +28,7 @@ public class CharacterController extends EntityController<Character, CharacterSe
         return ResponseEntity.notFound().build();
     }
 
+    // TODO Why override the method in EntityController?
     @Override
     @PostMapping("")
     public ResponseEntity<String> add(@Valid @RequestBody Character entity) {

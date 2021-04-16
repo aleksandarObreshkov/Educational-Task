@@ -24,7 +24,7 @@ public class DroidValidRequestTest {
     private static final Droid droid = new Droid();
 
     @BeforeAll
-    static void setUpDroid(){
+    static void setUpDroid() {
         droid.setId(10L);
         droid.setName("Droid");
         droid.setAge(1);
@@ -34,6 +34,8 @@ public class DroidValidRequestTest {
 
     @Test
     public void getDroidByIdTest() {
+        // TODO Here you're testing whether Mockito works. You're telling the repository to return a droid and then
+        // you're asserting that it did.
         when(repository.findById(10L)).thenReturn(Optional.of(droid));
         assertEquals(Optional.of(droid), repository.findById(10L));
     }
@@ -60,4 +62,5 @@ public class DroidValidRequestTest {
         when(repository.deleteCharacterById(10L)).thenReturn(1);
         assertEquals(1, repository.deleteCharacterById(10L));
     }
+
 }

@@ -41,6 +41,7 @@ import java.util.stream.Stream;
 
 public class DispatcherServlet extends HttpServlet {
 
+    // TODO Rename to serialVersionUID.
     private static final Long serialVersionUid = 1L;
 
     private ControllerRegistry registry;
@@ -101,6 +102,7 @@ public class DispatcherServlet extends HttpServlet {
             throws IOException {
         try {
             Object controller = controllerClass.getDeclaredConstructor().newInstance();
+            // TODO You can reuse getHandledPath here.
             String controllerUri = controllerClass.getAnnotation(RequestPath.class).value();
             Method methodToInvoke = getMethodToInvoke(controllerClass.getMethods(), request, controllerUri);
             if (methodToInvoke == null) {
@@ -185,6 +187,7 @@ public class DispatcherServlet extends HttpServlet {
         requestUri = removeTrailingSlash(requestUri);
         String methodUri = getMethodUri(requestUri, controllerUri);
         String methodUriWithPlaceholders = methodToInvoke.getAnnotation(RequestMapping.class).value();
+        // TODO You can just call getPathVariableTypes(methodToInvoke).keySet() instead of creating a separate method.
         List<String> methodPathVariables = getMethodPathVariables(methodToInvoke);
         return new RequestEntityProvider().createRequestEntity(request.getReader(),
                 getPathVariableValues(methodUriWithPlaceholders, methodUri, methodPathVariables));
@@ -195,7 +198,6 @@ public class DispatcherServlet extends HttpServlet {
             return requestUri.replace(controllerUri, "");
         }
         throw new IllegalArgumentException("Request URI was null");
-
     }
 
     private List<String> getMethodPathVariables(Method method) {
@@ -242,6 +244,7 @@ public class DispatcherServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         for (Parameter parameter : methodParameters) {
             if (parameter.isAnnotationPresent(RequestBody.class)) {
+                // TODO Extract this block in a method.
                 Class<?> entityClass = parameter.getType();
                 Object mappingResult = mapper.readValue(entity.getBody(), entityClass);
                 Reflections reflections = new Reflections("com.example");

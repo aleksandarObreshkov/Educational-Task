@@ -1,14 +1,16 @@
 package com.example.model;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+
 import com.example.model.dto.DroidDTO;
 import com.example.processor.Validate;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

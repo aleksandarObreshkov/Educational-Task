@@ -71,6 +71,8 @@ public class Movie {
         this.rating = rating;
     }
 
+    // TODO You should always override hashCode() when you override equals():
+    // https://www.baeldung.com/java-equals-hashcode-contracts
     @Override
     public boolean equals(Object obj) {
         if (!Movie.class.equals(obj.getClass())){

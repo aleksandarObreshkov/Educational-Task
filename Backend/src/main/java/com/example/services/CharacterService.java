@@ -23,60 +23,60 @@ public class CharacterService extends EntityService<Character, CharacterReposito
 
     private final StarshipRepository starshipRepository;
 
-    public CharacterService(CharacterRepository repository, CharacterDeletionService deletionService, MovieRepository movieRepository, StarshipRepository starshipRepository) {
+    public CharacterService(CharacterRepository repository, CharacterDeletionService deletionService,
+                            MovieRepository movieRepository, StarshipRepository starshipRepository) {
         super(repository, deletionService);
         this.movieRepository = movieRepository;
         this.starshipRepository = starshipRepository;
     }
 
-    public void save(Character objectToPersist){
+    public void save(Character objectToPersist) {
         getCharacterFromRequestObject(objectToPersist);
     }
 
-    private void getCharacterFromRequestObject(Character character){
-        if (character instanceof DroidDTO){
+    private void getCharacterFromRequestObject(Character character) {
+        if (character instanceof DroidDTO) {
+            // TODO The name of this method implies that it returns something. I'd also assume that it doesn't save the
+            // character in the database, but it does. Rename it to something more descriptive.
             getDroidFromRequestDto(character);
-        }
-        else if (character instanceof HumanDTO){
+        } else if (character instanceof HumanDTO) {
             getHumanFromRequestDto(character);
-        }
-        else if (!(character instanceof Human) && !(character instanceof Droid)){
-            throw new IllegalArgumentException(character.getClass().getSimpleName()+" is not a supported subtype of Character");
-        }
-        else {
+        } else if (!(character instanceof Human) && !(character instanceof Droid)) {
+            throw new IllegalArgumentException(
+                    character.getClass().getSimpleName() + " is not a supported subtype of Character");
+        } else {
             repository.save(character);
         }
     }
 
-    Character createCharacterFromRequestDto(Character entity, Character requestDto){
+    // TODO This method is far too long.
+    Character createCharacterFromRequestDto(Character entity, Character requestDto) {
         entity = repository.save(entity);
-        CharacterDTO dtoObject = (CharacterDTO)requestDto;
+        CharacterDTO dtoObject = (CharacterDTO) requestDto;
         List<Movie> appearsIn = new ArrayList<>();
         List<Long> movieIds = dtoObject.getMovieIds();
 
         List<Character> friends = new ArrayList<>();
         List<Long> friendIds = dtoObject.getFriendIds();
 
-        for (Long id : friendIds){
+        for (Long id : friendIds) {
             Optional<Character> friend = repository.findById(id);
-            if (friend.isEmpty()){
+            if (friend.isEmpty()) {
                 throw new IllegalArgumentException(String.format("Character with id: %d does not exist.", id));
             }
 
             /*
-            //This is purposely commented out so that you can see I managed to solve the 'friends' issue we discussed.
-            //However, if I try to get all the characters, I get an infinite recursion due to the nature of the relationship.
-
-                List<Character> friendsOfFriend = friend.getFriends();
-                friendsOfFriend.add(actualDroid);
-                friend.setFriends(friendsOfFriend);
+             * //This is purposely commented out so that you can see I managed to solve the 'friends' issue we
+             * discussed. //However, if I try to get all the characters, I get an infinite recursion due to the nature
+             * of the relationship. List<Character> friendsOfFriend = friend.getFriends();
+             * friendsOfFriend.add(actualDroid); friend.setFriends(friendsOfFriend);
              */
             friends.add(friend.get());
         }
 
-        for (Long id : movieIds){
+        for (Long id : movieIds) {
             Optional<Movie> optionalMovie = movieRepository.findById(id);
-            if (optionalMovie.isEmpty()){
+            if (optionalMovie.isEmpty()) {
                 throw new IllegalArgumentException(String.format("Movie with id: %d does not exist.", id));
             }
             appearsIn.add(optionalMovie.get());
@@ -86,23 +86,24 @@ public class CharacterService extends EntityService<Character, CharacterReposito
         return entity;
     }
 
-    private void getDroidFromRequestDto(Character dto){
-        DroidDTO dtoObject = (DroidDTO)dto;
+    private void getDroidFromRequestDto(Character dto) {
+        DroidDTO dtoObject = (DroidDTO) dto;
         Droid actualDroid = Droid.parseDroid(dtoObject);
         createCharacterFromRequestDto(actualDroid, dto);
     }
 
-    private void getHumanFromRequestDto(Character dto){
-        HumanDTO dtoObject = (HumanDTO)dto;
+    private void getHumanFromRequestDto(Character dto) {
+        HumanDTO dtoObject = (HumanDTO) dto;
         Human actualHuman = Human.parseHuman(dtoObject);
         actualHuman = (Human) createCharacterFromRequestDto(actualHuman, dto);
 
         List<Starship> humanStarships = new ArrayList<>();
         List<Long> starshipIds = dtoObject.getStarshipsIds();
 
-        for (Long id : starshipIds){
+        // TODO This loop could be extracted in its own method.
+        for (Long id : starshipIds) {
             Optional<Starship> optionalStarship = starshipRepository.findById(id);
-            if (optionalStarship.isEmpty()){
+            if (optionalStarship.isEmpty()) {
                 throw new IllegalArgumentException(String.format("Starship with id: %d does not exist.", id));
             }
             humanStarships.add(optionalStarship.get());
@@ -110,4 +111,5 @@ public class CharacterService extends EntityService<Character, CharacterReposito
 
         actualHuman.setStarships(humanStarships);
     }
+
 }

@@ -23,18 +23,23 @@ public class CharacterController {
     private final CharacterRepository repository;
     private final CharacterService service;
 
-
     public CharacterController(CharacterRepository repository, CharacterService service) {
-        this.repository=repository;
-        this.service=service;
+        this.repository = repository;
+        this.service = service;
     }
 
-    public CharacterController(){
-        this(new CharacterRepository(), new CharacterService(new CharacterRepository(), new CharacterDeletionService()));
+    public CharacterController() {
+        this(new CharacterRepository(),
+                new CharacterService(new CharacterRepository(), new CharacterDeletionService()));
     }
 
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Character>> get() {
+        // TODO You can "hide" the repository inside the service. Add findAll and findById methods to the service layer
+        // and have them delegate directly to the repository. That would reduce the number of dependencies this class
+        // has. Additionally, working with entities would be simplified in general - right now you need one class to
+        // retrieve them and another to persist them. That'd be annoying to do if you needed to work with these entities
+        // in a lot of places.
         List<Character> result = repository.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

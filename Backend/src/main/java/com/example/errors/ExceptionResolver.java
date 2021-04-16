@@ -37,7 +37,7 @@ public class ExceptionResolver {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    ErrorInfo handleSQLException(Exception ex) {
+    ErrorInfo handleException(Exception ex) {
         return new ErrorInfo(ex.getLocalizedMessage());
     }
 

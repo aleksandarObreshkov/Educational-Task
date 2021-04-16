@@ -27,6 +27,7 @@ abstract class BaseEntityRepository {
         EntityManager manager = factory.createEntityManager();
         try{
             manager.getTransaction().begin();
+            // TODO Commit the transaction and roll it back if an exception occurs.
             return databaseAction.apply(manager);
         }catch (Exception e){
             throw new PersistenceException("Database error: "+e.getMessage(), e);

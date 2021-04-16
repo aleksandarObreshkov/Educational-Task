@@ -1,3 +1,4 @@
+// TODO Adhere to package naming conventions.
 package com.example.rest_entities;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ public class RequestEntity {
     private Map<String, String> pathVariables;
 
     public RequestEntity() {
+        // TODO This initialization can be moved to where the field is declared.
         pathVariables=new HashMap<>();
     }
 

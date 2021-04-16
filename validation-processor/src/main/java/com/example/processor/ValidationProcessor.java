@@ -33,7 +33,7 @@ public class ValidationProcessor extends AbstractProcessor {
         filer = processingEnv.getFiler();
         messager = processingEnv.getMessager();
         annotationRegistry = fillAnnotationRegistry();
-        this.typeUtilities=processingEnv.getTypeUtils();
+        this.typeUtilities = processingEnv.getTypeUtils();
     }
 
     private AnnotationRegistry fillAnnotationRegistry() {
@@ -62,22 +62,23 @@ public class ValidationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (Element entityClass : roundEnv.getElementsAnnotatedWith(Validate.class)) {
             if (!entityClass.getKind().equals(ElementKind.CLASS)) {
+                // TODO This is not an actual TODO, but for some reason I read tities instead of entities and now I
+                // can't unsee this. I like JPA a bit more now. :D
                 error(entityClass, "Only classes can be annotated as entities.");
                 return true;
             }
-           buildValidationClass(entityClass);
+            buildValidationClass(entityClass);
         }
         return true;
     }
 
-    private void buildValidationClass(Element entityClass){
+    private void buildValidationClass(Element entityClass) {
         List<CodeBlock> ifBlocks = new ArrayList<>();
         List<MethodSpec> validationMethods = new ArrayList<>();
 
         String className = entityClass.getSimpleName() + "Validator";
 
-        Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = getAnnotatedFields(
-                entityClass);
+        Map<Class<? extends Annotation>, List<TypeName>> fieldsWithAnnotation = getAnnotatedFields(entityClass);
         fieldsWithAnnotation = iterateOverSuperClassElements(entityClass, fieldsWithAnnotation);
 
         for (Class<? extends Annotation> annotation : fieldsWithAnnotation.keySet()) {
@@ -109,9 +110,9 @@ public class ValidationProcessor extends AbstractProcessor {
         return fieldsWithAnnotation;
     }
 
-    private Map<Class<? extends Annotation>, List<TypeName>> iterateOverSuperClassElements(
-            Element subClass,
-            Map<Class<? extends Annotation>, List<TypeName>> subclassAnnotations) {
+    private Map<Class<? extends Annotation>, List<TypeName>>
+            iterateOverSuperClassElements(Element subClass,
+                                          Map<Class<? extends Annotation>, List<TypeName>> subclassAnnotations) {
 
         TypeElement classAsTypeElement = (TypeElement) subClass;
         TypeMirror superclass = classAsTypeElement.getSuperclass();
@@ -120,26 +121,23 @@ public class ValidationProcessor extends AbstractProcessor {
         }
         Element superClass = typeUtilities.asElement(superclass);
         subclassAnnotations = mergeAnnotationMaps(getAnnotatedFields(superClass), subclassAnnotations);
-        return iterateOverSuperClassElements(superClass,subclassAnnotations);
+        return iterateOverSuperClassElements(superClass, subclassAnnotations);
     }
 
-    private Map<Class<? extends Annotation>, List<TypeName>> mergeAnnotationMaps(
-            Map<Class<? extends Annotation>, List<TypeName>> map1,
-            Map<Class<? extends Annotation>, List<TypeName>> map2){
+    private Map<Class<? extends Annotation>, List<TypeName>>
+            mergeAnnotationMaps(Map<Class<? extends Annotation>, List<TypeName>> map1,
+                                Map<Class<? extends Annotation>, List<TypeName>> map2) {
 
         return Stream.of(map1, map2)
                 .flatMap(map -> map.entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (map1List, map2List)->{
-                            for (TypeName name : map2List){
-                                if (!map1List.contains(name)){
-                                    map1List.add(name);
-                                }
-                            }
-                            return map1List;
-                        }));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (map1List, map2List) -> {
+                    for (TypeName name : map2List) {
+                        if (!map1List.contains(name)) {
+                            map1List.add(name);
+                        }
+                    }
+                    return map1List;
+                }));
     }
 
     private String createValidationMethodCall(Class<? extends Annotation> annotationClass) {
@@ -177,9 +175,8 @@ public class ValidationProcessor extends AbstractProcessor {
         messager.printMessage(Diagnostic.Kind.ERROR, String.format(msg, args), e);
     }
 
-    private MethodSpec buildSuperclassFieldCollectorMethod(){
-        return MethodSpec
-                .methodBuilder("superclassFieldCollector")
+    private MethodSpec buildSuperclassFieldCollectorMethod() {
+        return MethodSpec.methodBuilder("superclassFieldCollector")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .returns(ParameterizedTypeName.get(List.class, Field.class))
                 .addParameter(ClassName.get(Class.class), "itemClass")
@@ -198,13 +195,12 @@ public class ValidationProcessor extends AbstractProcessor {
 
     }
 
-    private MethodSpec buildFilterSupportedAnnotations(){
+    private MethodSpec buildFilterSupportedAnnotations() {
         return MethodSpec.methodBuilder("filterSupportedAnnotations")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .addParameter(ClassName.get(Field.class), "field")
                 .returns(ParameterizedTypeName.get(List.class, Annotation.class))
-                .addStatement("return $T.stream(field.getAnnotations())"
-                        + ".filter(annotation -> "
+                .addStatement("return $T.stream(field.getAnnotations())" + ".filter(annotation -> "
                         + "annotation.annotationType().getPackage().getName().startsWith(\"javax.validation.constraints\")"
                         + ").collect($T.toList())", Arrays.class, Collectors.class)
                 .build();
@@ -220,11 +216,14 @@ public class ValidationProcessor extends AbstractProcessor {
                 .addParameter(ClassName.get(Object.class), "object")
                 .addParameter(ParameterizedTypeName.get(List.class, Annotation.class), "annotations")
                 .beginControlFlow("if(annotations.contains($T.class))", NotNull.class)
-                .addStatement("$T notNullAnnotation = annotations.get(annotations.indexOf($T.class))", Annotation.class, NotNull.class)
-                .addStatement("String message = notNullAnnotation.annotationType().getMethod(\"message\").invoke(notNullAnnotation).toString()")
+                .addStatement("$T notNullAnnotation = annotations.get(annotations.indexOf($T.class))", Annotation.class,
+                        NotNull.class)
+                .addStatement(
+                        "String message = notNullAnnotation.annotationType().getMethod(\"message\").invoke(notNullAnnotation).toString()")
                 .addStatement("$T annotationValue = null;", Object.class)
                 .beginControlFlow("try")
-                .addStatement("annotationValue = notNullAnnotation.annotationType().getMethod(\"value\").invoke(notNullAnnotation)")
+                .addStatement(
+                        "annotationValue = notNullAnnotation.annotationType().getMethod(\"value\").invoke(notNullAnnotation)")
                 .endControlFlow()
                 .beginControlFlow("catch($T e)", NoSuchMethodException.class)
                 .addStatement("System.out.println(\"Annotation doesn't have value() method.\");")
@@ -268,12 +267,10 @@ public class ValidationProcessor extends AbstractProcessor {
 
     private void buildClass(String className, List<MethodSpec> validationMethods,
                             List<CodeBlock> ifBlocksForAnnotationType, TypeMirror classToValidate) {
-        AnnotationSpec a = AnnotationSpec
-                .builder(ValidatorFor.class)
+        AnnotationSpec a = AnnotationSpec.builder(ValidatorFor.class)
                 .addMember("value", "$T.class", classToValidate)
                 .build();
-        TypeSpec.Builder classToGenerate = TypeSpec
-                .classBuilder(className)
+        TypeSpec.Builder classToGenerate = TypeSpec.classBuilder(className)
                 .addAnnotation(a)
                 .addModifiers(Modifier.PUBLIC);
 

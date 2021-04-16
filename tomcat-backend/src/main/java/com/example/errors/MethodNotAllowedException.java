@@ -2,6 +2,7 @@ package com.example.errors;
 
 public class MethodNotAllowedException extends Throwable {
 
+    // TODO serialVersionUID instead of serialVersionUid
     private static final Long serialVersionUid = 1L;
 
     private final String message;

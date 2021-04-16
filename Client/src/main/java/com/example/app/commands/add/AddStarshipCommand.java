@@ -30,10 +30,9 @@ public class AddStarshipCommand extends Command {
         this.client = client;
     }
 
-    public AddStarshipCommand(){
+    public AddStarshipCommand() {
         this(StarWarsClient.starships());
     }
-
 
     @Override
     public void execute(String[] arguments) {
@@ -43,17 +42,17 @@ public class AddStarshipCommand extends Command {
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "Add a starship to the database";
     }
 
     @Override
-    public String getCommandString(){
+    public String getCommandString() {
         return "add-starship";
     }
 
     @Override
-    public Options getOptions(){
+    public Options getOptions() {
         final Options options = new Options();
         Option name = Option.builder(NAME_OPTION)
                 .longOpt(NAME_OPTION_LONG)
@@ -89,19 +88,21 @@ public class AddStarshipCommand extends Command {
             starship.setName(cmd.getOptionValue(NAME_OPTION));
             Float length = Float.parseFloat(cmd.getOptionValue(LENGTH_OPTION));
             starship.setLengthInMeters(length);
-            if (cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)){
+            // TODO This method is a bit too long. The following code block is something I would consider
+            // refactoring/extracting in a separate method.
+            if (cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
                 String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
-                if (unitOfMeasurement.equals("imperial")){
-                    starship.setLengthInMeters(length*FEET_TO_METER_COEFFICIENT);
-                }
-                else if (unitOfMeasurement.equals("metric")){
+                if (unitOfMeasurement.equals("imperial")) {
+                    starship.setLengthInMeters(length * FEET_TO_METER_COEFFICIENT);
+                } else if (unitOfMeasurement.equals("metric")) {
                     starship.setLengthInMeters(length);
-                }
-                else throw new InvalidInputException("Unrecognised unit of measurement: "+unitOfMeasurement);
+                } else
+                    throw new InvalidInputException("Unrecognised unit of measurement: " + unitOfMeasurement);
             }
             return starship;
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Length should be float.", e);
         }
     }
+
 }

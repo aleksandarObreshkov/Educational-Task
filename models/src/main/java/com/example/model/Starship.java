@@ -1,11 +1,14 @@
 package com.example.model;
 
-import com.example.processor.Validate;
-import lombok.Data;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import com.example.processor.Validate;
 
 @Validate
 @Entity
@@ -48,12 +51,15 @@ public class Starship {
         this.lengthInMeters = length;
     }
 
+    // TODO You should always override hashCode() when you override equals():
+    // https://www.baeldung.com/java-equals-hashcode-contracts
     @Override
     public boolean equals(Object obj) {
-       if (!Starship.class.equals(obj.getClass())){
-           return false;
-       }
-       Starship starshipToCompare = (Starship) obj;
-       return this.getName().equals(starshipToCompare.getName());
+        if (!Starship.class.equals(obj.getClass())) {
+            return false;
+        }
+        Starship starshipToCompare = (Starship) obj;
+        return this.getName().equals(starshipToCompare.getName());
     }
+
 }
