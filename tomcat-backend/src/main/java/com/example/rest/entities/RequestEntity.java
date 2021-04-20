@@ -1,5 +1,4 @@
-// TODO Adhere to package naming conventions.
-package com.example.rest_entities;
+package com.example.rest.entities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,12 +6,7 @@ import java.util.Map;
 public class RequestEntity {
 
     private String body;
-    private Map<String, String> pathVariables;
-
-    public RequestEntity() {
-        // TODO This initialization can be moved to where the field is declared.
-        pathVariables=new HashMap<>();
-    }
+    private Map<String, String> pathVariables = new HashMap<>();
 
     public String getBody() {
         return body;

@@ -6,7 +6,7 @@ import com.example.model.Starship;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HumanStarshipRepresenter extends EntityRepresenter<Human> {
+public class HumanStarshipRepresenter extends RelationshipRepresenter<Human, Starship> {
 
     @Override
     public List<String> getHeaderRow() {
@@ -18,25 +18,12 @@ public class HumanStarshipRepresenter extends EntityRepresenter<Human> {
         List<String> values = new ArrayList<>();
         values.add(human.getId().toString());
         values.add(human.getName());
-        values.add(createStringFromList(createNameListFromStarships(human.getStarships())));
+        values.add(createStringFromList(getNames(human.getStarships())));
         return values;
     }
 
-    private String createStringFromList(List<String> dataList) {
-        // TODO Replace this method with String.join. Also, this method is duplicated in a lot of represented. You
-        // could've extracted it in some base class or a utility class.
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < dataList.size(); i++) {
-            builder.append(dataList.get(i));
-            if (i != dataList.size() - 1) {
-                builder.append(", ");
-            }
-        }
-        return builder.toString();
-    }
-
-    // TODO You could simplify the method name to getNames.
-    private List<String> createNameListFromStarships(List<Starship> starships) {
+    @Override
+    protected List<String> getNames(List<Starship> starships) {
         List<String> result = new ArrayList<>();
         for (Starship starship : starships) {
             result.add(starship.getName());

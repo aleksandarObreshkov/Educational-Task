@@ -1,7 +1,6 @@
 package com.example.services;
 
 import com.example.model.Starship;
-import com.example.repositories.CharacterRepository;
 import com.example.repositories.StarshipRepository;
 import com.example.services.deletion.StarshipDeletionService;
 

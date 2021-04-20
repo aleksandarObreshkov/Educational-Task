@@ -1,11 +1,9 @@
 package com.example.backend.controllers;
 
+import com.example.services.MovieService;
 import com.example.constants.HttpStatus;
 import com.example.controllers.MovieController;
-import com.example.repositories.EntityRepository;
 import com.example.model.Movie;
-import com.example.repositories.MovieRepository;
-import com.example.services.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,9 +18,6 @@ import static org.mockito.Mockito.when;
 public class MovieControllerTest {
 
     @Mock
-    public MovieRepository repository;
-
-    @Mock
     public MovieService service;
 
     public MovieController controller;
@@ -30,7 +25,7 @@ public class MovieControllerTest {
     @BeforeEach
     public void setup(){
         MockitoAnnotations.openMocks(this);
-        controller = new MovieController(repository, service);
+        controller = new MovieController(service);
     }
 
     @Test
@@ -38,7 +33,7 @@ public class MovieControllerTest {
         Movie movie = Mockito.mock(Movie.class);
         ArrayList<Movie> resultList = new ArrayList<>();
         resultList.add(movie);
-        when(repository.findAll()).thenReturn(resultList);
+        when(service.findAll()).thenReturn(resultList);
         assertEquals(controller.get().getStatus(), HttpStatus.OK);
         assertEquals(controller.get().getBody(), resultList);
     }
@@ -46,13 +41,13 @@ public class MovieControllerTest {
     @Test
     public void validFindByIdRequest(){
         Movie movie = Mockito.mock(Movie.class);
-        when(repository.findById(10L)).thenReturn(movie);
+        when(service.findById(10L)).thenReturn(movie);
         assertEquals(controller.get(10L).getBody(), movie);
     }
 
     @Test
     public void findByIdNotFoundRequest(){
-        when(repository.findById(10L)).thenReturn(null);
+        when(service.findById(10L)).thenReturn(null);
         assertEquals(controller.get(10L).getStatus(), HttpStatus.NOT_FOUND);
     }
 
@@ -64,7 +59,7 @@ public class MovieControllerTest {
 
     @Test
     public void deleteByIdNotFoundRequest(){
-        when(repository.deleteById(10L)).thenReturn(false);
+        when(service.deleteById(10L)).thenReturn(false);
         assertEquals(controller.get(10L).getStatus(), HttpStatus.NOT_FOUND);
     }
 

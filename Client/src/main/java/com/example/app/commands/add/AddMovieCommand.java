@@ -32,9 +32,10 @@ public class AddMovieCommand extends Command {
 
     @Override
     public void execute(String[] arguments) {
-        CommandLine cmd = parseCommandLine(getOptions(), arguments);
-        Movie movieToAdd = createMovie(cmd);
-        client.create(movieToAdd);
+        clientOperation(arguments, cmd->{
+            Movie movieToAdd = createMovie(cmd);
+            client.create(movieToAdd);
+        });
     }
 
     @Override

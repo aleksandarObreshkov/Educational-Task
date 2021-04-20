@@ -6,18 +6,21 @@ import com.example.model.dto.CharacterDTO;
 import com.example.model.dto.DroidDTO;
 import com.example.model.dto.HumanDTO;
 import com.example.repositories.CharacterRepository;
+import com.example.repositories.MovieRepository;
+import com.example.repositories.StarshipRepository;
 import com.example.services.deletion.CharacterDeletionService;
-
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO The service layer looks identical to the service layer from the Spring-based backend. The only difference is in
-// the controllers and the repositories. The services could be extracted and reused.
 public class CharacterService extends EntityService<Character, CharacterRepository, CharacterDeletionService> {
+
+    private final MovieRepository movieRepository;
+    private final StarshipRepository starshipRepository;
 
     public CharacterService(CharacterRepository repository, CharacterDeletionService deletionService) {
         super(repository, deletionService);
+        movieRepository = new MovieRepository();
+        starshipRepository = new StarshipRepository();
     }
 
     public void save(Character objectToPersist) {
@@ -33,35 +36,13 @@ public class CharacterService extends EntityService<Character, CharacterReposito
     }
 
     private void createCharacterFromRequestDto(Character entity, Character requestDto) {
-        EntityManager manager = repository.getEntityManager();
         CharacterDTO dtoObject = (CharacterDTO) requestDto;
-        List<Movie> appearsIn = new ArrayList<>();
         List<Long> movieIds = dtoObject.getMovieIds();
 
-        List<Character> friends = new ArrayList<>();
         List<Long> friendIds = dtoObject.getFriendIds();
 
-        for (Long id : friendIds) {
-            Character friend = repository.findById(id);
-            if (friend == null) {
-                throw new IllegalArgumentException(String.format("Character with id: %d does not exist.", id));
-            }
-            // This is purposely commented out so that you can see I managed to solve the 'friends' issue we discussed.
-            // However, if I try to get all the characters, I get an infinite recursion due to the nature of the
-            // relationship.
-            /*
-             * List<Character> friendsOfFriend = friend.getFriends(); friendsOfFriend.add(actualDroid);
-             * friend.setFriends(friendsOfFriend);
-             */
-            friends.add(friend);
-        }
-
-        for (Long id : movieIds) {
-            Movie movie = manager.find(Movie.class, id);
-            appearsIn.add(movie);
-        }
-        entity.setFriends(friends);
-        entity.setAppearsIn(appearsIn);
+        entity.setFriends(getFriends(friendIds));
+        entity.setAppearsIn(getMovies(movieIds));
     }
 
     private Droid getDroidFromRequestDto(Character dto) {
@@ -72,22 +53,59 @@ public class CharacterService extends EntityService<Character, CharacterReposito
     }
 
     private Human getHumanFromRequestDto(Character dto) {
-        EntityManager manager = repository.getEntityManager();
         HumanDTO dtoObject = (HumanDTO) dto;
         Human actualHuman = Human.parseHuman(dtoObject);
         createCharacterFromRequestDto(actualHuman, dto);
-
-        List<Starship> humanStarships = new ArrayList<>();
         List<Long> starshipIds = dtoObject.getStarshipsIds();
-
-        for (Long id : starshipIds) {
-            Starship starship = manager.find(Starship.class, id);
-            humanStarships.add(starship);
-        }
-
-        actualHuman.setStarships(humanStarships);
+        actualHuman.setStarships(getStarships(starshipIds));
 
         return actualHuman;
+    }
+
+    private List<Starship> getStarships(List<Long> starshipIds){
+        List<Starship> humanStarships = new ArrayList<>();
+        for (Long id : starshipIds) {
+            Starship starship = starshipRepository.findById(id);
+            if (starship==null) {
+                throw new IllegalArgumentException(String.format("Starship with id: %d does not exist.", id));
+            }
+            humanStarships.add(starship);
+        }
+        return humanStarships;
+    }
+
+    private List<Movie> getMovies(List<Long> movieIds){
+        List<Movie> appearsIn = new ArrayList<>();
+        for (Long id : movieIds) {
+            Movie movie = movieRepository.findById(id);
+            if (movie==null) {
+                throw new IllegalArgumentException(String.format("Movie with id: %d does not exist.", id));
+            }
+            appearsIn.add(movie);
+        }
+        return appearsIn;
+    }
+
+    private List<Character> getFriends(List<Long> friendIds){
+
+        List<Character> friends = new ArrayList<>();
+
+        for (Long id : friendIds) {
+            Character friend = repository.findById(id);
+            if (friend==null) {
+                throw new IllegalArgumentException(String.format("Character with id: %d does not exist.", id));
+            }
+
+            /*
+             * //This is purposely commented out so that you can see I managed to solve the 'friends' issue we
+             * discussed. //However, if I try to get all the characters, I get an infinite recursion due to the nature
+             * of the relationship. List<Character> friendsOfFriend = friend.getFriends();
+             * friendsOfFriend.add(actualDroid); friend.setFriends(friendsOfFriend);
+             */
+            friends.add(friend);
+        }
+
+        return friends;
     }
 
 }

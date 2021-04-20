@@ -2,9 +2,9 @@ package com.example.servlets;
 
 import com.example.annotations.*;
 import com.example.processor.ValidatorFor;
-import com.example.rest_entities.RequestEntity;
-import com.example.rest_entities.RequestEntityProvider;
-import com.example.rest_entities.ResponseEntity;
+import com.example.rest.entities.RequestEntity;
+import com.example.rest.entities.RequestEntityProvider;
+import com.example.rest.entities.ResponseEntity;
 import com.example.constants.HttpMethod;
 import com.example.constants.HttpStatus;
 import com.example.controllers.CharacterController;
@@ -16,7 +16,6 @@ import com.example.utils.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -25,10 +24,7 @@ import org.reflections.Reflections;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,8 +37,7 @@ import java.util.stream.Stream;
 
 public class DispatcherServlet extends HttpServlet {
 
-    // TODO Rename to serialVersionUID.
-    private static final Long serialVersionUid = 1L;
+    private static final Long serialVersionUID = 1L;
 
     private ControllerRegistry registry;
 
@@ -102,8 +97,7 @@ public class DispatcherServlet extends HttpServlet {
             throws IOException {
         try {
             Object controller = controllerClass.getDeclaredConstructor().newInstance();
-            // TODO You can reuse getHandledPath here.
-            String controllerUri = controllerClass.getAnnotation(RequestPath.class).value();
+            String controllerUri = getHandledPath(controllerClass);
             Method methodToInvoke = getMethodToInvoke(controllerClass.getMethods(), request, controllerUri);
             if (methodToInvoke == null) {
                 response.setStatus(HttpStatus.NOT_FOUND.value());
@@ -135,10 +129,9 @@ public class DispatcherServlet extends HttpServlet {
         }
         for (Method method : requestTypeMethods) {
             String methodUri = method.getAnnotation(RequestMapping.class).value();
-            Map<String, Class<?>> pathVariableTypesMap = getPathVariableTypes(method);
             String requestUri = removeContextPathFromRequest(request.getRequestURI(), request.getContextPath());
             String methodUriFromRequest = removeTrailingSlash(getMethodUri(requestUri, controllerUri));
-            if (URLParser.parseUrl(methodUriFromRequest, methodUri, pathVariableTypesMap)) {
+            if (URLMatcher.doesUriMatchUriTemplate(methodUriFromRequest, methodUri)) {
                 return method;
             }
         }
@@ -187,8 +180,7 @@ public class DispatcherServlet extends HttpServlet {
         requestUri = removeTrailingSlash(requestUri);
         String methodUri = getMethodUri(requestUri, controllerUri);
         String methodUriWithPlaceholders = methodToInvoke.getAnnotation(RequestMapping.class).value();
-        // TODO You can just call getPathVariableTypes(methodToInvoke).keySet() instead of creating a separate method.
-        List<String> methodPathVariables = getMethodPathVariables(methodToInvoke);
+        Set<String> methodPathVariables = getPathVariableTypes(methodToInvoke).keySet();
         return new RequestEntityProvider().createRequestEntity(request.getReader(),
                 getPathVariableValues(methodUriWithPlaceholders, methodUri, methodPathVariables));
     }
@@ -200,19 +192,8 @@ public class DispatcherServlet extends HttpServlet {
         throw new IllegalArgumentException("Request URI was null");
     }
 
-    private List<String> getMethodPathVariables(Method method) {
-        List<String> pathVariables = new ArrayList<>();
-        Parameter[] parameters = method.getParameters();
-        for (Parameter parameter : parameters) {
-            if (parameter.isAnnotationPresent(PathVariable.class)) {
-                pathVariables.add(parameter.getAnnotation(PathVariable.class).value());
-            }
-        }
-        return pathVariables;
-    }
-
     private Map<String, String> getPathVariableValues(String uriWithPathVariablePlaceholders, String uri,
-                                                      List<String> pathVariableNames) {
+                                                      Set<String> pathVariableNames) {
         String regex = RegexUtil.buildPathVariableCapturingRegex(uriWithPathVariablePlaceholders);
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(uri);
@@ -244,17 +225,7 @@ public class DispatcherServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         for (Parameter parameter : methodParameters) {
             if (parameter.isAnnotationPresent(RequestBody.class)) {
-                // TODO Extract this block in a method.
-                Class<?> entityClass = parameter.getType();
-                Object mappingResult = mapper.readValue(entity.getBody(), entityClass);
-                Reflections reflections = new Reflections("com.example");
-                Set<Class<?>> validatorClasses = reflections.getTypesAnnotatedWith(ValidatorFor.class);
-                for (Class<?> validator : validatorClasses){
-                    if (validator.getAnnotation(ValidatorFor.class).value().equals(mappingResult.getClass())){
-                        validator.getMethod("validate", Object.class).invoke(validator, mappingResult);
-                    }
-                }
-                resultParameters.add(mappingResult);
+                resultParameters.add(parseRequestBody(parameter, entity.getBody(), mapper));
             }
             if (parameter.isAnnotationPresent(PathVariable.class)) {
                 String pathVariableName = parameter.getAnnotation(PathVariable.class).value();
@@ -264,6 +235,19 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         return resultParameters.toArray();
+    }
+
+    private Object parseRequestBody(Parameter parameter, String requestBody, ObjectMapper mapper) throws JsonProcessingException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class<?> entityClass = parameter.getType();
+        Object mappingResult = mapper.readValue(requestBody, entityClass);
+        Reflections reflections = new Reflections("com.example");
+        Set<Class<?>> validatorClasses = reflections.getTypesAnnotatedWith(ValidatorFor.class);
+        for (Class<?> validator : validatorClasses){
+            if (validator.getAnnotation(ValidatorFor.class).value().equals(mappingResult.getClass())) {
+                validator.getMethod("validate", Object.class).invoke(validator, mappingResult);
+            }
+        }
+        return mappingResult;
     }
 
     private void respond(HttpServletResponse response, HttpStatus status, Object responseBody) throws IOException {

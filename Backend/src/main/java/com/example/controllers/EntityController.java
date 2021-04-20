@@ -12,32 +12,36 @@ import java.util.Optional;
 
 public abstract class EntityController<T, S extends EntityService<T, ? extends JpaRepository<T, Long>, ? extends DeletionService<T>>> {
 
-    public final JpaRepository<T, Long> repository;
     public final S service;
 
-    public EntityController(JpaRepository<T, Long> repository, S service) {
-        this.repository = repository;
+    public EntityController(S service) {
         this.service = service;
     }
 
     @GetMapping
     public ResponseEntity<List<T>> getAll() {
-        List<T> result = repository.findAll();
+        List<T> result = service.findAll();
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<T> getById(@PathVariable Long id) {
-        Optional<T> result = repository.findById(id);
+        Optional<T> result = service.findById(id);
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public abstract ResponseEntity<String> deleteById(@PathVariable Long id);
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        boolean deleted = service.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @PostMapping
     public ResponseEntity<String> add(@Valid @RequestBody T entity) {
-        repository.save(entity);
+        service.save(entity);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -6,9 +6,9 @@ import com.example.model.dto.CharacterDTO;
 import com.example.model.dto.DroidDTO;
 import com.example.model.dto.HumanDTO;
 import com.example.services.deletion.CharacterDeletionService;
-import com.example.spring_data_repositories.CharacterRepository;
-import com.example.spring_data_repositories.MovieRepository;
-import com.example.spring_data_repositories.StarshipRepository;
+import com.example.repositories.spring.CharacterRepository;
+import com.example.repositories.spring.MovieRepository;
+import com.example.repositories.spring.StarshipRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -30,34 +30,78 @@ public class CharacterService extends EntityService<Character, CharacterReposito
         this.starshipRepository = starshipRepository;
     }
 
-    public void save(Character objectToPersist) {
-        getCharacterFromRequestObject(objectToPersist);
+    @Override
+    public Character save(Character objectToPersist) {
+        Character characterToPersist = getCharacterFromRequestObject(objectToPersist);
+        return repository.save(characterToPersist);
     }
 
-    private void getCharacterFromRequestObject(Character character) {
+    private Character getCharacterFromRequestObject(Character character) {
         if (character instanceof DroidDTO) {
-            // TODO The name of this method implies that it returns something. I'd also assume that it doesn't save the
-            // character in the database, but it does. Rename it to something more descriptive.
-            getDroidFromRequestDto(character);
+            return getDroidFromRequestDto(character);
         } else if (character instanceof HumanDTO) {
-            getHumanFromRequestDto(character);
-        } else if (!(character instanceof Human) && !(character instanceof Droid)) {
-            throw new IllegalArgumentException(
-                    character.getClass().getSimpleName() + " is not a supported subtype of Character");
-        } else {
-            repository.save(character);
+            return getHumanFromRequestDto(character);
+        } else if ((character instanceof Human) || (character instanceof Droid)) {
+            return character;
         }
+        throw new IllegalArgumentException(
+                character.getClass().getSimpleName() + " is not a supported subtype of Character");
     }
 
-    // TODO This method is far too long.
     Character createCharacterFromRequestDto(Character entity, Character requestDto) {
         entity = repository.save(entity);
         CharacterDTO dtoObject = (CharacterDTO) requestDto;
-        List<Movie> appearsIn = new ArrayList<>();
+        List<Long> friendIds = dtoObject.getFriendIds();
         List<Long> movieIds = dtoObject.getMovieIds();
 
+        entity.setFriends(getFriends(friendIds));
+        entity.setAppearsIn(getMovies(movieIds));
+        return entity;
+    }
+
+    private Character getDroidFromRequestDto(Character dto) {
+        DroidDTO dtoObject = (DroidDTO) dto;
+        Droid actualDroid = Droid.parseDroid(dtoObject);
+        return createCharacterFromRequestDto(actualDroid, dto);
+    }
+
+    private Character getHumanFromRequestDto(Character dto) {
+        HumanDTO dtoObject = (HumanDTO) dto;
+        Human actualHuman = Human.parseHuman(dtoObject);
+        actualHuman = (Human) createCharacterFromRequestDto(actualHuman, dto);
+
+        List<Long> starshipIds = dtoObject.getStarshipsIds();
+        actualHuman.setStarships(getStarships(starshipIds));
+        return actualHuman;
+    }
+
+    private List<Starship> getStarships(List<Long> starshipIds){
+        List<Starship> humanStarships = new ArrayList<>();
+        for (Long id : starshipIds) {
+            Optional<Starship> optionalStarship = starshipRepository.findById(id);
+            if (optionalStarship.isEmpty()) {
+                throw new IllegalArgumentException(String.format("Starship with id: %d does not exist.", id));
+            }
+            humanStarships.add(optionalStarship.get());
+        }
+        return humanStarships;
+    }
+
+    private List<Movie> getMovies(List<Long> movieIds){
+        List<Movie> appearsIn = new ArrayList<>();
+        for (Long id : movieIds) {
+            Optional<Movie> optionalMovie = movieRepository.findById(id);
+            if (optionalMovie.isEmpty()) {
+                throw new IllegalArgumentException(String.format("Movie with id: %d does not exist.", id));
+            }
+            appearsIn.add(optionalMovie.get());
+        }
+        return appearsIn;
+    }
+
+    private List<Character> getFriends(List<Long> friendIds){
+
         List<Character> friends = new ArrayList<>();
-        List<Long> friendIds = dtoObject.getFriendIds();
 
         for (Long id : friendIds) {
             Optional<Character> friend = repository.findById(id);
@@ -74,42 +118,7 @@ public class CharacterService extends EntityService<Character, CharacterReposito
             friends.add(friend.get());
         }
 
-        for (Long id : movieIds) {
-            Optional<Movie> optionalMovie = movieRepository.findById(id);
-            if (optionalMovie.isEmpty()) {
-                throw new IllegalArgumentException(String.format("Movie with id: %d does not exist.", id));
-            }
-            appearsIn.add(optionalMovie.get());
-        }
-        entity.setFriends(friends);
-        entity.setAppearsIn(appearsIn);
-        return entity;
-    }
-
-    private void getDroidFromRequestDto(Character dto) {
-        DroidDTO dtoObject = (DroidDTO) dto;
-        Droid actualDroid = Droid.parseDroid(dtoObject);
-        createCharacterFromRequestDto(actualDroid, dto);
-    }
-
-    private void getHumanFromRequestDto(Character dto) {
-        HumanDTO dtoObject = (HumanDTO) dto;
-        Human actualHuman = Human.parseHuman(dtoObject);
-        actualHuman = (Human) createCharacterFromRequestDto(actualHuman, dto);
-
-        List<Starship> humanStarships = new ArrayList<>();
-        List<Long> starshipIds = dtoObject.getStarshipsIds();
-
-        // TODO This loop could be extracted in its own method.
-        for (Long id : starshipIds) {
-            Optional<Starship> optionalStarship = starshipRepository.findById(id);
-            if (optionalStarship.isEmpty()) {
-                throw new IllegalArgumentException(String.format("Starship with id: %d does not exist.", id));
-            }
-            humanStarships.add(optionalStarship.get());
-        }
-
-        actualHuman.setStarships(humanStarships);
+        return friends;
     }
 
 }

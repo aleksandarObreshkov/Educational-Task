@@ -2,7 +2,6 @@ package com.example.services.deletion;
 
 import com.example.model.Character;
 import com.example.model.Movie;
-import com.example.repositories.CharacterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

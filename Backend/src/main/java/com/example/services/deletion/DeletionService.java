@@ -1,6 +1,6 @@
 package com.example.services.deletion;
 
-import com.example.spring_data_repositories.CharacterRepository;
+import com.example.repositories.spring.CharacterRepository;
 
 public abstract class DeletionService<T> {
 

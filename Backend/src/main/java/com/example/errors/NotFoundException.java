@@ -8,8 +8,7 @@ import java.util.List;
 
 public class NotFoundException extends RuntimeException implements GraphQLError {
     
-    // TODO The field should be called "serialVersionUID" (UID in all-caps).
-    private static final Long serialVersionUid = 1L;
+    private static final Long serialVersionUID = 1L;
     private final String message;
 
     public NotFoundException(String message){

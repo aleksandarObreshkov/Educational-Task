@@ -18,27 +18,22 @@ public class ShowStarshipsCommand extends Command {
     private static final String UNIT_OF_MEASUREMENT_OPTION = "u";
     private static final String UNIT_OF_MEASUREMENT_OPTION_LONG = "unit";
 
-
     @Override
     public void execute(String[] arguments) {
-        CommandLine cmd = parseCommandLine(getOptions(), arguments);
-        List<Starship> starships = StarWarsClient.starships().list();
+        clientOperation(arguments, cmd->{
+            List<Starship> starships = StarWarsClient.starships().list();
 
-        if (!cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
-            StarshipPrinter printer = new StarshipPrinter();
-            printer.printTable(starships);
-            return;
-        }
-        String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
-        //This if is added in case we have other units of measurement (inches, decimeters, etc.)
-        if (unitOfMeasurement.equals("imperial")){
-            for (Starship starship : starships){
-                starship.setLengthInMeters(starship.getLengthInMeters()*METER_TO_FEET);
+            if (!cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
+                StarshipPrinter printer = new StarshipPrinter();
+                printer.printTable(starships);
+                return;
             }
-        }
-        StarshipPrinter printer = new StarshipPrinter(unitOfMeasurement);
-        printer.printTable(starships);
-
+            String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
+            //This if is added in case we have other units of measurement (inches, decimeters, etc.)
+            changeUnitOfMeasurement(starships, unitOfMeasurement);
+            StarshipPrinter printer = new StarshipPrinter(unitOfMeasurement);
+            printer.printTable(starships);
+        });
     }
 
     @Override
@@ -50,7 +45,7 @@ public class ShowStarshipsCommand extends Command {
     public String getCommandString(){
         return "starships";
     }
-//fix length stuff
+
     @Override
     public Options getOptions() {
         Option unitOfMeasurement = Option.builder(UNIT_OF_MEASUREMENT_OPTION)
@@ -63,5 +58,13 @@ public class ShowStarshipsCommand extends Command {
         Options options = new Options();
         options.addOption(unitOfMeasurement);
         return options;
+    }
+
+    private void changeUnitOfMeasurement(List<Starship> starships, String unitOfMeasurement){
+        if (unitOfMeasurement.equals("imperial")){
+            for (Starship starship : starships){
+                starship.setLengthInMeters(starship.getLengthInMeters()*METER_TO_FEET);
+            }
+        }
     }
 }

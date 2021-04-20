@@ -36,9 +36,10 @@ public class AddStarshipCommand extends Command {
 
     @Override
     public void execute(String[] arguments) {
-        CommandLine cmd = parseCommandLine(getOptions(), arguments);
-        Starship starshipToAdd = createStarship(cmd);
-        client.create(starshipToAdd);
+        clientOperation(arguments, cmd->{
+            Starship starshipToAdd = createStarship(cmd);
+            client.create(starshipToAdd);
+        });
     }
 
     @Override
@@ -86,23 +87,25 @@ public class AddStarshipCommand extends Command {
         try {
             Starship starship = new Starship();
             starship.setName(cmd.getOptionValue(NAME_OPTION));
-            Float length = Float.parseFloat(cmd.getOptionValue(LENGTH_OPTION));
-            starship.setLengthInMeters(length);
-            // TODO This method is a bit too long. The following code block is something I would consider
-            // refactoring/extracting in a separate method.
-            if (cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
-                String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
-                if (unitOfMeasurement.equals("imperial")) {
-                    starship.setLengthInMeters(length * FEET_TO_METER_COEFFICIENT);
-                } else if (unitOfMeasurement.equals("metric")) {
-                    starship.setLengthInMeters(length);
-                } else
-                    throw new InvalidInputException("Unrecognised unit of measurement: " + unitOfMeasurement);
-            }
+            starship.setLengthInMeters(getStarshipLength(cmd));
             return starship;
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Length should be float.", e);
         }
+    }
+
+    private static Float getStarshipLength(CommandLine cmd){
+        Float length = Float.parseFloat(cmd.getOptionValue(LENGTH_OPTION));
+        if (cmd.hasOption(UNIT_OF_MEASUREMENT_OPTION)) {
+            String unitOfMeasurement = cmd.getOptionValue(UNIT_OF_MEASUREMENT_OPTION);
+            if (unitOfMeasurement.equals("imperial")) {
+                return length * FEET_TO_METER_COEFFICIENT;
+            } else if (unitOfMeasurement.equals("metric")) {
+                return length;
+            } else
+                throw new InvalidInputException("Unrecognised unit of measurement: " + unitOfMeasurement);
+        }
+        return length;
     }
 
 }

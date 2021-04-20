@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public abstract class EntityResolverTest<T, R extends JpaRepository<T, Long>> {
@@ -39,8 +38,7 @@ public abstract class EntityResolverTest<T, R extends JpaRepository<T, Long>> {
     public void notFoundExceptionTest(){
         when(repository.findById(10L)).thenReturn(Optional.empty());
         Throwable thrownException = assertThrows(NotFoundException.class, () -> resolver.entityWithId(10L));
-        // TODO Use assertTrue instead of assert - JUnit assert* methods print better error messages.
-        assert(thrownException.getMessage().contains("No entity with the specified id."));
+        assertTrue(thrownException.getMessage().contains("No entity with the specified id."));
     }
 
     @Test

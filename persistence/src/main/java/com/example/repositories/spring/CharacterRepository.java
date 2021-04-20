@@ -1,4 +1,4 @@
-package com.example.spring_data_repositories;
+package com.example.repositories.spring;
 
 import com.example.model.Character;
 import org.springframework.data.jpa.repository.JpaRepository;

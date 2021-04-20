@@ -2,7 +2,7 @@ package com.example.services;
 
 import com.example.model.Movie;
 import com.example.services.deletion.MovieDeletionService;
-import com.example.spring_data_repositories.MovieRepository;
+import com.example.repositories.spring.MovieRepository;
 import org.springframework.stereotype.Service;
 
 @Service

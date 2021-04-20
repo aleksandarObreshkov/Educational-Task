@@ -11,8 +11,10 @@ public abstract class EntityRepository<T> extends BaseEntityRepository {
 
     public List<T> findAll() {
         return execute(
-                manager -> manager.createQuery("SELECT a FROM " + type.getSimpleName() + " a", type)
-                        .getResultList());
+                manager ->
+                     manager.createQuery("SELECT a FROM " + type.getSimpleName() + " a", type)
+                            .getResultList()
+                );
     }
 
     public void save(T objectToPersist) {

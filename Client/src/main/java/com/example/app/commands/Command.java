@@ -3,6 +3,8 @@ package com.example.app.commands;
 import org.apache.commons.cli.*;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class Command {
 
@@ -13,6 +15,11 @@ public abstract class Command {
     public abstract String getDescription();
 
     public abstract void execute(String[] arguments);
+
+    public void clientOperation(String[] arguments, Consumer<CommandLine> function){
+        CommandLine cmd = parseCommandLine(getOptions(), arguments);
+        function.accept(cmd);
+    }
 
     protected CommandLine parseCommandLine(Options options, String[] commandArguments) {
         CommandLineParser parser = new DefaultParser();

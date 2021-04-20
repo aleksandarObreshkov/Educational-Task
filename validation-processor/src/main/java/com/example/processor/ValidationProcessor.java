@@ -62,8 +62,6 @@ public class ValidationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (Element entityClass : roundEnv.getElementsAnnotatedWith(Validate.class)) {
             if (!entityClass.getKind().equals(ElementKind.CLASS)) {
-                // TODO This is not an actual TODO, but for some reason I read tities instead of entities and now I
-                // can't unsee this. I like JPA a bit more now. :D
                 error(entityClass, "Only classes can be annotated as entities.");
                 return true;
             }

@@ -1,6 +1,5 @@
 package com.example.app.commands.show;
 
-import com.example.app.clients.CharacterClient;
 import com.example.app.clients.StarWarsClient;
 import com.example.app.commands.Command;
 import com.example.app.printing.printers.CharacterMoviesPrinter;
@@ -9,9 +8,6 @@ import com.example.app.printing.printers.FriendsPrinter;
 import com.example.app.printing.printers.HumanStarshipsPrinter;
 import com.example.model.Character;
 import com.example.model.Human;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
 
 import java.util.List;
 import java.util.stream.Collectors;

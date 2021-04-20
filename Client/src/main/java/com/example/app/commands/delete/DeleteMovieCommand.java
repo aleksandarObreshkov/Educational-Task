@@ -41,8 +41,9 @@ public class DeleteMovieCommand extends Command {
 
     @Override
     public void execute(String[] arguments) {
-        CommandLine cmd = parseCommandLine(getOptions(), arguments);
-        Long id = Long.parseLong(cmd.getOptionValue("id"));
-        client.delete(id);
+        clientOperation(arguments, cmd->{
+            Long id = Long.parseLong(cmd.getOptionValue(ID_OPTION));
+            client.delete(id);
+        });
     }
 }

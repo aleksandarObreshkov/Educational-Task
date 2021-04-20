@@ -26,8 +26,6 @@ abstract class BaseEntityRepository {
     public <T> T execute(Function<EntityManager, T> databaseAction) {
         EntityManager manager = factory.createEntityManager();
         try{
-            manager.getTransaction().begin();
-            // TODO Commit the transaction and roll it back if an exception occurs.
             return databaseAction.apply(manager);
         }catch (Exception e){
             throw new PersistenceException("Database error: "+e.getMessage(), e);
@@ -35,9 +33,4 @@ abstract class BaseEntityRepository {
             manager.close();
         }
     }
-
-    public EntityManager getEntityManager(){
-        return factory.createEntityManager();
-    }
-
 }

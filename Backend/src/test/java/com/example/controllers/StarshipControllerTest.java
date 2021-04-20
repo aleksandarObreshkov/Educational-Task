@@ -1,10 +1,9 @@
-package com.example.starshipTests;
+package com.example.controllers;
 
-import com.example.controllers.StarshipController;
 import com.example.errors.ExceptionResolver;
+import com.example.model.Starship;
 import com.example.services.StarshipService;
-import com.example.spring_data_repositories.StarshipRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
@@ -21,21 +22,59 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(StarshipController.class)
-public class StarshipDataParsingTest {
+public class StarshipControllerTest {
 
     private MockMvc mockMvc;
 
     @MockBean
-    private StarshipRepository repository;
-
-    @MockBean
     private StarshipService service;
+
+    private static Starship starship;
 
     @BeforeEach
     public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new StarshipController(repository, service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new StarshipController(service))
                 .setControllerAdvice(new ExceptionResolver())
                 .build();
+        instantiateStarship();
+    }
+
+    private void instantiateStarship(){
+        starship = new Starship();
+        starship.setName("Big Ship");
+        starship.setLengthInMeters(2.2f);
+    }
+
+    @Test
+    public void validGetAllStarships() throws Exception {
+        List<Starship> starships = new ArrayList<>();
+        starships.add(starship);
+        when(service.findAll()).thenReturn(starships);
+        mockMvc.perform(get("/starships"))
+                .andExpect(status().is(200))
+                .andExpect(content().string(containsString(starship.getName())));
+    }
+
+    @Test
+    public void validGetStarshipById() throws Exception {
+        when(service.findById(1L)).thenReturn(Optional.of(starship));
+        mockMvc.perform(get("/starships/1"))
+                .andExpect(status().is(200))
+                .andExpect(content().string(containsString(starship.getName())));
+    }
+
+    @Test
+    public void validAddStarship() throws Exception {
+        when(service.save(starship)).thenReturn(starship);
+        mockMvc.perform(post("/starships").content(new ObjectMapper().writeValueAsString(starship)).contentType("application/json"))
+                .andExpect(status().is(201));
+    }
+
+    @Test
+    public void validDeleteStarship() throws Exception {
+        when(service.deleteById(1L)).thenReturn(true);
+        mockMvc.perform(delete("/starships/1"))
+                .andExpect(status().is(204));
     }
 
     @Test
@@ -63,7 +102,7 @@ public class StarshipDataParsingTest {
 
     @Test
     public void getStarshipByIdExceptionTest() throws Exception {
-        when(repository.findById(90L)).thenReturn(Optional.empty());
+        when(service.findById(90L)).thenReturn(Optional.empty());
         mockMvc.perform(get("/starships/90"))
                 .andExpect(status().is(404));
     }

@@ -2,20 +2,9 @@ package com.example.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -59,14 +48,14 @@ public abstract class Character {
             inverseJoinColumns=
             @JoinColumn(name="character", referencedColumnName="id")
     )
-    private List<Movie> appearsIn = new ArrayList<>();
+    private List<Movie> appearsIn;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="character_friends",
             joinColumns=
             @JoinColumn(name="character", referencedColumnName="id")
     )
-    private List<Character> friends = new ArrayList<>();
+    private List<Character> friends;
 
     public Long getId() {
         return id;
@@ -117,15 +106,15 @@ public abstract class Character {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        //This is context validation in that the objects represent characters in the StarWars movies.
-        //Therefore, I assume that we can differentiate two characters even by only their name.
-        //Furthermore, the database uses the same validation (the column name being UNIQUE CONSTRAINT).
-        if (!Character.class.isAssignableFrom(obj.getClass())){
-            return false;
-        }
-        Character characterToCompare = (Character) obj;
-        return this.getName().equals(characterToCompare.getName());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Character)) return false;
+        Character character = (Character) o;
+        return isForceUser() == character.isForceUser() && Objects.equals(getId(), character.getId()) && getName().equals(character.getName()) && getAge().equals(character.getAge()) && Objects.equals(getAppearsIn(), character.getAppearsIn()) && Objects.equals(getFriends(), character.getFriends());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getAge(), isForceUser(), getAppearsIn(), getFriends());
     }
 }

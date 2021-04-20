@@ -4,26 +4,20 @@ import com.example.model.Movie;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class MovieClient extends StarWarsClient{
+public class MovieClient extends EntityClient<Movie>{
 
     public MovieClient(String url) {
-        super(url);
+        super(url, Movie.class);
     }
 
-    public void delete(Long id){
-        template.delete(url+id);
-    }
-
-    public void create(Movie movie){
-         template.postForObject(url,movie, Movie.class);
-    }
-
+    @Override
     public List<Movie> list(){
         Movie[] movies = template.getForObject(url, Movie[].class);
         if (movies==null){
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
         return Arrays.asList(movies);
     }

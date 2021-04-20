@@ -1,7 +1,6 @@
-package com.example.rest_entities;
+package com.example.rest.entities;
 
 import com.example.constants.HttpStatus;
-import java.io.Serializable;
 
 public class ResponseEntity<T> {
 

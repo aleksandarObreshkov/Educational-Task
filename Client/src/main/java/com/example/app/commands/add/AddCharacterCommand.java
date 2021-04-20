@@ -48,12 +48,11 @@ public class AddCharacterCommand extends Command {
         this(StarWarsClient.characters());
     }
 
-    @Override
     public void execute(String[] arguments) {
-        // TODO This line is repeated in every command with options. Can you move it to the abstract command class.
-        CommandLine cmd = parseCommandLine(getOptions(), arguments);
-        Character characterToAdd = createCharacterDTO(cmd);
-        client.create(characterToAdd);
+        clientOperation(arguments, cmd->{
+            Character characterToAdd = createCharacterDTO(cmd);
+            client.create(characterToAdd);
+        });
     }
 
     @Override
@@ -176,10 +175,10 @@ public class AddCharacterCommand extends Command {
         String type = cmd.getOptionValue(CHARACTER_TYPE_OPTION);
         if (type.equals("droid")) {
             return createDroid(cmd);
-        } else { // TODO If I put "alien" it'll still create a human. Add some validation that ensures that the
-                 // character type specified by the user is valid.
+        } else if (type.equals("human")){
             return createHuman(cmd);
         }
+        throw new InvalidInputException("No such character type: "+type);
     }
 
     private static List<Long> getIds(String idString) {

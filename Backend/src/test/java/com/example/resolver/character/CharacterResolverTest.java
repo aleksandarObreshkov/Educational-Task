@@ -3,7 +3,7 @@ package com.example.resolver.character;
 import com.example.model.Character;
 import com.example.resolver.EntityResolver;
 import com.example.resolver.EntityResolverTest;
-import com.example.spring_data_repositories.CharacterRepository;
+import com.example.repositories.spring.CharacterRepository;
 import org.mockito.Mock;
 
 public class CharacterResolverTest extends EntityResolverTest<Character, CharacterRepository> {

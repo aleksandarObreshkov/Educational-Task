@@ -10,6 +10,8 @@ import javax.validation.constraints.Positive;
 
 import com.example.processor.Validate;
 
+import java.util.Objects;
+
 @Validate
 @Entity
 public class Starship {
@@ -51,15 +53,16 @@ public class Starship {
         this.lengthInMeters = length;
     }
 
-    // TODO You should always override hashCode() when you override equals():
-    // https://www.baeldung.com/java-equals-hashcode-contracts
     @Override
-    public boolean equals(Object obj) {
-        if (!Starship.class.equals(obj.getClass())) {
-            return false;
-        }
-        Starship starshipToCompare = (Starship) obj;
-        return this.getName().equals(starshipToCompare.getName());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Starship)) return false;
+        Starship starship = (Starship) o;
+        return Objects.equals(getId(), starship.getId()) && getName().equals(starship.getName()) && getLengthInMeters().equals(starship.getLengthInMeters());
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getLengthInMeters());
+    }
 }

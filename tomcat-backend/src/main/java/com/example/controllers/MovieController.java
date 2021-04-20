@@ -1,46 +1,42 @@
 package com.example.controllers;
 
+import com.example.services.MovieService;
 import com.example.annotations.PathVariable;
 import com.example.annotations.RequestBody;
 import com.example.annotations.RequestMapping;
 import com.example.annotations.RequestPath;
 import com.example.constants.HttpMethod;
 import com.example.constants.HttpStatus;
-import com.example.repositories.CharacterRepository;
+import com.example.services.deletion.MovieDeletionService;
 import com.example.repositories.MovieRepository;
 import com.example.model.Movie;
-import com.example.rest_entities.ResponseEntity;
-import com.example.services.MovieService;
-import com.example.services.deletion.MovieDeletionService;
+import com.example.rest.entities.ResponseEntity;
 
 import java.util.List;
-
 
 @RequestPath(value = "/movies")
 public class MovieController {
 
-    private final MovieRepository repository;
     private final MovieService service;
 
-    public MovieController(MovieRepository repository, MovieService service) {
-        this.repository=repository;
+    public MovieController(MovieService service) {
         this.service=service;
     }
 
     public MovieController(){
-        this(new MovieRepository(), new MovieService(new MovieRepository(), new MovieDeletionService()));
+        this(new MovieService(new MovieRepository(), new MovieDeletionService()));
     }
 
 
     @RequestMapping(method = HttpMethod.GET)
     public ResponseEntity<List<Movie>> get() {
-        List<Movie> result = repository.findAll();
+        List<Movie> result = service.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = HttpMethod.GET)
     public ResponseEntity<Movie> get(@PathVariable("id") Long id) {
-        Movie result = repository.findById(id);
+        Movie result = service.findById(id);
         if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
@@ -49,7 +45,7 @@ public class MovieController {
 
     @RequestMapping(method = HttpMethod.POST)
     public ResponseEntity<String> post(@RequestBody Movie objectToAdd) {
-        repository.save(objectToAdd);
+        service.save(objectToAdd);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

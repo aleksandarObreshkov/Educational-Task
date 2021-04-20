@@ -6,28 +6,20 @@ import org.springframework.validation.ObjectError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-// TODO The clients have very similar methods - the only difference is the Class<?> instance passed to the RestTemplate.
-// Remove this duplication.
-public class CharacterClient extends StarWarsClient {
+public class CharacterClient extends EntityClient<Character> {
 
     public CharacterClient(String url) {
-        super(url);
+        super(url, Character.class);
     }
 
-    public void delete(Long id) {
-        template.delete(url + id);
-    }
-
-    public void create(Character character) {
-        template.postForObject(url, character, Character.class);
-    }
-
+    @Override
     public List<Character> list() {
         Character[] characters = template.getForObject(url, Character[].class);
         if (characters == null) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
         return Arrays.asList(characters);
     }

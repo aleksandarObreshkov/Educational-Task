@@ -1,7 +1,7 @@
 package com.example.resolver.starship;
 
 import com.example.model.Starship;
-import com.example.spring_data_repositories.StarshipRepository;
+import com.example.repositories.spring.StarshipRepository;
 import com.example.resolver.EntityResolver;
 import com.example.resolver.EntityResolverTest;
 import org.mockito.Mock;

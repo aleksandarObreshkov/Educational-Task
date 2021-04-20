@@ -2,7 +2,7 @@ package com.example.services;
 
 import com.example.model.Starship;
 import com.example.services.deletion.StarshipDeletionService;
-import com.example.spring_data_repositories.StarshipRepository;
+import com.example.repositories.spring.StarshipRepository;
 import org.springframework.stereotype.Service;
 
 @Service

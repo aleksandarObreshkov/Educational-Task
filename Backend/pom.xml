@@ -82,7 +82,6 @@
             <version>2.2.13.RELEASE</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-cloudfoundry-connector -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

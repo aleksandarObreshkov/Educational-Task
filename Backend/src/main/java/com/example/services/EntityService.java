@@ -3,6 +3,7 @@ package com.example.services;
 import com.example.services.deletion.DeletionService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public abstract class EntityService<T, R extends JpaRepository<T, Long>, S extends DeletionService<T>> {
@@ -24,9 +25,18 @@ public abstract class EntityService<T, R extends JpaRepository<T, Long>, S exten
         deletionService.unlink(entityToDelete);
         repository.save(entityToDelete);
         repository.deleteById(id);
-        //Im returning true since if the entity didnt exist, it would have been caught when
-        //checking the Optional
-        //If something happens during the transaction, it will be send directly to the user as an error
         return true;
+    }
+
+    public T save(T entity){
+        return repository.save(entity);
+    }
+
+    public List<T> findAll(){
+        return repository.findAll();
+    }
+
+    public Optional<T> findById(Long id){
+        return repository.findById(id);
     }
 }

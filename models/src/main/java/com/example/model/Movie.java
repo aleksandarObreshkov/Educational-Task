@@ -12,6 +12,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Entity
 @Validate
@@ -71,17 +72,17 @@ public class Movie {
         this.rating = rating;
     }
 
-    // TODO You should always override hashCode() when you override equals():
-    // https://www.baeldung.com/java-equals-hashcode-contracts
     @Override
-    public boolean equals(Object obj) {
-        if (!Movie.class.equals(obj.getClass())){
-            return false;
-        }
-        Movie movieToCompare = (Movie) obj;
-        return this.getTitle().equals(movieToCompare.getTitle()) &&
-                this.getRating().equals(movieToCompare.getRating()) &&
-                this.getReleaseDate().equals(movieToCompare.getReleaseDate());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Movie)) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(getId(), movie.getId()) && getTitle().equals(movie.getTitle()) && getReleaseDate().equals(movie.getReleaseDate()) && getRating().equals(movie.getRating());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getReleaseDate(), getRating());
     }
 }
 

@@ -5,7 +5,7 @@ import com.example.model.Human;
 import com.example.model.dto.DroidDTO;
 import com.example.model.dto.HumanDTO;
 import com.example.services.CharacterService;
-import com.example.spring_data_repositories.CharacterRepository;
+import com.example.repositories.spring.CharacterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -30,13 +30,17 @@ public class CharacterServiceTest {
     private void initializeEntities(){
         human = new Human();
         human.setName("John");
+        human.setAge(1);
         humanDTO = new HumanDTO();
         humanDTO.setName("John");
+        humanDTO.setAge(1);
 
         droid = new Droid();
         droid.setName("Robot");
+        droid.setAge(1);
         droidDTO = new DroidDTO();
         droidDTO.setName("Robot");
+        droidDTO.setAge(1);
     }
 
     @BeforeEach
