@@ -39,6 +39,9 @@ public class ValidationCodeGenerator {
             else if (type.equals(ClassName.get(LocalDate.class))){
                 parsingBlocks.add(getLocalDateParsing());
             }
+            else if (type.equals(ClassName.get(Long.class))){
+                parsingBlocks.add(getLongParsing());
+            }
         }
         return parsingBlocks;
     }
@@ -93,6 +96,20 @@ public class ValidationCodeGenerator {
                 .addStatement("LocalDate value = LocalDate.EPOCH")
                 .beginControlFlow("if(annotationValue!=null)")
                 .addStatement("value = LocalDate.parse(annotationValue.toString())")
+                .endControlFlow()
+                .add(getValidationStatementForAnnotation(annotationClass))
+                .endControlFlow()
+                .build();
+    }
+
+    private CodeBlock getLongParsing(){
+        return CodeBlock
+                .builder()
+                .beginControlFlow("if(object.getClass().equals(Long.class))")
+                .addStatement("$T item = Long.parseLong(object.toString())", Long.class)
+                .addStatement("Long value = 0L")
+                .beginControlFlow("if(annotationValue!=null)")
+                .addStatement("value = Long.parseLong(annotationValue.toString())")
                 .endControlFlow()
                 .add(getValidationStatementForAnnotation(annotationClass))
                 .endControlFlow()

@@ -20,6 +20,8 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
+    @PositiveOrZero
+    //added to show the annotation processing capabilities
     private Long id;
 
     @NotNull(message = "Please provide a title")

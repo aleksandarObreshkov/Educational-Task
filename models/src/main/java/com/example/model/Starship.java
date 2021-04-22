@@ -24,7 +24,7 @@ public class Starship {
     @Column(unique = true, name = "name")
     private String name;
 
-    @Positive
+    @Positive//purposely left with no message to show that default exception message is sent
     @NotNull(message = "Please specify the length of the ship.")
     @Column(name = "length_in_meters")
     private Float lengthInMeters;
