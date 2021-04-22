@@ -94,7 +94,7 @@
             <artifactId>graphql-spring-boot-starter</artifactId>
             <version>11.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-spring-boot-starter-test -->
+        <!-- https://mvnrepository.com/artifact/com.graphql-java-kickstart/graphql-java-tools -->
         <dependency>
             <groupId>com.graphql-java-kickstart</groupId>
             <artifactId>graphql-spring-boot-starter-test</artifactId>

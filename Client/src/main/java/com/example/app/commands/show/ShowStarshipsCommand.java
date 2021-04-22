@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ShowStarshipsCommand extends Command {
 
-    private final static Float METER_TO_FEET = 3.2808f;
+    private final static Float METER_TO_FEET = 3.28084f;
 
     private static final String UNIT_OF_MEASUREMENT_OPTION = "u";
     private static final String UNIT_OF_MEASUREMENT_OPTION_LONG = "unit";
@@ -61,10 +61,16 @@ public class ShowStarshipsCommand extends Command {
     }
 
     private void changeUnitOfMeasurement(List<Starship> starships, String unitOfMeasurement){
-        if (unitOfMeasurement.equals("imperial")){
+        if (unitOfMeasurement.equals("metric")){
+            return;
+        }
+        else if (unitOfMeasurement.equals("imperial")){
             for (Starship starship : starships){
                 starship.setLengthInMeters(starship.getLengthInMeters()*METER_TO_FEET);
             }
+        }
+        else {
+            throw new IllegalArgumentException("Unsupported unit of measurement: " + unitOfMeasurement);
         }
     }
 }

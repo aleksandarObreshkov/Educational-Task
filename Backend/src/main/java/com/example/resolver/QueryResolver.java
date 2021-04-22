@@ -7,6 +7,7 @@ import com.example.model.*;
 import com.example.model.Character;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

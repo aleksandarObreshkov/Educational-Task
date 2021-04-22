@@ -1,0 +1,4 @@
+14:45:57.376 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://localhost:8080/characters/
+14:45:57.433 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+14:45:57.447 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.dto.HumanDTO@f45dfb24] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+14:45:57.489 [main] DEBUG o.s.web.client.RestTemplate - Response 201 CREATED

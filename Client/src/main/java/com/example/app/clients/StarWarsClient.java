@@ -36,7 +36,7 @@ public abstract class StarWarsClient {
         String urlEnvVariable = System.getenv("BACKEND");
         switch (urlEnvVariable){
             case "tomcat": return "http://localhost:9090/tomcat_backend_war_exploded/";
-            case "cf": return "http://starwars.cfapps.sap.hana.ondemand.com/";
+            case "cf": return "https://spring.cfapps.sap.hana.ondemand.com/";
             default: return "http://localhost:8080/";
         }
     }

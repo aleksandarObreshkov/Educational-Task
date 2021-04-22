@@ -1,5 +1,4 @@
 package com.example.resolver.character;
-
 import com.example.model.Character;
 import com.example.resolver.EntityResolver;
 import com.example.repositories.spring.CharacterRepository;

@@ -4,4 +4,5 @@ type Query{
     allStarships:[Starship]
     starship(id:ID):Starship
     allCharacters:[Character]
+    character(id:ID):Character
 }

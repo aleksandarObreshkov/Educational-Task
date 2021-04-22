@@ -1460,3 +1460,20 @@
 16:15:36.537 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
 16:15:36.958 [main] DEBUG o.s.web.client.RestTemplate - Response 200 OK
 16:15:36.964 [main] DEBUG o.s.web.client.RestTemplate - Reading to [com.example.model.Starship[]]
+09:03:41.812 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://spring.cfapps.sap.hana.ondemand.com/movies/
+09:03:41.829 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:03:42.020 [main] DEBUG o.s.web.client.RestTemplate - Response 301 MOVED_PERMANENTLY
+09:04:00.406 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://spring.cfapps.sap.hana.ondemand.com/movies/
+09:04:00.456 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:04:00.469 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.Movie@4ea3110a] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:04:00.583 [main] DEBUG o.s.web.client.RestTemplate - Response 301 MOVED_PERMANENTLY
+09:04:03.618 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://spring.cfapps.sap.hana.ondemand.com/movies/
+09:04:03.635 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:04:03.746 [main] DEBUG o.s.web.client.RestTemplate - Response 301 MOVED_PERMANENTLY
+09:09:14.170 [main] DEBUG o.s.web.client.RestTemplate - HTTP POST http://spring.cfapps.sap.hana.ondemand.com/movies/
+09:09:14.218 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:09:14.231 [main] DEBUG o.s.web.client.RestTemplate - Writing [com.example.model.Movie@4ea3110a] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+09:09:14.353 [main] DEBUG o.s.web.client.RestTemplate - Response 301 MOVED_PERMANENTLY
+09:09:18.054 [main] DEBUG o.s.web.client.RestTemplate - HTTP GET http://spring.cfapps.sap.hana.ondemand.com/movies/
+09:09:18.071 [main] DEBUG o.s.web.client.RestTemplate - Accept=[application/json, application/*+json]
+09:09:18.171 [main] DEBUG o.s.web.client.RestTemplate - Response 301 MOVED_PERMANENTLY

@@ -1,13 +1,13 @@
 applications:
-- name: StarWarsSpringServer
+- name: DemoServerSpring
   path: target/backend-1.0-SNAPSHOT.jar
   instances: 1
   routes:
-    - route: starwars.cfapps.sap.hana.ondemand.com
+    - route: spring.cfapps.sap.hana.ondemand.com
   buildpacks:
     - java_buildpack
   env:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+}}'
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: true }'
   services:
-    - star-wars-db
+    - demo-db
