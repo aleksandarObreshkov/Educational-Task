@@ -22,7 +22,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
         // Since template.delete() doesn't return void, I have added the 400 series as errors in order to be
         // able to catch the Not_Found case
         if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-            throw new InvalidInputException("Entity with the specified id was not found.");
+                throw new InvalidInputException("Entity with the specified id was not found.");
         }
         ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
         throw new ServerException(errorInfo.getError());
