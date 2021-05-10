@@ -113,6 +113,10 @@
             <artifactId>graphiql-spring-boot-starter</artifactId>
             <version>5.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>models</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
