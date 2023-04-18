@@ -1,0 +1,11 @@
+- name: Pull Request Comment
+  # You may pin to the exact commit or the version.
+  # uses: dannyskoog/pull-request-comment@54cf08aa0f39bb1e14b830911f1a3d40660bc44d
+  uses: dannyskoog/pull-request-comment@v1.0.1
+  with:
+    # Comment body
+    message: "Don't forget to run the integration tests"
+    # Hidden text to look for in existing comments
+    marker: # optional, default is 
+    # GitHub access token to use when posting the comment
+    token: # optional, default is ${{ github.token }}
